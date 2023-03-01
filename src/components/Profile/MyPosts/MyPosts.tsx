@@ -8,9 +8,9 @@ const MyPosts = () => {
                 <h2>My Posts</h2>
                 <textarea placeholder='your news'></textarea>
                 <button>Send</button>
-                <Post/>
-                <Post/>
-                <Post/>
+                <Post message = "Hi, how are you?"/>
+                <Post message = "It is my first post"/>
+
             </div>
     );
 };
