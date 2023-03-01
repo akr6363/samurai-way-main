@@ -1,0 +1,54 @@
+.content {
+    grid-area: c;
+    background-color: darksalmon;
+}
+
+.banner {
+    position: relative;
+    padding-bottom: 20%;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.banner img {
+    position: absolute;
+    left: 0;
+    top: -115%;
+    width: 100%;
+
+}
+
+.user {
+    display: flex;
+}
+
+.user__photo {
+    position: relative;
+    overflow: hidden;
+    margin-right: 20px;
+}
+
+.user__photo img {
+    height: 200px;
+}
+
+.post {
+    display: flex;
+}
+
+.post__photo {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    overflow: hidden;
+    border-radius: 50%;
+   margin-right: 10px;
+}
+
+.post__photo img {
+    position: absolute;
+    left: -50%;
+    top: 0;
+    width: 120px;
+
+}

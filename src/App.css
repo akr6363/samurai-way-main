@@ -10,35 +10,5 @@
      "n c";
 }
 
-.header {
-    grid-area: h;
-    background-color: aqua;
-}
 
-.header img {
-    width: 30px;
-}
 
-.nav {
-    grid-area: n;
-    background-color: cadetblue;
-}
-
-.content {
-    grid-area: c;
-    background-color: darksalmon;
-}
-
-.content__banner-wrapper {
-    position: relative;
-    padding-bottom: 20%;
-    overflow: hidden;
-}
-
-.content__banner {
-    position: absolute;
-    left: 0;
-    top: -115%;
-    max-width: 100%;
-
-}
