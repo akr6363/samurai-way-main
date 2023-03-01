@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Profile.module.css'
+import MyPosts from "./MyPosts/MyPosts";
 
 const Profile = () => {
     return (
@@ -20,19 +21,7 @@ const Profile = () => {
                     <div>descr</div>
                 </div>
             </div>
-            <div className={styles.posts}>
-                <h2>My Posts</h2>
-                <textarea placeholder='your news'></textarea>
-                <button>Send</button>
-                <div className={styles.post}>
-                    <div className={styles.post__photo}>
-                        <img
-                            src="https://www.passion.ru/thumb/1280x720/smart/filters:quality(75)/imgs/2022/01/11/06/5160638/4d72f0fcf43671231996e69d245675b0601feb6e.jpg"
-                            alt=""/>
-                    </div>
-                    <p>text</p>
-                </div>
-            </div>
+            <MyPosts/>
         </div>
     );
 };
