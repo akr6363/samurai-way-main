@@ -4,6 +4,7 @@ import styles from './Post.module.css'
 
 type PostPropsType = {
     message: string
+    likeCount: number
 }
 
 const Post: React.FC<PostPropsType> = (props) => {
@@ -15,7 +16,7 @@ const Post: React.FC<PostPropsType> = (props) => {
                     alt=""/>
             </div>
             <p>{props.message}</p>
-            {/*<div>like</div>*/}
+            <div className={styles.likes}>like {props.likeCount}</div>
         </div>
     );
 };

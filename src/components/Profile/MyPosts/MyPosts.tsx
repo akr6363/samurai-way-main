@@ -8,8 +8,8 @@ const MyPosts = () => {
                 <h2>My Posts</h2>
                 <textarea placeholder='your news'></textarea>
                 <button>Send</button>
-                <Post message = "Hi, how are you?"/>
-                <Post message = "It is my first post"/>
+                <Post message = "Hi, how are you?" likeCount={15}/>
+                <Post message = "It is my first post" likeCount={20}/>
 
             </div>
     );
