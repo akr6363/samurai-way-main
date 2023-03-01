@@ -1,13 +1,11 @@
-import React from "react";
+import React from 'react';
 
 const Header = () => {
     return (
-        <div>
-            <a href="#">Home</a>
-            <a href="#">News</a>
-            <a href="#">Messages</a>
-        </div>
+        <header className="header">
+            <img src="https://free-png.ru/wp-content/uploads/2021/07/free-png.ru-53.png" alt="logo"/>
+        </header>
     );
-}
+};
 
-export default Header
+export default Header;
