@@ -4,10 +4,10 @@ import MyPosts from "./MyPosts/MyPosts";
 
 const Profile = () => {
     return (
-        <div className={styles.content}>
+        <>
             <div className={styles.banner}>
                 <img
-                    src="https://kartinkin.net/pics/uploads/posts/2022-07/thumbs/1657890802_22-kartinkin-net-p-flamingo-v-krimu-zhivotnie-krasivo-foto-22.jpg"
+                    src="https://www.pavelin.ru/images/stories/flamingo/flam_003.jpg"
                     alt="" className="content__banner"/>
             </div>
             <div className={styles.user}>
@@ -22,7 +22,7 @@ const Profile = () => {
                 </div>
             </div>
             <MyPosts/>
-        </div>
+        </>
     );
 };
 

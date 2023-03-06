@@ -10,5 +10,10 @@
      "n c";
 }
 
+.app-wrapper__content {
+    grid-area: c;
+    background-color: darksalmon;
+}
+
 
 
