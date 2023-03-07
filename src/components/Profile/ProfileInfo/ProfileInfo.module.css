@@ -1,0 +1,31 @@
+
+
+.banner {
+    position: relative;
+    padding-bottom: 20%;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.banner img {
+    position: absolute;
+    left: 0;
+    top: -115%;
+    width: 100%;
+
+}
+
+.user {
+    display: flex;
+    padding: 0 10px;
+}
+
+.user__photo {
+    position: relative;
+    overflow: hidden;
+    margin-right: 20px;
+}
+
+.user__photo img {
+    height: 200px;
+}
