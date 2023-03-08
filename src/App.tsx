@@ -6,24 +6,13 @@ import Profile from "./components/Profile/Profile";
 import Dialogs from "./components/Dialogs/Dialogs";
 import {BrowserRouter, Route} from "react-router-dom";
 import News from "./components/News/News";
-import {PostsType} from "./index";
+import {StateType} from "./redux/state";
 
 
-export type DialogsType = {
-    id: number
-    name: string
-}
-
-export type MessageType = {
-    id: number
-    message: string
-}
 
 
 type AppPropsType = {
-    dialogsData: Array<DialogsType>
-    messageData: Array<MessageType>
-    postsData: Array<PostsType>
+    state: StateType
 }
 
 
@@ -32,13 +21,12 @@ const App: React.FC<AppPropsType> = (props) => {
         <BrowserRouter>
             <div className="app-wrapper">
                 <Header/>
-                <Navbar/>
+                <Navbar state={props.state.navBar}/>
                 <div className="app-wrapper__content">
-                    <Route path='/profile' render={() => <Profile
-                        postsData={props.postsData}/>}/>
-                    <Route path='/dialogs' render={() => <Dialogs
-                        dialogsData={props.dialogsData}
-                        messageData={props.messageData}/>}/>
+                    <Route path='/profile' render={() =>
+                        <Profile state={props.state.profilePage}/>}/>
+                    <Route path='/dialogs' render={() =>
+                        <Dialogs state={props.state.dialogsPage}/>}/>
                     <Route path='/news' render={() => <News/>}/>
                 </div>
             </div>
