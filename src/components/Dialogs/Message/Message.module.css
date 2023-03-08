@@ -1,6 +1,40 @@
 
 .message {
-    background-color: white;
+    display: flex;
     margin-bottom: 10px;
+    align-items: end;
 
+}
+
+.message__my {
+    align-self: end;
+    flex-direction: row-reverse;
+}
+
+.photo {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 50%;
+
+}
+
+.photo__my {
+    margin-left: 10px;
+}
+
+.photo__friend {
+    margin-right: 10px;
+}
+
+.photo img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.text {
+    background-color: white;
+    padding: 5px 10px;
+    border-radius: 10px;
 }

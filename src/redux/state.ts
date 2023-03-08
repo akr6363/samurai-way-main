@@ -10,6 +10,7 @@ export type DialogsType = {
 export type MessageType = {
     id: number
     message: string
+    isMy: boolean
 }
 
 export type PostsType = {
@@ -60,9 +61,9 @@ export let state: StateType = {
             {id: 5, name: "Andrey"},
         ],
         messageData: [
-            {id: 1, message: "Hi"},
-            {id: 2, message: "How are you?"},
-            {id: 3, message: "Im fine motherfuker"},
+            {id: 1, message: "Hi", isMy: false},
+            {id: 2, message: "How are you?", isMy: true},
+            {id: 3, message: "Im fine motherfuker", isMy: false},
         ],
     },
     navBar: {
