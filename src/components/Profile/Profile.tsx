@@ -6,13 +6,14 @@ import {profilePageType} from "../../redux/state";
 
 type ProfilePropsType = {
     state: profilePageType
+    addPost: (newPostMessage: string) => void
 }
 
 const Profile: React.FC<ProfilePropsType> = (props) => {
     return (
         <>
             <ProfileInfo/>
-            <MyPosts postsData={props.state.postsData}/>
+            <MyPosts postsData={props.state.postsData} addPost={props.addPost}/>
         </>
     );
 };

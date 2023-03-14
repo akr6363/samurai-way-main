@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {createRef} from 'react';
 import styles from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
@@ -8,6 +8,7 @@ import {dialogsPageType} from "../../redux/state";
 
 type DialogsPropsType = {
     state: dialogsPageType
+    sendMessage: (newMessageText: string) => void
 }
 
 const Dialogs: React.FC<DialogsPropsType> = (props) => {
@@ -23,6 +24,14 @@ const Dialogs: React.FC<DialogsPropsType> = (props) => {
             message={message.message}
             isMy={message.isMy}/>)
 
+    const newMessageRef = createRef<HTMLTextAreaElement>()
+
+    const sendMessage = () => {
+        if (newMessageRef.current) {
+            props.sendMessage(newMessageRef.current.value)
+        }
+    }
+
 
     return (
         <div className={styles.page}>
@@ -31,6 +40,10 @@ const Dialogs: React.FC<DialogsPropsType> = (props) => {
             </div>
             <div className={styles.page__messages}>
                 {messagesElements}
+                <div className={styles.send}>
+                    <textarea ref={newMessageRef} className={styles.send__input}></textarea>
+                    <button onClick={sendMessage} className={styles.send__btn}>Send</button>
+                </div>
             </div>
         </div>
     );

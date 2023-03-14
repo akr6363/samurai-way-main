@@ -1,6 +1,7 @@
 import AndrewPhoto from '../img/friends/Andrew.png'
 import DimaPhoto from '../img/friends/Dima.png'
 import GarryPhoto from '../img/friends/Garry.png'
+import {rerenderEntireTRee} from "../rerender";
 
 export type DialogsType = {
     id: number
@@ -73,4 +74,17 @@ export let state: StateType = {
             {id: 3, name: 'Garry', photo: GarryPhoto},
         ]
     }
+}
+
+
+export const addPost = (newPostMessage: string) => {
+    const newPost = {id: 5, message: newPostMessage, likeCount: 0}
+    state.profilePage.postsData.push(newPost)
+    rerenderEntireTRee(state)
+}
+
+export const sendMessage = (newMessageText: string) => {
+    const newMessage = {id: 4, message: newMessageText, isMy: true}
+    state.dialogsPage.messageData.push(newMessage)
+    rerenderEntireTRee(state)
 }
