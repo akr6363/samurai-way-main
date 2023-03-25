@@ -4,10 +4,11 @@ import Post from "./Post/Post";
 import {PostsType} from "../../../redux/state";
 
 
-
 type MyPostsPropsType = {
     postsData: Array<PostsType>
-    addPost: (newPostMessage: string) => void
+    addPost: () => void
+    changeNewPostText: (value: string) => void
+    newPostText: string
 }
 
 const MyPosts: React.FC<MyPostsPropsType> = (props) => {
@@ -15,8 +16,12 @@ const MyPosts: React.FC<MyPostsPropsType> = (props) => {
     const newPostRef = createRef<HTMLTextAreaElement>()
 
     const addPost = () => {
+            props.addPost()
+    }
+
+    const changeTextHandler = () => {
         if (newPostRef.current) {
-            props.addPost(newPostRef.current.value)
+            props.changeNewPostText(newPostRef.current.value)
         }
     }
 
@@ -26,10 +31,12 @@ const MyPosts: React.FC<MyPostsPropsType> = (props) => {
     return (
         <div className={styles.posts}>
             <h2>My Posts</h2>
-            <textarea ref={newPostRef} placeholder='your news'></textarea>
+            <textarea ref={newPostRef}
+                      placeholder='your news'
+                      value={props.newPostText}
+                      onChange={changeTextHandler}/>
             <button onClick={addPost}>Send</button>
             {postsElements}
-
         </div>
     );
 };

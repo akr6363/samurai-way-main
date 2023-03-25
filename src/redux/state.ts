@@ -1,90 +1,174 @@
 import AndrewPhoto from '../img/friends/Andrew.png'
 import DimaPhoto from '../img/friends/Dima.png'
 import GarryPhoto from '../img/friends/Garry.png'
-import {rerenderEntireTRee} from "../rerender";
+
+let rerender = () => {
+
+}
 
 export type DialogsType = {
     id: number
     name: string
 }
-
 export type MessageType = {
     id: number
     message: string
     isMy: boolean
 }
-
 export type PostsType = {
     id: number
     message: string
     likeCount: number
 }
-
 export type profilePageType = {
     postsData: Array<PostsType>
+    newPostText: string
 }
 export type dialogsPageType = {
     dialogsData: Array<DialogsType>
     messageData: Array<MessageType>
 }
-
 export type friendsType = {
     id: number
-    name:string
+    name: string
     photo: string
 }
-
 export type navBarType = {
     friends: Array<friendsType>
 }
-
 export type StateType = {
     profilePage: profilePageType
     dialogsPage: dialogsPageType
     navBar: navBarType
 }
 
-export let state: StateType = {
-    profilePage: {
-        postsData: [
-            {id: 1, message: "Hi, how are you?", likeCount: 15},
-            {id: 2, message: "It is my first post", likeCount: 20},
-            {id: 3, message: "Yoooo", likeCount: 1111},
-            {id: 4, message: "Vlad dibil", likeCount: 100500},
-        ]
+export type StoreType = {
+    _rerender: () => void
+    _state: StateType
+    addPost: () => void
+    sendMessage: (newMessageText: string) => void
+    changeNewPostText: (value: string) => void
+    subscribe: (observer: () => void) => void
+}
+
+
+const store: StoreType = {
+    _rerender() {
+
     },
-    dialogsPage: {
-        dialogsData: [
-            {id: 1, name: "Sveta"},
-            {id: 2, name: "Dima"},
-            {id: 3, name: "Igor"},
-            {id: 4, name: "Oksana"},
-            {id: 5, name: "Andrey"},
-        ],
-        messageData: [
-            {id: 1, message: "Hi", isMy: false},
-            {id: 2, message: "How are you?", isMy: true},
-            {id: 3, message: "Im fine motherfuker", isMy: false},
-        ],
+    _state: {
+        profilePage: {
+            postsData: [
+                {id: 1, message: "Hi, how are you?", likeCount: 15},
+                {id: 2, message: "It is my first post", likeCount: 20},
+                {id: 3, message: "Yoooo", likeCount: 1111},
+                {id: 4, message: "Vlad dibil", likeCount: 100500},
+            ],
+            newPostText: ''
+        },
+        dialogsPage: {
+            dialogsData: [
+                {id: 1, name: "Sveta"},
+                {id: 2, name: "Dima"},
+                {id: 3, name: "Igor"},
+                {id: 4, name: "Oksana"},
+                {id: 5, name: "Andrey"},
+            ],
+            messageData: [
+                {id: 1, message: "Hi", isMy: false},
+                {id: 2, message: "How are you?", isMy: true},
+                {id: 3, message: "Im fine motherfuker", isMy: false},
+            ],
+        },
+        navBar: {
+            friends: [
+                {id: 1, name: 'Andrew', photo: AndrewPhoto},
+                {id: 2, name: 'Dima', photo: DimaPhoto},
+                {id: 3, name: 'Garry', photo: GarryPhoto},
+            ]
+        }
     },
-    navBar: {
-        friends: [
-            {id: 1, name: 'Andrew', photo: AndrewPhoto},
-            {id: 2, name: 'Dima', photo: DimaPhoto},
-            {id: 3, name: 'Garry', photo: GarryPhoto},
-        ]
-    }
+
+    addPost() {
+        const newPost = {
+            id: 5,
+            message: this._state.profilePage.newPostText,
+            likeCount: 0
+        }
+        this._state.profilePage.postsData.push(newPost)
+        this._state.profilePage.newPostText = ''
+        rerender()
+    },
+
+    sendMessage(newMessageText: string) {
+        const newMessage = {id: 4, message: newMessageText, isMy: true}
+        this._state.dialogsPage.messageData.push(newMessage)
+        rerender()
+    },
+
+    changeNewPostText(value: string) {
+        this._state.profilePage.newPostText = value
+        rerender()
+    },
+
+    subscribe(observer: () => void) {
+        this._rerender = observer
+    },
+
 }
+//
+// export let state: StateType = {
+//     profilePage: {
+//         postsData: [
+//             {id: 1, message: "Hi, how are you?", likeCount: 15},
+//             {id: 2, message: "It is my first post", likeCount: 20},
+//             {id: 3, message: "Yoooo", likeCount: 1111},
+//             {id: 4, message: "Vlad dibil", likeCount: 100500},
+//         ],
+//         newPostText: ''
+//     },
+//     dialogsPage: {
+//         dialogsData: [
+//             {id: 1, name: "Sveta"},
+//             {id: 2, name: "Dima"},
+//             {id: 3, name: "Igor"},
+//             {id: 4, name: "Oksana"},
+//             {id: 5, name: "Andrey"},
+//         ],
+//         messageData: [
+//             {id: 1, message: "Hi", isMy: false},
+//             {id: 2, message: "How are you?", isMy: true},
+//             {id: 3, message: "Im fine motherfuker", isMy: false},
+//         ],
+//     },
+//     navBar: {
+//         friends: [
+//             {id: 1, name: 'Andrew', photo: AndrewPhoto},
+//             {id: 2, name: 'Dima', photo: DimaPhoto},
+//             {id: 3, name: 'Garry', photo: GarryPhoto},
+//         ]
+//     }
+// }
 
 
-export const addPost = (newPostMessage: string) => {
-    const newPost = {id: 5, message: newPostMessage, likeCount: 0}
-    state.profilePage.postsData.push(newPost)
-    rerenderEntireTRee(state)
-}
-
-export const sendMessage = (newMessageText: string) => {
-    const newMessage = {id: 4, message: newMessageText, isMy: true}
-    state.dialogsPage.messageData.push(newMessage)
-    rerenderEntireTRee(state)
-}
+// export const addPost = () => {
+//     const newPost = {id: 5, message: state.profilePage.newPostText, likeCount: 0}
+//     state.profilePage.postsData.push(newPost)
+//     state.profilePage.newPostText = ''
+//     rerender()
+// }
+//
+// export const sendMessage = (newMessageText: string) => {
+//     const newMessage = {id: 4, message: newMessageText, isMy: true}
+//     state.dialogsPage.messageData.push(newMessage)
+//     rerender()
+// }
+//
+// export const changeNewPostText = (value: string) => {
+//     state.profilePage.newPostText = value
+//     rerender()
+// }
+//
+// export const subscribe = (observer: () => void) => {
+//     rerender = observer
+// }
