@@ -2,9 +2,9 @@ import AndrewPhoto from '../img/friends/Andrew.png'
 import DimaPhoto from '../img/friends/Dima.png'
 import GarryPhoto from '../img/friends/Garry.png'
 
-let rerender = () => {
-
-}
+const ADD_POST = "ADD_POST"
+const CHANGE_NEW_POST_TEXT = 'CHANGE_NEW_POST_TEXT'
+const SEND_MESSAGE = 'SEND-MESSAGE'
 
 export type DialogsType = {
     id: number
@@ -42,19 +42,25 @@ export type StateType = {
     navBar: navBarType
 }
 
+type AddPostActionType = ReturnType<typeof addPostAC>
+type SendMessageActionType = ReturnType<typeof sendMessageAC>
+type changeNewPostTextActionType = ReturnType<typeof changeNewPostTextAC>
+
+export type ActionsTypes = AddPostActionType
+    | SendMessageActionType
+    | changeNewPostTextActionType
+
 export type StoreType = {
     _rerender: () => void
     _state: StateType
-    addPost: () => void
-    sendMessage: (newMessageText: string) => void
-    changeNewPostText: (value: string) => void
+    getState: () => StateType
     subscribe: (observer: () => void) => void
+    dispatch: (action: ActionsTypes) => void
 }
 
 
-const store: StoreType = {
+export const store: StoreType = {
     _rerender() {
-
     },
     _state: {
         profilePage: {
@@ -88,87 +94,46 @@ const store: StoreType = {
             ]
         }
     },
-
-    addPost() {
-        const newPost = {
-            id: 5,
-            message: this._state.profilePage.newPostText,
-            likeCount: 0
-        }
-        this._state.profilePage.postsData.push(newPost)
-        this._state.profilePage.newPostText = ''
-        rerender()
+    getState() {
+        return this._state
     },
-
-    sendMessage(newMessageText: string) {
-        const newMessage = {id: 4, message: newMessageText, isMy: true}
-        this._state.dialogsPage.messageData.push(newMessage)
-        rerender()
-    },
-
-    changeNewPostText(value: string) {
-        this._state.profilePage.newPostText = value
-        rerender()
-    },
-
     subscribe(observer: () => void) {
         this._rerender = observer
     },
 
+    dispatch(action) {
+        if (action.type === ADD_POST) {
+            const newPost = {
+                id: 5,
+                message: this._state.profilePage.newPostText,
+                likeCount: 0
+            }
+            this._state.profilePage.postsData.push(newPost)
+            this._state.profilePage.newPostText = ''
+            this._rerender()
+        } else if (action.type === CHANGE_NEW_POST_TEXT) {
+            debugger
+            this._state.profilePage.newPostText = action.value
+            this._rerender()
+        } else if (action.type === SEND_MESSAGE) {
+            debugger
+            const newMessage = {id: 4, message: action.newMessageText, isMy: true}
+            this._state.dialogsPage.messageData.push(newMessage)
+            this._rerender()
+        }
+    }
 }
-//
-// export let state: StateType = {
-//     profilePage: {
-//         postsData: [
-//             {id: 1, message: "Hi, how are you?", likeCount: 15},
-//             {id: 2, message: "It is my first post", likeCount: 20},
-//             {id: 3, message: "Yoooo", likeCount: 1111},
-//             {id: 4, message: "Vlad dibil", likeCount: 100500},
-//         ],
-//         newPostText: ''
-//     },
-//     dialogsPage: {
-//         dialogsData: [
-//             {id: 1, name: "Sveta"},
-//             {id: 2, name: "Dima"},
-//             {id: 3, name: "Igor"},
-//             {id: 4, name: "Oksana"},
-//             {id: 5, name: "Andrey"},
-//         ],
-//         messageData: [
-//             {id: 1, message: "Hi", isMy: false},
-//             {id: 2, message: "How are you?", isMy: true},
-//             {id: 3, message: "Im fine motherfuker", isMy: false},
-//         ],
-//     },
-//     navBar: {
-//         friends: [
-//             {id: 1, name: 'Andrew', photo: AndrewPhoto},
-//             {id: 2, name: 'Dima', photo: DimaPhoto},
-//             {id: 3, name: 'Garry', photo: GarryPhoto},
-//         ]
-//     }
-// }
 
+export const addPostAC = () => ({
+    type: ADD_POST
+} as const)
 
-// export const addPost = () => {
-//     const newPost = {id: 5, message: state.profilePage.newPostText, likeCount: 0}
-//     state.profilePage.postsData.push(newPost)
-//     state.profilePage.newPostText = ''
-//     rerender()
-// }
-//
-// export const sendMessage = (newMessageText: string) => {
-//     const newMessage = {id: 4, message: newMessageText, isMy: true}
-//     state.dialogsPage.messageData.push(newMessage)
-//     rerender()
-// }
-//
-// export const changeNewPostText = (value: string) => {
-//     state.profilePage.newPostText = value
-//     rerender()
-// }
-//
-// export const subscribe = (observer: () => void) => {
-//     rerender = observer
-// }
+export const changeNewPostTextAC = (newText: string) => ({
+    type: CHANGE_NEW_POST_TEXT,
+    value: newText
+} as const)
+
+export const sendMessageAC = (newMessage: string) => ({
+    type: SEND_MESSAGE,
+    newMessageText: newMessage
+} as const)

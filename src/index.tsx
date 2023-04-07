@@ -1,22 +1,18 @@
 import React from 'react';
-import {state, subscribe} from "./redux/state";
+import {store} from "./redux/state";
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import {addPost, changeNewPostText, sendMessage, StateType} from "./redux/state";
 import {BrowserRouter} from "react-router-dom";
 
 
 export const rerenderEntireTRee = () => {
     ReactDOM.render(
         <BrowserRouter>
-            <App state={state}
-                 addPost={addPost}
-                 sendMessage={sendMessage}
-                 changeNewPostText={changeNewPostText}/>
+            <App state={store.getState()} dispatch={store.dispatch.bind(store)}/>
         </BrowserRouter>, document.getElementById('root'));
 }
 
 
-subscribe(rerenderEntireTRee)
+store.subscribe(rerenderEntireTRee)
 rerenderEntireTRee()

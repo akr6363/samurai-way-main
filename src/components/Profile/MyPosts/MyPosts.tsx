@@ -1,27 +1,28 @@
 import React, {createRef} from 'react';
 import styles from './MyPosts.module.css'
 import Post from "./Post/Post";
-import {PostsType} from "../../../redux/state";
+import {ActionsTypes, addPostAC, changeNewPostTextAC, PostsType} from "../../../redux/state";
 
 
 type MyPostsPropsType = {
     postsData: Array<PostsType>
-    addPost: () => void
-    changeNewPostText: (value: string) => void
+    dispatch: (action: ActionsTypes) => void
     newPostText: string
 }
+
+
 
 const MyPosts: React.FC<MyPostsPropsType> = (props) => {
 
     const newPostRef = createRef<HTMLTextAreaElement>()
 
     const addPost = () => {
-            props.addPost()
+        props.dispatch(addPostAC())
     }
 
     const changeTextHandler = () => {
         if (newPostRef.current) {
-            props.changeNewPostText(newPostRef.current.value)
+            props.dispatch(changeNewPostTextAC(newPostRef.current.value))
         }
     }
 
