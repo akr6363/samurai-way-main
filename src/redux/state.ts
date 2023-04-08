@@ -1,10 +1,9 @@
 import AndrewPhoto from '../img/friends/Andrew.png'
 import DimaPhoto from '../img/friends/Dima.png'
 import GarryPhoto from '../img/friends/Garry.png'
-
-const ADD_POST = "ADD_POST"
-const CHANGE_NEW_POST_TEXT = 'CHANGE_NEW_POST_TEXT'
-const SEND_MESSAGE = 'SEND-MESSAGE'
+import profileReducer, {ActionsTypesForProfile} from "./profile-reducer";
+import dialogsReducer, {ActionsTypesForDialogs} from "./dialogs-reducer";
+import sidebarReducer from "./sidebar-reducer";
 
 export type DialogsType = {
     id: number
@@ -27,6 +26,7 @@ export type profilePageType = {
 export type dialogsPageType = {
     dialogsData: Array<DialogsType>
     messageData: Array<MessageType>
+    newMessageText: string
 }
 export type friendsType = {
     id: number
@@ -42,13 +42,10 @@ export type StateType = {
     navBar: navBarType
 }
 
-type AddPostActionType = ReturnType<typeof addPostAC>
-type SendMessageActionType = ReturnType<typeof sendMessageAC>
-type changeNewPostTextActionType = ReturnType<typeof changeNewPostTextAC>
 
-export type ActionsTypes = AddPostActionType
-    | SendMessageActionType
-    | changeNewPostTextActionType
+export type ActionsTypes =
+    ActionsTypesForProfile
+    | ActionsTypesForDialogs
 
 export type StoreType = {
     _rerender: () => void
@@ -83,8 +80,9 @@ export const store: StoreType = {
             messageData: [
                 {id: 1, message: "Hi", isMy: false},
                 {id: 2, message: "How are you?", isMy: true},
-                {id: 3, message: "Im fine motherfuker", isMy: false},
+                {id: 3, message: "Im fine motherfucker", isMy: false},
             ],
+            newMessageText: '',
         },
         navBar: {
             friends: [
@@ -102,38 +100,12 @@ export const store: StoreType = {
     },
 
     dispatch(action) {
-        if (action.type === ADD_POST) {
-            const newPost = {
-                id: 5,
-                message: this._state.profilePage.newPostText,
-                likeCount: 0
-            }
-            this._state.profilePage.postsData.push(newPost)
-            this._state.profilePage.newPostText = ''
-            this._rerender()
-        } else if (action.type === CHANGE_NEW_POST_TEXT) {
-            debugger
-            this._state.profilePage.newPostText = action.value
-            this._rerender()
-        } else if (action.type === SEND_MESSAGE) {
-            debugger
-            const newMessage = {id: 4, message: action.newMessageText, isMy: true}
-            this._state.dialogsPage.messageData.push(newMessage)
-            this._rerender()
-        }
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
+        this._state.navBar = sidebarReducer(this._state.navBar, action)
+        this._rerender()
     }
 }
 
-export const addPostAC = () => ({
-    type: ADD_POST
-} as const)
 
-export const changeNewPostTextAC = (newText: string) => ({
-    type: CHANGE_NEW_POST_TEXT,
-    value: newText
-} as const)
 
-export const sendMessageAC = (newMessage: string) => ({
-    type: SEND_MESSAGE,
-    newMessageText: newMessage
-} as const)
