@@ -1,7 +1,7 @@
 import React, {createRef} from 'react';
 import styles from './MyPosts.module.css'
 import Post from "./Post/Post";
-import {ActionsTypes,  PostsType} from "../../../redux/state";
+import {ActionsTypes,  PostsType} from "../../../redux/store";
 import {addPostAC, changeNewPostTextAC} from "../../../redux/profile-reducer";
 
 
@@ -10,8 +10,6 @@ type MyPostsPropsType = {
     dispatch: (action: ActionsTypes) => void
     newPostText: string
 }
-
-
 
 const MyPosts: React.FC<MyPostsPropsType> = (props) => {
 

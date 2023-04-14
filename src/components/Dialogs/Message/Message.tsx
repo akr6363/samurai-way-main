@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Message.module.css";
 import myPhoto from '../../../img/my.png'
 import friendPhoto from '../../../img/friends/Andrew.png'
-import {MessageType} from "../../../redux/state";
+import {MessageType} from "../../../redux/store";
 
 type MessagePropsType = MessageType
 export const Message: React.FC<MessagePropsType> = (props) => {
