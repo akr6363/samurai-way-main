@@ -4,56 +4,10 @@ import GarryPhoto from '../img/friends/Garry.png'
 import profileReducer, {ActionsTypesForProfile} from "./profile-reducer";
 import dialogsReducer, {ActionsTypesForDialogs} from "./dialogs-reducer";
 import sidebarReducer from "./sidebar-reducer";
-
-export type DialogsType = {
-    id: number
-    name: string
-}
-export type MessageType = {
-    id: number
-    message: string
-    isMy: boolean
-}
-export type PostsType = {
-    id: number
-    message: string
-    likeCount: number
-}
-export type profilePageType = {
-    postsData: Array<PostsType>
-    newPostText: string
-}
-export type dialogsPageType = {
-    dialogsData: Array<DialogsType>
-    messageData: Array<MessageType>
-    newMessageText: string
-}
-export type friendsType = {
-    id: number
-    name: string
-    photo: string
-}
-export type navBarType = {
-    friends: Array<friendsType>
-}
-export type StateType = {
-    profilePage: profilePageType
-    dialogsPage: dialogsPageType
-    navBar: navBarType
-}
+import {StoreType} from "./redux-store";
 
 
-export type ActionsTypes =
-    ActionsTypesForProfile
-    | ActionsTypesForDialogs
 
-export type StoreType = {
-    _rerender: () => void
-    _state: StateType
-    getState: () => StateType
-    subscribe: (observer: () => void) => void
-    dispatch: (action: ActionsTypes) => void
-}
 
 
 export const store: StoreType = {

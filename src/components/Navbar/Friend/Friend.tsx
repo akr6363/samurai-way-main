@@ -1,8 +1,11 @@
 import React from 'react';
-import {friendsType} from "../../../redux/store";
-import styles  from './Friend.module.css'
+import styles from './Friend.module.css'
 
-type FriendPropsType = friendsType
+type FriendPropsType = {
+    id: number
+    name: string
+    photo: string
+}
 
 const Friend: React.FC<FriendPropsType> = (props) => {
     return (

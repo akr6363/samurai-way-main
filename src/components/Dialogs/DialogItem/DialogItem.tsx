@@ -8,7 +8,6 @@ type DialogItemPropsType = {
     id: number
 }
 
-
 export const DialogItem: React.FC<DialogItemPropsType> = (props) => {
     return (
         <div className={styles.dialog}>

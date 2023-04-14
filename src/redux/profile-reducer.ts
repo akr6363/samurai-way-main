@@ -1,7 +1,18 @@
-import {ActionsTypes, profilePageType} from "./store";
+
+import {ActionsTypes} from "./redux-store";
 
 const ADD_POST = "ADD_POST"
 const CHANGE_NEW_POST_TEXT = 'CHANGE_NEW_POST_TEXT'
+
+export type PostsType = {
+    id: number
+    message: string
+    likeCount: number
+}
+export type profilePageType = {
+    postsData: Array<PostsType>
+    newPostText: string
+}
 
 type AddPostActionType = ReturnType<typeof addPostAC>
 type changeNewPostTextActionType = ReturnType<typeof changeNewPostTextAC>

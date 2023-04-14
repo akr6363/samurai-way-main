@@ -1,7 +1,17 @@
-import {ActionsTypes, navBarType} from "./store";
+
 import AndrewPhoto from "../img/friends/Andrew.png";
 import DimaPhoto from "../img/friends/Dima.png";
 import GarryPhoto from "../img/friends/Garry.png";
+import {ActionsTypes} from "./redux-store";
+
+type friendsType = {
+    id: number
+    name: string
+    photo: string
+}
+export type navBarType = {
+    friends: Array<friendsType>
+}
 
 const initialState: navBarType = {
     friends: [

@@ -1,7 +1,22 @@
-import {ActionsTypes, dialogsPageType} from "./store";
+import {ActionsTypes} from "./redux-store";
 
 const SEND_MESSAGE = 'SEND-MESSAGE'
 const CHANGE_NEW_MESSAGE_TEXT = 'CHANGE_NEW_MESSAGE_TEXT'
+
+export type DialogsType = {
+    id: number
+    name: string
+}
+export type MessageType = {
+    id: number
+    message: string
+    isMy: boolean
+}
+export type dialogsPageType = {
+    dialogsData: Array<DialogsType>
+    messageData: Array<MessageType>
+    newMessageText: string
+}
 
 type SendMessageActionType = ReturnType<typeof sendMessageAC>
 type ChangeNewMessageTextActionType = ReturnType<typeof changeNewMessageTextAC>

@@ -2,13 +2,13 @@ import React, {ChangeEvent, createRef} from 'react';
 import styles from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {ActionsTypes,  dialogsPageType, } from "../../redux/store";
-import {changeNewMessageTextAC, sendMessageAC} from "../../redux/dialogs-reducer";
+import {dialogsPageType} from "../../redux/dialogs-reducer";
 
 
 type DialogsPropsType = {
     state: dialogsPageType
-    dispatch: (action: ActionsTypes) => void
+    sendMessage(): void
+    changeNewMessageText(value: string): void
 }
 
 const Dialogs: React.FC<DialogsPropsType> = (props) => {
@@ -26,13 +26,12 @@ const Dialogs: React.FC<DialogsPropsType> = (props) => {
 
 
     const sendMessage = () => {
-            props.dispatch(sendMessageAC())
+        props.sendMessage()
     }
 
     const newMessageTextOnChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.dispatch(changeNewMessageTextAC(e.currentTarget.value))
+        props.changeNewMessageText(e.currentTarget.value)
     }
-
 
     return (
         <div className={styles.page}>

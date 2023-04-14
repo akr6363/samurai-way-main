@@ -1,28 +1,24 @@
-import React, {createRef} from 'react';
+import React, {ChangeEvent, createRef} from 'react';
 import styles from './MyPosts.module.css'
 import Post from "./Post/Post";
-import {ActionsTypes,  PostsType} from "../../../redux/store";
-import {addPostAC, changeNewPostTextAC} from "../../../redux/profile-reducer";
+import {PostsType} from "../../../redux/profile-reducer";
 
 
 type MyPostsPropsType = {
     postsData: Array<PostsType>
-    dispatch: (action: ActionsTypes) => void
     newPostText: string
+    changeNewPostText(value: string): void
+    addPost(): void
 }
 
 const MyPosts: React.FC<MyPostsPropsType> = (props) => {
 
-    const newPostRef = createRef<HTMLTextAreaElement>()
-
-    const addPost = () => {
-        props.dispatch(addPostAC())
+    const onAddPost = () => {
+        props.addPost()
     }
 
-    const changeTextHandler = () => {
-        if (newPostRef.current) {
-            props.dispatch(changeNewPostTextAC(newPostRef.current.value))
-        }
+    const changeTextHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+         props.changeNewPostText(e.currentTarget.value)
     }
 
     let postsElements = props.postsData
@@ -31,11 +27,11 @@ const MyPosts: React.FC<MyPostsPropsType> = (props) => {
     return (
         <div className={styles.posts}>
             <h2>My Posts</h2>
-            <textarea ref={newPostRef}
-                      placeholder='your news'
-                      value={props.newPostText}
-                      onChange={changeTextHandler}/>
-            <button onClick={addPost}>Send</button>
+            <textarea
+                placeholder='your news'
+                value={props.newPostText}
+                onChange={changeTextHandler}/>
+            <button onClick={onAddPost}>Send</button>
             {postsElements}
         </div>
     );
