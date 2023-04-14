@@ -9,24 +9,24 @@ import {ActionsTypes, StateType, StoreType} from "./redux/redux-store";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 
 
-type AppPropsType = {
-    state: StateType
-    dispatch: (action: ActionsTypes) => void
-    store: StoreType
-}
+// type AppPropsType = {
+//     state: StateType
+//     dispatch: (action: ActionsTypes) => void
+//     store: StoreType
+// }
 
 
-const App: React.FC<AppPropsType> = (props) => {
+const App: React.FC<{}> = (props) => {
     return (
 
         <div className="app-wrapper">
             <Header/>
-            <Navbar state={props.state.navBar}/>
+            <Navbar/>
             <div className="app-wrapper__content">
                 <Route path='/profile' render={() =>
-                    <Profile store={props.store}/>}/>
+                    <Profile/>}/>
                 <Route path='/dialogs' render={() =>
-                    <DialogsContainer store={props.store}/>}/>
+                    <DialogsContainer/>}/>
                 <Route path='/news' render={() => <News/>}/>
             </div>
         </div>
