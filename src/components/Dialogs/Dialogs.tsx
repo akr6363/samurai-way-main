@@ -2,22 +2,22 @@ import React, {ChangeEvent, createRef} from 'react';
 import styles from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {dialogsPageType} from "../../redux/dialogs-reducer";
+import {DialogsPropsType} from "./DialogsContainer";
 
 
-type DialogsPropsType = {
-    state: dialogsPageType
-    sendMessage(): void
-    changeNewMessageText(value: string): void
-}
+
+// type DialogsPropsType = {
+//     state: dialogsPageType
+//     sendMessage(): void
+//     changeNewMessageText(value: string): void
+// }
 
 const Dialogs: React.FC<DialogsPropsType> = (props) => {
 
-
-    let dialogsElements = props.state.dialogsData
+    let dialogsElements = props.dialogsPage.dialogsData
         .map(dialog => <DialogItem key={dialog.id} name={dialog.name} id={dialog.id}/>)
 
-    let messagesElements = props.state.messageData
+    let messagesElements = props.dialogsPage.messageData
         .map(message => <Message
             id={message.id}
             key={message.id}
@@ -41,7 +41,7 @@ const Dialogs: React.FC<DialogsPropsType> = (props) => {
             <div className={styles.page__messages}>
                 {messagesElements}
                 <div className={styles.send}>
-                    <textarea value={props.state.newMessageText}
+                    <textarea value={props.dialogsPage.newMessageText}
                               className={styles.send__input}
                               onChange={newMessageTextOnChangeHandler}>
                     </textarea>

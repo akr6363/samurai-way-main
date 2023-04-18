@@ -1,14 +1,24 @@
 import AndrewPhoto from '../img/friends/Andrew.png'
 import DimaPhoto from '../img/friends/Dima.png'
 import GarryPhoto from '../img/friends/Garry.png'
-import profileReducer, {ActionsTypesForProfile} from "./profile-reducer";
-import dialogsReducer, {ActionsTypesForDialogs} from "./dialogs-reducer";
-import sidebarReducer from "./sidebar-reducer";
-import {StoreType} from "./redux-store";
+import dialogsReducer, {dialogsPageType} from "./dialogs-reducer";
+import sidebarReducer, {navBarType} from "./sidebar-reducer";
+import {ActionsTypes} from "./redux-store";
+import profileReducer, {ProfilePageType} from "./profile-reducer";
 
+export type StateType = {
+    profilePage: ProfilePageType
+    dialogsPage: dialogsPageType
+    navBar: navBarType
+}
 
-
-
+export type StoreType = {
+    _rerender: () => void
+    _state: StateType
+    getState: () => StateType
+    subscribe: (observer: () => void) => void
+    dispatch: (action: ActionsTypes) => void
+}
 
 export const store: StoreType = {
     _rerender() {

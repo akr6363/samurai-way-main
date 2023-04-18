@@ -1,35 +1,36 @@
 import React from 'react';
-import {changeNewMessageTextAC, sendMessageAC} from "../../redux/dialogs-reducer";
-import {StoreType} from "../../redux/redux-store";
+import {changeNewMessageTextAC, dialogsPageType, sendMessageAC} from "../../redux/dialogs-reducer";
 import Dialogs from "./Dialogs";
-import {addPostAC, changeNewPostTextAC} from "../../redux/profile-reducer";
-import MyPosts from "../Profile/MyPosts/MyPosts";
-import {StoreContext} from "../../StoreContext";
+import {connect} from "react-redux";
+import {ActionsTypes, AppStateType} from "../../redux/redux-store";
+import {Dispatch} from "redux";
 
-// type DialogsPropsType = {
-//     store: StoreType
-// }
+type MapStateReturnType = {
+    dialogsPage: dialogsPageType
+}
 
-export const DialogsContainer: React.FC<{}> = ({}) => {
+type mapDispatchReturnType = {
+    sendMessage(): void
+    changeNewMessageText(value: string): void
+}
 
-    return (
-        <StoreContext.Consumer>
-            {(store) => {
-                const dialogsState = store.getState().dialogsPage
+export type DialogsPropsType = MapStateReturnType & mapDispatchReturnType
 
-                const sendMessage = () => {
-                    store.dispatch(sendMessageAC())
-                }
-                const newMessageTextOnChangeHandler = (value: string) => {
-                    store.dispatch(changeNewMessageTextAC(value))
-                }
-                return (
-                    <Dialogs state={dialogsState}
-                             sendMessage={sendMessage}
-                             changeNewMessageText={newMessageTextOnChangeHandler}/>
-                )
-            }}
-        </StoreContext.Consumer>
+const mapStateToProps = (state: AppStateType): MapStateReturnType => {
+    return {
+        dialogsPage: state.dialogsPage
+    }
+}
 
-    );
-};
+const mapDispatchToProps = (dispatch: Dispatch<ActionsTypes>): mapDispatchReturnType => {
+    return {
+        changeNewMessageText: (value: string) => {
+            dispatch(changeNewMessageTextAC(value))
+        },
+        sendMessage: () => {
+            dispatch(sendMessageAC())
+        }
+    }
+}
+
+export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)

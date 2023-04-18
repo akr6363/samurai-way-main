@@ -1,35 +1,63 @@
 import React from 'react';
-import {addPostAC, changeNewPostTextAC} from "../../../redux/profile-reducer";
-import {StoreType} from "../../../redux/redux-store";
+import {addPostAC, changeNewPostTextAC, PostsType} from "../../../redux/profile-reducer";
+import {ActionsTypes, AppStateType} from "../../../redux/redux-store";
+import {Dispatch} from "redux";
+import {connect} from "react-redux";
 import MyPosts from "./MyPosts";
-import {StoreContext} from "../../../StoreContext";
 
+type MapStateReturnType = {
+    postsData: Array<PostsType>
+    newPostText: string
+}
+
+type mapDispatchReturnType = {
+    changeNewPostText(value: string): void
+    addPost(): void
+}
+
+export type MyPostsPropsType = MapStateReturnType & mapDispatchReturnType
+
+const mapStateToProps = (state: AppStateType): MapStateReturnType => {
+    return {
+        postsData: state.profilePage.postsData,
+        newPostText: state.profilePage.newPostText
+    }
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<ActionsTypes>): mapDispatchReturnType => {
+    return {
+        addPost: () => {
+            dispatch(addPostAC())
+        },
+        changeNewPostText: (value: string) => {
+            dispatch(changeNewPostTextAC(value))
+        }
+    }
+}
+
+export const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts)
+
+// export const MyPostsContainer: React.FC<{}> = ({}) => {
 //
-// type MyPostsPropsType = {
-//     store: StoreType
-// }
-
-export const MyPostsContainer: React.FC<{}> = ({}) => {
-
-    return (
-        <StoreContext.Consumer>
-            {(store) => {
-                const profileState = store.getState().profilePage
-                const addPost = () => {
-                    store.dispatch(addPostAC())
-                }
-                const changeNewPostText = (value: string) => {
-                    store.dispatch(changeNewPostTextAC(value))
-                }
-                return (
-                    <MyPosts
-                        changeNewPostText={changeNewPostText}
-                        addPost={addPost}
-                        postsData={profileState.postsData}
-                        newPostText={profileState.newPostText}
-                    />
-                )
-            }}
-        </StoreContext.Consumer>
-    );
-};
+//     return (
+//         <StoreContext.Consumer>
+//             {(store) => {
+//                 const profileState = store.getState().profilePage
+//                 const addPost = () => {
+//                     store.dispatch(addPostAC())
+//                 }
+//                 const changeNewPostText = (value: string) => {
+//                     store.dispatch(changeNewPostTextAC(value))
+//                 }
+//                 return (
+//                     <MyPosts
+//                         changeNewPostText={changeNewPostText}
+//                         addPost={addPost}
+//                         postsData={profileState.postsData}
+//                         newPostText={profileState.newPostText}
+//                     />
+//                 )
+//             }}
+//         </StoreContext.Consumer>
+//     );
+// };

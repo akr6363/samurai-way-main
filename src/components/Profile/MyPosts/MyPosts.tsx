@@ -1,15 +1,15 @@
 import React, {ChangeEvent, createRef} from 'react';
 import styles from './MyPosts.module.css'
 import Post from "./Post/Post";
-import {PostsType} from "../../../redux/profile-reducer";
+import {MyPostsPropsType} from "./MyPostsContainer";
 
-
-type MyPostsPropsType = {
-    postsData: Array<PostsType>
-    newPostText: string
-    changeNewPostText(value: string): void
-    addPost(): void
-}
+//
+// type MyPostsPropsType = {
+//     postsData: Array<PostsType>
+//     newPostText: string
+//     changeNewPostText(value: string): void
+//     addPost(): void
+// }
 
 const MyPosts: React.FC<MyPostsPropsType> = (props) => {
 

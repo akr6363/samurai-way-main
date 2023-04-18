@@ -9,7 +9,7 @@ export type PostsType = {
     message: string
     likeCount: number
 }
-export type profilePageType = {
+export type ProfilePageType = {
     postsData: Array<PostsType>
     newPostText: string
 }
@@ -22,7 +22,7 @@ export type ActionsTypesForProfile =
     | changeNewPostTextActionType
 
 
-const initialState: profilePageType = {
+const initialState: ProfilePageType = {
     postsData: [
         {id: 1, message: "Hi, how are you?", likeCount: 15},
         {id: 2, message: "It is my first post", likeCount: 20},
@@ -32,7 +32,7 @@ const initialState: profilePageType = {
     newPostText: ''
 }
 
-const profileReducer = (state: profilePageType = initialState, action: ActionsTypes) => {
+const profileReducer = (state: ProfilePageType = initialState, action: ActionsTypes) => {
     switch (action.type) {
         case ADD_POST:
             const newPost = {
