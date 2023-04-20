@@ -31,8 +31,8 @@ const Navbar: React.FC<NavBarPropsType> = (props) => {
                     </NavLink>
                 </li>
                 <li className={styles.item}>
-                    <NavLink to="#">
-                        Music
+                    <NavLink to="/users" activeClassName={styles.active}>
+                        Users
                     </NavLink>
                 </li>
                 <li className={styles.item}>

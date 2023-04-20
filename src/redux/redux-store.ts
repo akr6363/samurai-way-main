@@ -2,11 +2,13 @@ import {combineReducers, createStore} from "redux";
 import dialogsReducer, {ActionsTypesForDialogs} from "./dialogs-reducer";
 import profileReducer, {ActionsTypesForProfile} from "./profile-reducer";
 import sidebarReducer, {navBarType} from "./sidebar-reducer";
-import exp from "constants";
+import {ActionsTypesForUsers, usersReducer} from "./users-reducer";
+
 
 export type ActionsTypes =
     ActionsTypesForProfile
     | ActionsTypesForDialogs
+    | ActionsTypesForUsers
 
 // export type StateType = {
 //     profilePage: profilePageType
@@ -28,7 +30,8 @@ export type ActionsTypes =
 const rootReducer = combineReducers({
     profilePage: profileReducer,
     dialogsPage: dialogsReducer,
-    navBar: sidebarReducer
+    navBar: sidebarReducer,
+    usersPage: usersReducer,
 })
 
 //возвращает тип стейта(тип возвраащемого значения rootReducer)
