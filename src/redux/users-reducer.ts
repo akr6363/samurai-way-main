@@ -9,13 +9,21 @@ type UserAddressType = {
     city: string
     country: string
 }
+// export type UserType = {
+//     id: number
+//     isFollowed: boolean
+//     fullName: string
+//     status: string
+//     address: UserAddressType
+//     photo: string
+// }
 export type UserType = {
     id: number
-    isFollowed: boolean
-    fullName: string
-    status: string
-    address: UserAddressType
-    photo: string
+    followed: boolean
+    name: string
+    photos: { small?: string, large?: string}
+    status?: string
+    uniqueUrlName?: string
 }
 export type UsersPageType = {
     users: UserType[]
