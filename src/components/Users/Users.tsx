@@ -1,15 +1,10 @@
 import React from 'react';
 import userPhoto from '../../img/userPhoto.jpg';
 import styled from 'styled-components';
-import {UserType} from '../../redux/users-reducer';
+import {UsersPageType} from '../../redux/users-reducer';
 import {Preloader} from "../common/Preloader/Preloader";
 
-export type UsersPropsType = {
-    users: UserType[]
-    pageTotalCount: number
-    pageSize: number
-    currentPage: number
-    isFetching: boolean
+export type UsersPropsType = UsersPageType & {
     follow(userID: number): void
     unFollow(userID: number): void
     selectPage(pageNumber: number): void

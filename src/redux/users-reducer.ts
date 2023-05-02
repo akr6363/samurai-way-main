@@ -24,12 +24,12 @@ export type UsersPageType = {
     isFetching: boolean
 }
 
-type followActionType = ReturnType<typeof followAC>
-type unFollowActionType = ReturnType<typeof unFollowAC>
-type setUsersActionType = ReturnType<typeof setUsersAC>
-type setCurrentPageActionType = ReturnType<typeof setCurrentPageAC>
-type setPageTotalCountActionType = ReturnType<typeof setPageTotalCountAC>
-type togglePreloaderActionType = ReturnType<typeof togglePreloaderAC>
+type followActionType = ReturnType<typeof follow>
+type unFollowActionType = ReturnType<typeof unFollow>
+type setUsersActionType = ReturnType<typeof setUsers>
+type setCurrentPageActionType = ReturnType<typeof setCurrentPage>
+type setPageTotalCountActionType = ReturnType<typeof setPageTotalCount>
+type togglePreloaderActionType = ReturnType<typeof togglePreloader>
 
 export type ActionsTypesForUsers = followActionType | unFollowActionType | setUsersActionType | setCurrentPageActionType | setPageTotalCountActionType | togglePreloaderActionType
 
@@ -79,32 +79,32 @@ export const usersReducer = (state: UsersPageType = initialState, action: Action
     }
 }
 
-export const followAC = (userId: number) => ({
+export const follow = (userId: number) => ({
     type: FOLLOW,
     userId
 } as const)
 
-export const unFollowAC = (userId: number) => ({
+export const unFollow = (userId: number) => ({
     type: UNFOLLOW,
     userId
 } as const)
 
-export const setUsersAC = (users: UserType[]) => ({
+export const setUsers = (users: UserType[]) => ({
     type: SET_USERS,
     users
 } as const)
 
-export const setCurrentPageAC = (currentPage: number) => ({
+export const setCurrentPage = (currentPage: number) => ({
     type: SET_CURRENT_PAGE,
     currentPage
 } as const)
 
-export const setPageTotalCountAC = (pageTotalCount: number) => ({
+export const setPageTotalCount = (pageTotalCount: number) => ({
     type: SET_PAGE_TOTAL_COUNT,
     pageTotalCount
 } as const)
 
-export const togglePreloaderAC = (isFetching: boolean) => ({
+export const togglePreloader = (isFetching: boolean) => ({
     type: TOGGLE_PRELOADER,
     isFetching
 } as const)

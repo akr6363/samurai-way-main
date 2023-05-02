@@ -1,13 +1,13 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {ActionsTypes, AppStateType} from "../../redux/redux-store";
-import {Dispatch} from "redux";
+import {AppStateType} from "../../redux/redux-store";
 import {
-    followAC,
-    setCurrentPageAC,
-    setPageTotalCountAC,
-    setUsersAC, togglePreloaderAC,
-    unFollowAC,
+    follow,
+    setCurrentPage,
+    setPageTotalCount,
+    setUsers,
+    togglePreloader,
+    unFollow,
     UsersPageType,
     UserType
 } from "../../redux/users-reducer";
@@ -36,14 +36,14 @@ class UsersContainerAPI extends React.Component<UsersContainerPropsType> {
     }
 
     render() {
-        return  <Users users={this.props.users}
-                           pageTotalCount={this.props.pageTotalCount}
-                           pageSize={this.props.pageSize}
-                           currentPage={this.props.currentPage}
-                           follow={this.props.follow}
-                           unFollow={this.props.unFollow}
-                           selectPage={this.selectPage}
-                       isFetching={this.props.isFetching}
+        return <Users users={this.props.users}
+                      pageTotalCount={this.props.pageTotalCount}
+                      pageSize={this.props.pageSize}
+                      currentPage={this.props.currentPage}
+                      follow={this.props.follow}
+                      unFollow={this.props.unFollow}
+                      selectPage={this.selectPage}
+                      isFetching={this.props.isFetching}
 
         />
     }
@@ -78,27 +78,33 @@ const mapStateToProps = ({usersPage}: AppStateType): UsersPageType => {
         isFetching: usersPage.isFetching,
     }
 }
-const mapDispatchToProps = (dispatch: Dispatch<ActionsTypes>): mapDispatchReturnType => {
-    return {
-        follow: (userID: number) => {
-            dispatch(followAC(userID))
-        },
-        unFollow: (userID: number) => {
-            dispatch(unFollowAC(userID))
-        },
-        setUsers: (users: UserType[]) => {
-            dispatch(setUsersAC(users))
-        },
-        setCurrentPage: (currentPage: number) => {
-            dispatch(setCurrentPageAC(currentPage))
-        },
-        setPageTotalCount: (pageTotalCount: number) => {
-            dispatch(setPageTotalCountAC(pageTotalCount))
-        },
-        togglePreloader: (isFetching: boolean) => {
-            dispatch(togglePreloaderAC(isFetching))
-        },
-    }
+// const mapDispatchToProps = (dispatch: Dispatch<ActionsTypes>): mapDispatchReturnType => {
+//     return {
+//         follow: (userID: number) => {
+//             dispatch(followAC(userID))
+//         },
+//         unFollow: (userID: number) => {
+//             dispatch(unFollowAC(userID))
+//         },
+//         setUsers: (users: UserType[]) => {
+//             dispatch(setUsersAC(users))
+//         },
+//         setCurrentPage: (currentPage: number) => {
+//             dispatch(setCurrentPageAC(currentPage))
+//         },
+//         setPageTotalCount: (pageTotalCount: number) => {
+//             dispatch(setPageTotalCountAC(pageTotalCount))
+//         },
+//         togglePreloader: (isFetching: boolean) => {
+//             dispatch(togglePreloaderAC(isFetching))
+//         },
+//     }
+// }
+
+const mapDispatchToProps: mapDispatchReturnType = {
+    follow, unFollow, setUsers,
+    setCurrentPage, setPageTotalCount, togglePreloader,
 }
+
 
 export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersContainerAPI)
