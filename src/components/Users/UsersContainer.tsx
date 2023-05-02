@@ -6,7 +6,7 @@ import {
     followAC,
     setCurrentPageAC,
     setPageTotalCountAC,
-    setUsersAC,
+    setUsersAC, togglePreloaderAC,
     unFollowAC,
     UsersPageType,
     UserType
@@ -16,18 +16,22 @@ import axios from "axios";
 
 class UsersContainerAPI extends React.Component<UsersContainerPropsType> {
     componentDidMount() {
+        this.props.togglePreloader(true)
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
             .then(response => {
                 this.props.setUsers(response.data.items)
                 this.props.setPageTotalCount(response.data.totalCount)
+                this.props.togglePreloader(false)
             })
     }
 
     selectPage = (pageNumber: number) => {
         this.props.setCurrentPage(pageNumber)
+        this.props.togglePreloader(true)
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
             .then(response => {
                 this.props.setUsers(response.data.items)
+                this.props.togglePreloader(false)
             })
     }
 
@@ -39,6 +43,7 @@ class UsersContainerAPI extends React.Component<UsersContainerPropsType> {
                            follow={this.props.follow}
                            unFollow={this.props.unFollow}
                            selectPage={this.selectPage}
+                       isFetching={this.props.isFetching}
 
         />
     }
@@ -51,6 +56,8 @@ type mapDispatchReturnType = {
     setUsers(users: UserType[]): void
     setCurrentPage(currentPage: number): void
     setPageTotalCount(pageTotalCount: number): void
+    setPageTotalCount(pageTotalCount: number): void
+    togglePreloader(isFetching: boolean): void
 }
 
 export type UsersContainerPropsType = UsersPageType & mapDispatchReturnType
@@ -67,7 +74,8 @@ const mapStateToProps = ({usersPage}: AppStateType): UsersPageType => {
         users: usersPage.users,
         pageTotalCount: usersPage.pageTotalCount,
         pageSize: usersPage.pageSize,
-        currentPage: usersPage.currentPage
+        currentPage: usersPage.currentPage,
+        isFetching: usersPage.isFetching,
     }
 }
 const mapDispatchToProps = (dispatch: Dispatch<ActionsTypes>): mapDispatchReturnType => {
@@ -86,6 +94,9 @@ const mapDispatchToProps = (dispatch: Dispatch<ActionsTypes>): mapDispatchReturn
         },
         setPageTotalCount: (pageTotalCount: number) => {
             dispatch(setPageTotalCountAC(pageTotalCount))
+        },
+        togglePreloader: (isFetching: boolean) => {
+            dispatch(togglePreloaderAC(isFetching))
         },
     }
 }

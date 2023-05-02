@@ -2,12 +2,14 @@ import React from 'react';
 import userPhoto from '../../img/userPhoto.jpg';
 import styled from 'styled-components';
 import {UserType} from '../../redux/users-reducer';
+import {Preloader} from "../common/Preloader/Preloader";
 
 export type UsersPropsType = {
     users: UserType[]
     pageTotalCount: number
     pageSize: number
     currentPage: number
+    isFetching: boolean
     follow(userID: number): void
     unFollow(userID: number): void
     selectPage(pageNumber: number): void
@@ -19,6 +21,7 @@ export const Users: React.FC<UsersPropsType> = (
         pageTotalCount,
         pageSize,
         currentPage,
+        isFetching,
         follow,
         unFollow,
         selectPage
@@ -67,7 +70,9 @@ export const Users: React.FC<UsersPropsType> = (
                 {getPageNumbers()}
             </Pagination>
             <UsersPage>
-                {usersItems}
+                {isFetching
+                    ? <Preloader/>
+                    : usersItems}
             </UsersPage>
         </>
     )
