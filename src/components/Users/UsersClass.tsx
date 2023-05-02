@@ -6,31 +6,21 @@ import {UsersPropsType} from "./UsersContainer";
 
 export class UsersClass extends React.Component<UsersPropsType> {
 
-    // constructor(props: UsersPropsType) {
-    //     super(props);
-    //     axios.get('https://social-network.samuraijs.com/api/1.0/users')
-    //         .then(response => {
-    //             this.props.setUsers(response.data.items)
-    //         })
-    // }
-
     componentDidMount() {
-        axios.get('https://social-network.samuraijs.com/api/1.0/users')
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+            .then(response => {
+                this.props.setUsers(response.data.items)
+                this.props.setPageTotalCount(response.data.totalCount)
+            })
+    }
+
+    selectPage = (pageNumber: number) => {
+        this.props.setCurrentPage(pageNumber)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
             .then(response => {
                 this.props.setUsers(response.data.items)
             })
     }
-
-    //
-   // getUsers = () => {
-   //      if (!this.props.users.length) {
-   //          axios.get('https://social-network.samuraijs.com/api/1.0/users')
-   //              .then(response => {
-   //                  this.props.setUsers(response.data.items)
-   //              })
-   //      }
-   //
-   //  }
 
     render() {
         const usersItems = this.props.users.map(u => {
@@ -52,9 +42,28 @@ export class UsersClass extends React.Component<UsersPropsType> {
                 </UserItem>
             )
         })
+
+        const getPageNumbers = () => {
+            const pageCount = Math.ceil(this.props.pageTotalCount / this.props.pageSize)
+            let numbersArray = []
+            for (let i = 1; i <= pageCount; i++) {
+                numbersArray.push(i)
+            }
+            return numbersArray.map(p => {
+                return (
+                    <PaginationItem key={p}
+                                    className={this.props.currentPage === p ? 'current' : ''}
+                                    onClick={() => {this.selectPage(p)}}>
+                        {p}</PaginationItem>
+                )
+            })
+        }
+
         return (
             <>
-                {/*<button onClick={this.getUsers}>Get Users</button>*/}
+                <Pagination>
+                    {getPageNumbers()}
+                </Pagination>
                 <UsersPage>
                     {usersItems}
                 </UsersPage>
@@ -97,4 +106,13 @@ const FollowBtn = styled.button`
 `
 const UsersPage = styled.div`
   padding: 10px 10px;
+`
+
+const Pagination = styled.div`
+
+`
+const PaginationItem = styled.span`
+  &.current {
+    font-weight: bold;
+  }
 `
