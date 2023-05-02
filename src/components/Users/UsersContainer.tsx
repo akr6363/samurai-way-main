@@ -11,7 +11,39 @@ import {
     UsersPageType,
     UserType
 } from "../../redux/users-reducer";
-import {UsersClass} from "./UsersClass";
+import {Users} from "./Users";
+import axios from "axios";
+
+class UsersContainerAPI extends React.Component<UsersContainerPropsType> {
+    componentDidMount() {
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+            .then(response => {
+                this.props.setUsers(response.data.items)
+                this.props.setPageTotalCount(response.data.totalCount)
+            })
+    }
+
+    selectPage = (pageNumber: number) => {
+        this.props.setCurrentPage(pageNumber)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
+            .then(response => {
+                this.props.setUsers(response.data.items)
+            })
+    }
+
+    render() {
+        return  <Users users={this.props.users}
+                           pageTotalCount={this.props.pageTotalCount}
+                           pageSize={this.props.pageSize}
+                           currentPage={this.props.currentPage}
+                           follow={this.props.follow}
+                           unFollow={this.props.unFollow}
+                           selectPage={this.selectPage}
+
+        />
+    }
+}
+
 
 type mapDispatchReturnType = {
     follow(userID: number): void
@@ -21,7 +53,7 @@ type mapDispatchReturnType = {
     setPageTotalCount(pageTotalCount: number): void
 }
 
-export type UsersPropsType = UsersPageType & mapDispatchReturnType
+export type UsersContainerPropsType = UsersPageType & mapDispatchReturnType
 
 // const mapStateToProps = (state: AppStateType): MapStateReturnType => {
 //     return {
@@ -30,7 +62,6 @@ export type UsersPropsType = UsersPageType & mapDispatchReturnType
 // }
 
 //деструктцризация
-
 const mapStateToProps = ({usersPage}: AppStateType): UsersPageType => {
     return {
         users: usersPage.users,
@@ -39,7 +70,6 @@ const mapStateToProps = ({usersPage}: AppStateType): UsersPageType => {
         currentPage: usersPage.currentPage
     }
 }
-
 const mapDispatchToProps = (dispatch: Dispatch<ActionsTypes>): mapDispatchReturnType => {
     return {
         follow: (userID: number) => {
@@ -60,4 +90,4 @@ const mapDispatchToProps = (dispatch: Dispatch<ActionsTypes>): mapDispatchReturn
     }
 }
 
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersClass)
+export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersContainerAPI)

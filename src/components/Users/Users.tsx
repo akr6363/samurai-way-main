@@ -1,61 +1,78 @@
-import React, {useEffect} from 'react';
-import {UsersPropsType} from "./UsersContainer";
-import styled from "styled-components";
-import userPhoto from "../../img/userPhoto.jpg";
-import axios from "axios";
+import React from 'react';
+import userPhoto from '../../img/userPhoto.jpg';
+import styled from 'styled-components';
+import {UserType} from '../../redux/users-reducer';
 
+export type UsersPropsType = {
+    users: UserType[]
+    pageTotalCount: number
+    pageSize: number
+    currentPage: number
+    follow(userID: number): void
+    unFollow(userID: number): void
+    selectPage(pageNumber: number): void
+}
 
-const Users: React.FC<UsersPropsType> = (props) => {
-    // useEffect(() => {
-    //     if (!props.users.length) {
-    //         axios.get('https://social-network.samuraijs.com/api/1.0/users')
-    //             .then(response => {
-    //                 props.setUsers(response.data.items)
-    //             })
-    //     }
-    // }, []);
-    const getUsers = () => {
-        if (!props.users.length) {
-            axios.get('https://social-network.samuraijs.com/api/1.0/users')
-                .then(response => {
-                    props.setUsers(response.data.items)
-                })
-        }
-
-    }
-
-    const usersItems = props.users.map(u => {
+export const Users: React.FC<UsersPropsType> = (
+    {
+        users,
+        pageTotalCount,
+        pageSize,
+        currentPage,
+        follow,
+        unFollow,
+        selectPage
+    }) => {
+    const usersItems = users.map(u => {
         return (
             <UserItem key={u.id}>
                 <UserLeft>
                     <UserImg>
-                        <img src={u.photos?.small ?? userPhoto} alt="users photo"/>
+                        <img src={u.photos?.small ?? userPhoto} alt='users photo'/>
                     </UserImg>
                     {u.followed
-                        ? <FollowBtn onClick={() => props.unFollow(u.id)}>Unfollow</FollowBtn>
-                        : <FollowBtn onClick={() => props.follow(u.id)}>Follow</FollowBtn>}
+                        ? <FollowBtn onClick={() => unFollow(u.id)}>Unfollow</FollowBtn>
+                        : <FollowBtn onClick={() => follow(u.id)}>Follow</FollowBtn>}
                 </UserLeft>
                 <UserRight>
                     <h3>{u.name}</h3>
                     <div>{u.status}</div>
-                    {/*<div>{u.address.country}, {u.address.city}</div>*/}
                 </UserRight>
             </UserItem>
         )
-     })
+    })
+
+    const getPageNumbers = () => {
+        const pageCount = Math.ceil(pageTotalCount / pageSize)
+        let numbersArray = []
+        for (let i = 1; i <= pageCount; i++) {
+            numbersArray.push(i)
+        }
+        return numbersArray.map(p => {
+            return (
+                <PaginationItem key={p}
+                                className={currentPage === p ? 'current' : ''}
+                                onClick={() => {
+                                    selectPage(p)
+                                }}>
+                    {p}</PaginationItem>
+            )
+        })
+    }
+
 
     return (
         <>
-            <button onClick={getUsers}>Get Users</button>
+            <Pagination>
+                {getPageNumbers()}
+            </Pagination>
             <UsersPage>
                 {usersItems}
             </UsersPage>
         </>
+    )
+}
 
-    );
-};
-
-export default Users;
 
 const UserItem = styled.div`
   display: flex;
@@ -91,4 +108,13 @@ const FollowBtn = styled.button`
 `
 const UsersPage = styled.div`
   padding: 10px 10px;
+`
+
+const Pagination = styled.div`
+
+`
+const PaginationItem = styled.span`
+  &.current {
+    font-weight: bold;
+  }
 `

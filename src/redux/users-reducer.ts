@@ -1,5 +1,4 @@
-import AndrewPhoto from '../img/friends/Andrew.png'
-import {ActionsTypes} from "./redux-store";
+import {ActionsTypes} from './redux-store';
 
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
@@ -7,18 +6,7 @@ const SET_USERS = 'SET_USERS'
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
 const SET_PAGE_TOTAL_COUNT = 'SET_PAGE_TOTAL_COUNT'
 
-type UserAddressType = {
-    city: string
-    country: string
-}
-// export type UserType = {
-//     id: number
-//     isFollowed: boolean
-//     fullName: string
-//     status: string
-//     address: UserAddressType
-//     photo: string
-// }
+
 export type UserType = {
     id: number
     followed: boolean
