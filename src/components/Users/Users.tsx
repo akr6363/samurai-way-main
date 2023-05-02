@@ -3,6 +3,7 @@ import userPhoto from '../../img/userPhoto.jpg';
 import styled from 'styled-components';
 import {UsersPageType} from '../../redux/users-reducer';
 import {Preloader} from "../common/Preloader/Preloader";
+import {NavLink} from "react-router-dom";
 
 export type UsersPropsType = UsersPageType & {
     follow(userID: number): void
@@ -26,7 +27,9 @@ export const Users: React.FC<UsersPropsType> = (
             <UserItem key={u.id}>
                 <UserLeft>
                     <UserImg>
+                        <NavLink to={`/profile/${u.id}`}>
                         <img src={u.photos?.small ?? userPhoto} alt='users photo'/>
+                        </NavLink>
                     </UserImg>
                     {u.followed
                         ? <FollowBtn onClick={() => unFollow(u.id)}>Unfollow</FollowBtn>

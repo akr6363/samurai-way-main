@@ -1,8 +1,15 @@
 import styles from "./ProfileInfo.module.css";
 import React from "react";
+import {ProfileType} from "../../../redux/profile-reducer";
+import {Preloader} from "../../common/Preloader/Preloader";
 
-export const ProfileInfo = () => {
+type ProfileInfoPropsType = {
+    profile: ProfileType | null
+}
+
+export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({profile}) => {
     return (
+        profile ?
         <>
             <div className={styles.banner}>
                 <img
@@ -12,14 +19,15 @@ export const ProfileInfo = () => {
             <div className={styles.user}>
                 <div className={styles.user__photo}>
                     <img
-                        src="https://million-wallpapers.ru/wallpapers/2/49/9466422002144017775/kot-serditsya-na-xozyaina-i-pogodu.jpg"
+                        src={profile.photos.large}
                         alt=""/>
                 </div>
                 <div className={styles.user__info}>
-                    <h3>Name</h3>
-                    <div>descr</div>
+                    <h3>{profile.fullName}</h3>
+                    <div>{profile.aboutMe}</div>
                 </div>
             </div>
         </>
+            : <Preloader/>
     )
 }

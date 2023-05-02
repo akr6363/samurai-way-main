@@ -31,7 +31,8 @@ export const store: StoreType = {
                 {id: 3, message: "Yoooo", likeCount: 1111},
                 {id: 4, message: "Vlad dibil", likeCount: 100500},
             ],
-            newPostText: ''
+            newPostText: '',
+            profile: null
         },
         dialogsPage: {
             dialogsData: [
