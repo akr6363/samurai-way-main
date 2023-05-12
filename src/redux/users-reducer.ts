@@ -1,4 +1,5 @@
 import {ActionsTypes} from './redux-store';
+import {usersAPI} from "../api/api";
 
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
@@ -6,6 +7,7 @@ const SET_USERS = 'SET_USERS'
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
 const SET_PAGE_TOTAL_COUNT = 'SET_PAGE_TOTAL_COUNT'
 const TOGGLE_PRELOADER = 'TOGGLE_PRELOADER'
+const TOGGLE_FOLLOWING_PROGRESS = 'TOGGLE_FOLLOWING_PROGRESS'
 
 
 export type UserType = {
@@ -22,6 +24,7 @@ export type UsersPageType = {
     pageSize: number
     currentPage: number
     isFetching: boolean
+    followingInProgress: number[]
 }
 
 type followActionType = ReturnType<typeof follow>
@@ -30,15 +33,17 @@ type setUsersActionType = ReturnType<typeof setUsers>
 type setCurrentPageActionType = ReturnType<typeof setCurrentPage>
 type setPageTotalCountActionType = ReturnType<typeof setPageTotalCount>
 type togglePreloaderActionType = ReturnType<typeof togglePreloader>
+type toggleFollowingProgressActionType = ReturnType<typeof toggleFollowingProgress>
 
-export type ActionsTypesForUsers = followActionType | unFollowActionType | setUsersActionType | setCurrentPageActionType | setPageTotalCountActionType | togglePreloaderActionType
+export type ActionsTypesForUsers = followActionType | unFollowActionType | setUsersActionType | setCurrentPageActionType | setPageTotalCountActionType | togglePreloaderActionType | toggleFollowingProgressActionType
 
 const initialState: UsersPageType = {
     users: [],
     pageTotalCount: 0,
     pageSize: 10,
     currentPage: 1,
-    isFetching: false
+    isFetching: false,
+    followingInProgress: []
 }
 
 
@@ -51,8 +56,10 @@ export const usersReducer = (state: UsersPageType = initialState, action: Action
             }
         case UNFOLLOW:
             return {
-                ...state, users: state.users
+                ...state,
+                users: state.users
                     .map(u => u.id === action.userId ? {...u, followed: false} : u)
+
             }
         case SET_USERS:
             return {
@@ -73,6 +80,13 @@ export const usersReducer = (state: UsersPageType = initialState, action: Action
         case TOGGLE_PRELOADER:
             return {
                 ...state, isFetching: action.isFetching
+            }
+        case TOGGLE_FOLLOWING_PROGRESS:
+            return {
+                ...state,
+                followingInProgress: action.isFetching
+                    ? [...state.followingInProgress, action.userID]
+                    : state.followingInProgress.filter(id => id !== action.userID)
             }
         default:
             return state
@@ -107,4 +121,10 @@ export const setPageTotalCount = (pageTotalCount: number) => ({
 export const togglePreloader = (isFetching: boolean) => ({
     type: TOGGLE_PRELOADER,
     isFetching
+} as const)
+
+export const toggleFollowingProgress = (isFetching: boolean, userID: number) => ({
+    type: TOGGLE_FOLLOWING_PROGRESS,
+    isFetching,
+    userID
 } as const)

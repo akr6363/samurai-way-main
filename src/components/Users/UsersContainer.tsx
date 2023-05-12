@@ -5,7 +5,7 @@ import {
     follow,
     setCurrentPage,
     setPageTotalCount,
-    setUsers,
+    setUsers, toggleFollowingProgress,
     togglePreloader,
     unFollow,
     UsersPageType,
@@ -44,6 +44,8 @@ class UsersContainerAPI extends React.Component<UsersContainerPropsType> {
                       unFollow={this.props.unFollow}
                       selectPage={this.selectPage}
                       isFetching={this.props.isFetching}
+                      followingInProgress={this.props.followingInProgress}
+                      toggleFollowingProgress={this.props.toggleFollowingProgress}
 
         />
     }
@@ -58,6 +60,7 @@ type mapDispatchReturnType = {
     setPageTotalCount(pageTotalCount: number): void
     setPageTotalCount(pageTotalCount: number): void
     togglePreloader(isFetching: boolean): void
+    toggleFollowingProgress(isFetching: boolean, userID: number): void
 }
 
 export type UsersContainerPropsType = UsersPageType & mapDispatchReturnType
@@ -76,6 +79,8 @@ const mapStateToProps = ({usersPage}: AppStateType): UsersPageType => {
         pageSize: usersPage.pageSize,
         currentPage: usersPage.currentPage,
         isFetching: usersPage.isFetching,
+        followingInProgress: usersPage.followingInProgress
+
     }
 }
 // const mapDispatchToProps = (dispatch: Dispatch<ActionsTypes>): mapDispatchReturnType => {
@@ -104,6 +109,7 @@ const mapStateToProps = ({usersPage}: AppStateType): UsersPageType => {
 const mapDispatchToProps: mapDispatchReturnType = {
     follow, unFollow, setUsers,
     setCurrentPage, setPageTotalCount, togglePreloader,
+    toggleFollowingProgress
 }
 
 

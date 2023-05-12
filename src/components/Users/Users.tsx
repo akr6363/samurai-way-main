@@ -11,6 +11,7 @@ export type UsersPropsType = UsersPageType & {
     follow(userID: number): void
     unFollow(userID: number): void
     selectPage(pageNumber: number): void
+    toggleFollowingProgress(isFetching: boolean, userID: number): void
 }
 
 export const Users: React.FC<UsersPropsType> = (
@@ -22,7 +23,9 @@ export const Users: React.FC<UsersPropsType> = (
         isFetching,
         follow,
         unFollow,
-        selectPage
+        selectPage,
+        followingInProgress,
+        toggleFollowingProgress
     }) => {
     const usersItems = users.map(u => {
         return (
@@ -34,30 +37,39 @@ export const Users: React.FC<UsersPropsType> = (
                         </NavLink>
                     </UserImg>
                     {u.followed
-                        ? <FollowBtn onClick={() => {
-                            usersAPI.unfollow(u.id)
-                            // axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
-                            //     withCredentials: true,
-                            //     headers: {
-                            //         'API-KEY': '18f6704c-b342-412b-afac-2949b9a3d1f5'
-                            //     }
-                            // })
-                                .then((response) => {
-                                    if (response.resultCode === 0) {
-                                        unFollow(u.id)
-                                    }
-                                })
-                        }}>Unfollow</FollowBtn>
+                        ? <FollowBtn
+                            disabled={followingInProgress.some(el => el === u.id)}
+                            onClick={() => {
+                                toggleFollowingProgress(true, u.id)
+                                usersAPI.unfollow(u.id)
+                                    // axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
+                                    // {
+                                    //     withCredentials: true,
+                                    //     headers: {
+                                    //         'API-KEY': '18f6704c-b342-412b-afac-2949b9a3d1f5'
+                                    //     }
+                                    // })
+                                    .then((response) => {
+                                        if (response.resultCode === 0) {
+                                            unFollow(u.id)
+                                        }
+                                        toggleFollowingProgress(false, u.id)
+                                    })
+                            }}>Unfollow</FollowBtn>
 
-                        : <FollowBtn onClick={() => {
-                            usersAPI.follow(u.id)
-                                .then((response) => {
-                                    if (response.resultCode === 0) {
-                                        follow(u.id)
-                                    }
-                                })
+                        : <FollowBtn
+                            disabled={followingInProgress.some(el => el === u.id)}
+                            onClick={() => {
+                                toggleFollowingProgress(true, u.id)
+                                usersAPI.follow(u.id)
+                                    .then((response) => {
+                                        if (response.resultCode === 0) {
+                                            follow(u.id)
+                                        }
+                                        toggleFollowingProgress(false, u.id)
+                                    })
 
-                        }}>Follow</FollowBtn>}
+                            }}>Follow</FollowBtn>}
                 </UserLeft>
                 <UserRight>
                     <h3>{u.name}</h3>
