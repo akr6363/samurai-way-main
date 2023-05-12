@@ -5,6 +5,7 @@ import {UsersPageType} from '../../redux/users-reducer';
 import {Preloader} from "../common/Preloader/Preloader";
 import {NavLink} from "react-router-dom";
 import axios from "axios";
+import {usersAPI} from "../../api/api";
 
 export type UsersPropsType = UsersPageType & {
     follow(userID: number): void
@@ -34,30 +35,24 @@ export const Users: React.FC<UsersPropsType> = (
                     </UserImg>
                     {u.followed
                         ? <FollowBtn onClick={() => {
-
-                            axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
-                                withCredentials: true,
-                                headers: {
-                                    'API-KEY': '18f6704c-b342-412b-afac-2949b9a3d1f5'
-                                }
-                            })
+                            usersAPI.unfollow(u.id)
+                            // axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
+                            //     withCredentials: true,
+                            //     headers: {
+                            //         'API-KEY': '18f6704c-b342-412b-afac-2949b9a3d1f5'
+                            //     }
+                            // })
                                 .then((response) => {
-                                    if (response.data.resultCode === 0) {
+                                    if (response.resultCode === 0) {
                                         unFollow(u.id)
                                     }
                                 })
-
                         }}>Unfollow</FollowBtn>
-                        : <FollowBtn onClick={() => {
 
-                            axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {}, {
-                                withCredentials: true,
-                                headers: {
-                                    'API-KEY': '18f6704c-b342-412b-afac-2949b9a3d1f5'
-                                }
-                            })
+                        : <FollowBtn onClick={() => {
+                            usersAPI.follow(u.id)
                                 .then((response) => {
-                                    if (response.data.resultCode === 0) {
+                                    if (response.resultCode === 0) {
                                         follow(u.id)
                                     }
                                 })

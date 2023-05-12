@@ -12,17 +12,15 @@ import {
     UserType
 } from "../../redux/users-reducer";
 import {Users} from "./Users";
-import axios from "axios";
+import {usersAPI} from "../../api/api";
 
 class UsersContainerAPI extends React.Component<UsersContainerPropsType> {
     componentDidMount() {
         this.props.togglePreloader(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`, {
-            withCredentials: true
-        })
+        usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
             .then(response => {
-                this.props.setUsers(response.data.items)
-                this.props.setPageTotalCount(response.data.totalCount)
+                this.props.setUsers(response.items)
+                this.props.setPageTotalCount(response.totalCount)
                 this.props.togglePreloader(false)
             })
     }
@@ -30,11 +28,9 @@ class UsersContainerAPI extends React.Component<UsersContainerPropsType> {
     selectPage = (pageNumber: number) => {
         this.props.setCurrentPage(pageNumber)
         this.props.togglePreloader(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`, {
-            withCredentials: true
-        })
+        usersAPI.getUsers(pageNumber, this.props.pageSize)
             .then(response => {
-                this.props.setUsers(response.data.items)
+                this.props.setUsers(response.items)
                 this.props.togglePreloader(false)
             })
     }
