@@ -1,8 +1,10 @@
 .header {
     grid-area: h;
     background-color: aqua;
+    display: flex;
+    justify-content: space-between;
 }
 
 .logo {
-    width: 30px;
+    width: 60px;
 }

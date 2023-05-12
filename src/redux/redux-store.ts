@@ -3,6 +3,7 @@ import dialogsReducer, {ActionsTypesForDialogs} from "./dialogs-reducer";
 import profileReducer, {ActionsTypesForProfile} from "./profile-reducer";
 import sidebarReducer, {navBarType} from "./sidebar-reducer";
 import {ActionsTypesForUsers, usersReducer} from "./users-reducer";
+import {authReducer} from "./auth-reducer";
 
 
 export type ActionsTypes =
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
     dialogsPage: dialogsReducer,
     navBar: sidebarReducer,
     usersPage: usersReducer,
+    auth: authReducer
 })
 
 //возвращает тип стейта(тип возвраащемого значения rootReducer)
@@ -39,3 +41,7 @@ export type AppStateType = ReturnType<typeof rootReducer>
 
 
 export const store = createStore(rootReducer)
+
+
+// @ts-ignore
+window.store = store
