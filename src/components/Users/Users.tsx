@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {UsersPageType} from '../../redux/users-reducer';
 import {Preloader} from "../common/Preloader/Preloader";
 import {NavLink} from "react-router-dom";
+import axios from "axios";
 
 export type UsersPropsType = UsersPageType & {
     follow(userID: number): void
@@ -28,12 +29,40 @@ export const Users: React.FC<UsersPropsType> = (
                 <UserLeft>
                     <UserImg>
                         <NavLink to={`/profile/${u.id}`}>
-                        <img src={u.photos?.small ?? userPhoto} alt='users photo'/>
+                            <img src={u.photos?.small ?? userPhoto} alt='users photo'/>
                         </NavLink>
                     </UserImg>
                     {u.followed
-                        ? <FollowBtn onClick={() => unFollow(u.id)}>Unfollow</FollowBtn>
-                        : <FollowBtn onClick={() => follow(u.id)}>Follow</FollowBtn>}
+                        ? <FollowBtn onClick={() => {
+
+                            axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
+                                withCredentials: true,
+                                headers: {
+                                    'API-KEY': '18f6704c-b342-412b-afac-2949b9a3d1f5'
+                                }
+                            })
+                                .then((response) => {
+                                    if (response.data.resultCode === 0) {
+                                        unFollow(u.id)
+                                    }
+                                })
+
+                        }}>Unfollow</FollowBtn>
+                        : <FollowBtn onClick={() => {
+
+                            axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {}, {
+                                withCredentials: true,
+                                headers: {
+                                    'API-KEY': '18f6704c-b342-412b-afac-2949b9a3d1f5'
+                                }
+                            })
+                                .then((response) => {
+                                    if (response.data.resultCode === 0) {
+                                        follow(u.id)
+                                    }
+                                })
+
+                        }}>Follow</FollowBtn>}
                 </UserLeft>
                 <UserRight>
                     <h3>{u.name}</h3>
