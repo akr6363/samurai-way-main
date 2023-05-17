@@ -4,14 +4,11 @@ import styled from 'styled-components';
 import {UsersPageType} from '../../redux/users-reducer';
 import {Preloader} from "../common/Preloader/Preloader";
 import {NavLink} from "react-router-dom";
-import axios from "axios";
-import {usersAPI} from "../../api/api";
 
 export type UsersPropsType = UsersPageType & {
-    follow(userID: number): void
-    unFollow(userID: number): void
     selectPage(pageNumber: number): void
-    toggleFollowingProgress(isFetching: boolean, userID: number): void
+    unfollowTC(userId: number): void
+    followTC(userId: number): void
 }
 
 export const Users: React.FC<UsersPropsType> = (
@@ -21,11 +18,10 @@ export const Users: React.FC<UsersPropsType> = (
         pageSize,
         currentPage,
         isFetching,
-        follow,
-        unFollow,
         selectPage,
         followingInProgress,
-        toggleFollowingProgress
+        unfollowTC,
+        followTC
     }) => {
     const usersItems = users.map(u => {
         return (
@@ -40,35 +36,13 @@ export const Users: React.FC<UsersPropsType> = (
                         ? <FollowBtn
                             disabled={followingInProgress.some(el => el === u.id)}
                             onClick={() => {
-                                toggleFollowingProgress(true, u.id)
-                                usersAPI.unfollow(u.id)
-                                    // axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
-                                    // {
-                                    //     withCredentials: true,
-                                    //     headers: {
-                                    //         'API-KEY': '18f6704c-b342-412b-afac-2949b9a3d1f5'
-                                    //     }
-                                    // })
-                                    .then((response) => {
-                                        if (response.resultCode === 0) {
-                                            unFollow(u.id)
-                                        }
-                                        toggleFollowingProgress(false, u.id)
-                                    })
+                                unfollowTC(u.id)
                             }}>Unfollow</FollowBtn>
 
                         : <FollowBtn
                             disabled={followingInProgress.some(el => el === u.id)}
                             onClick={() => {
-                                toggleFollowingProgress(true, u.id)
-                                usersAPI.follow(u.id)
-                                    .then((response) => {
-                                        if (response.resultCode === 0) {
-                                            follow(u.id)
-                                        }
-                                        toggleFollowingProgress(false, u.id)
-                                    })
-
+                                followTC(u.id)
                             }}>Follow</FollowBtn>}
                 </UserLeft>
                 <UserRight>
@@ -96,7 +70,6 @@ export const Users: React.FC<UsersPropsType> = (
             )
         })
     }
-
 
     return (
         <>

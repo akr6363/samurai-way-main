@@ -1,3 +1,6 @@
+import {Dispatch} from "redux";
+import {authAPI, profileAPI} from "../api/api";
+
 const SET_AUTH = 'SET_AUTH'
 
 
@@ -35,3 +38,20 @@ export const setAuthUserData = (userId: number, email: string, login: string) =>
     type: SET_AUTH,
     data: {userId, email, login}
 } as const)
+
+export const authTC = () => (dispatch: Dispatch<setAuthUserDataActionType>) => {
+    authAPI.auth()
+        .then(response => {
+            if (response.resultCode === 0) {
+                const {id, email, login} = response.data
+                dispatch(setAuthUserData(id, email, login))
+                return id
+            }
+        })
+        .then((userId) => {
+            return profileAPI.getProfile(userId)
+        })
+        .then(response => {
+            console.log(response)
+        })
+}
