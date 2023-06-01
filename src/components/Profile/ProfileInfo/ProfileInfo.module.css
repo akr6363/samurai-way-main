@@ -29,3 +29,7 @@
 .user__photo img {
     height: 200px;
 }
+
+.user__info {
+    flex: 1 1 auto;
+}
