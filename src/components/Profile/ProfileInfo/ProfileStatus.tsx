@@ -1,20 +1,42 @@
-import React from "react";
-import {ProfileType} from "../../../redux/profile-reducer";
+import React, {ChangeEvent} from "react";
 import styled from "styled-components";
+import {updateStatusTC} from "../../../redux/profile-reducer";
 
 type ProfileStatusPropsType = {
     status: string
+    updateStatus(status: string): void
 }
 
 export class ProfileStatus extends React.Component<ProfileStatusPropsType> {
 
     state = {
-        editMode: false
+        editMode: false,
+        status: this.props.status
     }
 
-    setEditMode(isEdit: boolean) {
+    // setEditMode(isEdit: boolean) {
+    //     this.setState({
+    //         editMode: isEdit
+    //     })
+    // }
+
+    activateEditMode =() => {
         this.setState({
-            editMode: isEdit
+            editMode: true
+        })
+    }
+
+    deactivateEditMode = () => {
+        this.setState({
+            editMode: false
+        })
+        this.props.updateStatus(this.state.status)
+
+    }
+
+    changeStatus = (e: ChangeEvent<HTMLInputElement>) => {
+        this.setState({
+            status: e.currentTarget.value
         })
     }
 
@@ -22,8 +44,12 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType> {
         return (
             <ProfileStatusBlock>
                 {this.state.editMode
-                        ? <StatusInput autoFocus type="text" value={this.props.status} onBlur={()=>this.setEditMode(false)}/>
-                        : <StatusSpan onDoubleClick={()=>this.setEditMode(true)}>{this.props.status}</StatusSpan>
+                    ? <StatusInput autoFocus type="text" value={this.state.status}
+                                   onBlur={this.deactivateEditMode}
+                                   onChange={this.changeStatus}/>
+                    : <StatusSpan onDoubleClick={this.activateEditMode}
+
+                    >{this.props.status}</StatusSpan>
                 }
             </ProfileStatusBlock>
 
@@ -31,20 +57,21 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType> {
     }
 }
 
-const StatusSpan = styled.span `
+const StatusSpan = styled.span`
   display: block;
   padding: 5px 10px;
+
   &:hover {
     background-color: rgba(161, 161, 161, 0.56);
   }
 `
-const StatusInput = styled.input `
-flex: 1 1 100%;
+const StatusInput = styled.input`
+  flex: 1 1 100%;
   padding: 5px 10px;
 `
 
 
-const ProfileStatusBlock = styled.div `
-display: flex;
+const ProfileStatusBlock = styled.div`
+  display: flex;
   flex-direction: column;
 `

@@ -7,11 +7,13 @@ import userPhoto from '../../../img/userPhoto.jpg';
 
 type ProfileInfoPropsType = {
     profile: ProfileType | null
+    status: string
+    updateStatus(status: string): void
 }
 
 export class ProfileInfo extends React.Component<ProfileInfoPropsType> {
     render() {
-        let {profile} = this.props;
+        let {profile, status, updateStatus} = this.props;
         return (
             profile ?
                 <>
@@ -27,7 +29,7 @@ export class ProfileInfo extends React.Component<ProfileInfoPropsType> {
                         <div className={styles.user__info}>
                             <h3>{profile.fullName}</h3>
                             <div>{profile.aboutMe}</div>
-                            <ProfileStatus status={'eeee'}/>
+                            <ProfileStatus status={status} updateStatus={updateStatus}/>
                         </div>
 
                     </div>

@@ -49,9 +49,9 @@ export const authTC = () => (dispatch: Dispatch<setAuthUserDataActionType>) => {
             }
         })
         .then((userId) => {
-            return profileAPI.getProfile(userId)
+            return profileAPI.getProfile(String(userId))
         })
         .then(response => {
-            console.log(response)
+            // console.log(response)
         })
 }
