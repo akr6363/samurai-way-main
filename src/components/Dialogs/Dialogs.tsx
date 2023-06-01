@@ -35,8 +35,7 @@ const Dialogs: React.FC<DialogsPropsType> = (props) => {
     }
 
     return (
-        props.isAuth
-        ? <div className={styles.page}>
+         <div className={styles.page}>
             <div className={styles.page__dialogs}>
                 {dialogsElements}
             </div>
@@ -51,7 +50,6 @@ const Dialogs: React.FC<DialogsPropsType> = (props) => {
                 </div>
             </div>
         </div>
-            : <Redirect to={'/login'}/>
     );
 };
 
