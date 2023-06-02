@@ -71,7 +71,7 @@ const mapDispatchToProps: mapDispatchReturnType = {
 // export const ProfileContainer = WithAuthRedirect(connect(mapStateToProps, mapDispatchToProps)(WithUrlDataContainer))
 
 export default compose<React.ComponentType>(
-    WithAuthRedirect,
+    // WithAuthRedirect,
     connect(mapStateToProps, mapDispatchToProps),
     withRouter
 )(ProfileContainer)

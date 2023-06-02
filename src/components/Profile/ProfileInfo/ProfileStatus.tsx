@@ -7,20 +7,19 @@ type ProfileStatusPropsType = {
     updateStatus(status: string): void
 }
 
+type StateType = {
+    editMode: boolean,
+    status: string
+}
+
 export class ProfileStatus extends React.Component<ProfileStatusPropsType> {
 
-    state = {
+    state: StateType = {
         editMode: false,
         status: this.props.status
     }
 
-    // setEditMode(isEdit: boolean) {
-    //     this.setState({
-    //         editMode: isEdit
-    //     })
-    // }
-
-    activateEditMode =() => {
+    activateEditMode = () => {
         this.setState({
             editMode: true
         })
@@ -31,13 +30,20 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType> {
             editMode: false
         })
         this.props.updateStatus(this.state.status)
-
     }
 
-    changeStatus = (e: ChangeEvent<HTMLInputElement>) => {
+    onChangeStatus = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             status: e.currentTarget.value
         })
+    }
+
+    componentDidUpdate(prevProps: Readonly<ProfileStatusPropsType>, prevState: Readonly<StateType>) {
+        if (prevProps.status !== this.props.status) {
+            this.setState({
+                status: this.props.status
+            })
+        }
     }
 
     render() {
@@ -46,10 +52,10 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType> {
                 {this.state.editMode
                     ? <StatusInput autoFocus type="text" value={this.state.status}
                                    onBlur={this.deactivateEditMode}
-                                   onChange={this.changeStatus}/>
+                                   onChange={this.onChangeStatus}/>
                     : <StatusSpan onDoubleClick={this.activateEditMode}
 
-                    >{this.props.status}</StatusSpan>
+                    >{this.props.status || 'No status'}</StatusSpan>
                 }
             </ProfileStatusBlock>
 
