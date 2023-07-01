@@ -29,6 +29,12 @@ type AuthType = {
     login: string
 }
 
+export type LoginRequestType = {
+    email: string
+    password: string
+    rememberMe: boolean
+}
+
 export const usersAPI = {
     getUsers(currentPage: number, pageSize: number) {
         return instance.get<getUsersResponseType>(`users?page=${currentPage}&count=${pageSize}`)
@@ -64,6 +70,14 @@ export const profileAPI = {
 export const authAPI = {
     auth() {
         return instance.get<ResponseType<AuthType>>(`auth/me`)
+            .then(response => response.data)
+    },
+    login(loginData: LoginRequestType) {
+        return instance.post<ResponseType<{ userId: number }>>(`auth/login`, loginData)
+            .then(response => response.data)
+    },
+    logout() {
+        return instance.delete<ResponseType<{ userId: number }>>(`auth/login`)
             .then(response => response.data)
     }
 }

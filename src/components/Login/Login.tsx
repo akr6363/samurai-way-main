@@ -1,45 +1,23 @@
 import React from 'react';
-import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import {FormDataType, LoginReduxForm} from "./LoginForm";
+import {LoginContainerPropsType} from "./LoginContainer";
+import {Redirect} from "react-router-dom";
 
-export const Login = () => {
+export const Login: React.FC<LoginContainerPropsType> = (props) => {
     const onSubmit = (formData: FormDataType) => {
         console.log(formData)
+        props.loginTC(formData)
     }
+
+    if(props.isLoginIn) {
+        return <Redirect to={'/profile'}/>
+    }
+
     return (
         <div>
             <h1>Login</h1>
-            <LoginReduxForm onSubmit={ onSubmit}/>
+            <LoginReduxForm onSubmit={onSubmit}/>
         </div>
     );
 };
 
-const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
-    const {handleSubmit} = props
-    return (
-        <form onSubmit={handleSubmit }>
-            <div>
-                <Field placeholder={'Login'} name={'login'} component={'input'}/>
-            </div>
-            <div>
-                <Field placeholder={'password'} name={'password'} component={'input'}/>
-            </div>
-            <div>
-                <label >
-                    Remember me
-                    <Field  type={"checkbox"}  name={'rememberMe'} component={'input'}/>
-                </label>
-            </div>
-            <button>Login</button>
-        </form>
-    )
-}
-
-const LoginReduxForm = reduxForm<FormDataType>({
-    form: 'login'
-})(LoginForm)
-
-type FormDataType = {
-    login: string
-    password: string
-    rememberMe: boolean
-}
