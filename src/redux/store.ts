@@ -48,7 +48,6 @@ export const store: StoreType = {
                 {id: 2, message: "How are you?", isMy: true},
                 {id: 3, message: "Im fine motherfucker", isMy: false},
             ],
-            newMessageText: '',
         },
         navBar: {
             friends: [

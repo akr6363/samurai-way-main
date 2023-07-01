@@ -4,7 +4,7 @@ import {Field, InjectedFormProps, reduxForm} from "redux-form";
 const MyPostsForm: React.FC<InjectedFormProps<MyPostsFormDataType>> = (props) => {
     const {handleSubmit} = props
     return (
-        <form onSubmit={handleSubmit }>
+        <form onSubmit={handleSubmit}>
             <div>
                 <Field placeholder={'your news'} name={'post'} component={'textarea'}/>
             </div>

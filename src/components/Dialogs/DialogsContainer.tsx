@@ -11,7 +11,7 @@ type MapStateReturnType = {
 }
 
 type mapDispatchReturnType = {
-    sendMessage(): void
+    sendMessage(message: string): void
     changeNewMessageText(value: string): void
 }
 
@@ -28,20 +28,11 @@ const mapDispatchToProps = (dispatch: Dispatch<ActionsTypes>): mapDispatchReturn
         changeNewMessageText: (value: string) => {
             dispatch(changeNewMessageTextAC(value))
         },
-        sendMessage: () => {
-            dispatch(sendMessageAC())
+        sendMessage: (message: string) => {
+            dispatch(sendMessageAC(message))
         }
     }
 }
-
-// const AuthRedirectComponent = (props: DialogsPropsType) => {
-//     return props.isAuth
-//         ? <Dialogs {...props}/>
-//         : <Redirect to={'/login'}/>
-// }
-
-// export const DialogsContainer = WithAuthRedirect(connect(mapStateToProps, mapDispatchToProps)(Dialogs))
-
 
 export default compose<React.ComponentType>(
     WithAuthRedirect,

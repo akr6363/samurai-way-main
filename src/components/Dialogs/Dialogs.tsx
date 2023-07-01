@@ -4,6 +4,8 @@ import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
 import {DialogsPropsType} from "./DialogsContainer";
 import {Redirect} from "react-router-dom";
+import {SendMessageFormDataType, SendMessageReduxForm} from "./SendMessageForm";
+import {MyPostsFormDataType} from "../Profile/MyPosts/MyPostsForm";
 
 
 
@@ -25,14 +27,10 @@ const Dialogs: React.FC<DialogsPropsType> = (props) => {
             message={message.message}
             isMy={message.isMy}/>)
 
-
-    const sendMessage = () => {
-        props.sendMessage()
+    const onSubmit = (formData: SendMessageFormDataType, ) => {
+        props.sendMessage(formData.message)
     }
 
-    const newMessageTextOnChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.changeNewMessageText(e.currentTarget.value)
-    }
 
     return (
          <div className={styles.page}>
@@ -41,13 +39,7 @@ const Dialogs: React.FC<DialogsPropsType> = (props) => {
             </div>
             <div className={styles.page__messages}>
                 {messagesElements}
-                <div className={styles.send}>
-                    <textarea value={props.dialogsPage.newMessageText}
-                              className={styles.send__input}
-                              onChange={newMessageTextOnChangeHandler}>
-                    </textarea>
-                    <button onClick={sendMessage} className={styles.send__btn}>Send</button>
-                </div>
+                <SendMessageReduxForm onSubmit={onSubmit}/>
             </div>
         </div>
     );
