@@ -2,23 +2,16 @@ import React, {ChangeEvent, createRef} from 'react';
 import styles from './MyPosts.module.css'
 import Post from "./Post/Post";
 import {MyPostsPropsType} from "./MyPostsContainer";
+import {FormDataType} from "../../Login/LoginForm";
+import {MyPostsFormDataType, MyPostsReduxForm} from "./MyPostsForm";
 
-//
-// type MyPostsPropsType = {
-//     postsData: Array<PostsType>
-//     newPostText: string
-//     changeNewPostText(value: string): void
-//     addPost(): void
-// }
 
 const MyPosts: React.FC<MyPostsPropsType> = (props) => {
 
-    const onAddPost = () => {
-        props.addPost()
-    }
+    const onSubmit = (formData: MyPostsFormDataType, ) => {
+        console.log(formData)
+        props.addPost(formData.post)
 
-    const changeTextHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-         props.changeNewPostText(e.currentTarget.value)
     }
 
     let postsElements = props.postsData
@@ -27,11 +20,7 @@ const MyPosts: React.FC<MyPostsPropsType> = (props) => {
     return (
         <div className={styles.posts}>
             <h2>My Posts</h2>
-            <textarea
-                placeholder='your news'
-                value={props.newPostText}
-                onChange={changeTextHandler}/>
-            <button onClick={onAddPost}>Send</button>
+            <MyPostsReduxForm onSubmit={onSubmit}/>
             {postsElements}
         </div>
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-import {addPostAC, changeNewPostTextAC, PostsType} from "../../../redux/profile-reducer";
+import {addPostAC, PostsType} from "../../../redux/profile-reducer";
 import {ActionsTypes, AppStateType} from "../../../redux/redux-store";
 import {Dispatch} from "redux";
 import {connect} from "react-redux";
@@ -7,12 +7,12 @@ import MyPosts from "./MyPosts";
 
 type MapStateReturnType = {
     postsData: Array<PostsType>
-    newPostText: string
+   // newPostText: string
 }
 
 type mapDispatchReturnType = {
-    changeNewPostText(value: string): void
-    addPost(): void
+    //changeNewPostText(value: string): void
+    addPost(text: string): void
 }
 
 export type MyPostsPropsType = MapStateReturnType & mapDispatchReturnType
@@ -20,18 +20,18 @@ export type MyPostsPropsType = MapStateReturnType & mapDispatchReturnType
 const mapStateToProps = (state: AppStateType): MapStateReturnType => {
     return {
         postsData: state.profilePage.postsData,
-        newPostText: state.profilePage.newPostText
+        // newPostText: state.profilePage.newPostText
     }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch<ActionsTypes>): mapDispatchReturnType => {
     return {
-        addPost: () => {
-            dispatch(addPostAC())
+        addPost: (text: string) => {
+            dispatch(addPostAC(text))
         },
-        changeNewPostText: (value: string) => {
-            dispatch(changeNewPostTextAC(value))
-        }
+        // changeNewPostText: (value: string) => {
+        //     dispatch(changeNewPostTextAC(value))
+        // }
     }
 }
 
