@@ -5,7 +5,7 @@ import sidebarReducer from "./sidebar-reducer";
 import {ActionsTypesForUsers, usersReducer} from "./users-reducer";
 import {authReducer} from "./auth-reducer";
 import thunkMiddleware from "redux-thunk";
-
+import {reducer as formReducer} from 'redux-form'
 
 export type ActionsTypes =
     ActionsTypesForProfile
@@ -34,7 +34,8 @@ const rootReducer = combineReducers({
     dialogsPage: dialogsReducer,
     navBar: sidebarReducer,
     usersPage: usersReducer,
-    auth: authReducer
+    auth: authReducer,
+    form: formReducer
 })
 
 //возвращает тип стейта(тип возвраащемого значения rootReducer)
