@@ -9,7 +9,7 @@ export const Login: React.FC<LoginContainerPropsType> = (props) => {
         props.loginTC(formData)
     }
 
-    if(props.isLoginIn) {
+    if(props.isAuth) {
         return <Redirect to={'/profile'}/>
     }
 

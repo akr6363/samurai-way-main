@@ -13,7 +13,7 @@ class HeaderContainer extends React.Component<AuthContainerPropsType> {
 
     render() {
         return (
-            <Header isAuth={this.props.isAuth} login={this.props.login} logout={this.props.logoutTC} isLoginIn={this.props.isLoginIn}/>
+            <Header isAuth={this.props.isAuth} login={this.props.login} logout={this.props.logoutTC}/>
         );
     }
 
@@ -23,13 +23,11 @@ class HeaderContainer extends React.Component<AuthContainerPropsType> {
 type mapStateToPropsType = {
     isAuth: boolean
     login: string | null
-    isLoginIn: boolean
 }
 
 const mapStateToProps = ({auth}: AppStateType): mapStateToPropsType => ({
     isAuth: auth.isAuth,
     login: auth.login,
-    isLoginIn: auth.isLoginIn,
 })
 
 type mapDispatchToPropsType = {

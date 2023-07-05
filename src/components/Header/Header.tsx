@@ -7,19 +7,14 @@ type HeaderPropsType = {
     isAuth: boolean
     login: string | null
     logout(): void
-    isLoginIn: boolean
 }
 
 
-const Header: React.FC<HeaderPropsType> = ({isAuth, login, logout, isLoginIn}) => {
+const Header: React.FC<HeaderPropsType> = ({isAuth, login, logout}) => {
 
     const onLogout = () => {
         logout()
     }
-
-
-
-
 
     return (
         <header className={styles.header}>
@@ -30,7 +25,7 @@ const Header: React.FC<HeaderPropsType> = ({isAuth, login, logout, isLoginIn}) =
                 :   <NavLink to="/login">Login</NavLink>}
 
             </div>
-            <button onClick={onLogout}>Log out</button>
+            {isAuth && <button onClick={onLogout}>Log out</button>}
         </header>
     );
 };

@@ -6,11 +6,11 @@ import {LoginRequestType} from "../../api/api";
 import React from "react";
 
 type mapStateToPropsType = {
-    isLoginIn: boolean
+    isAuth: boolean
 }
 
 const mapStateToProps = ({auth}: AppStateType): mapStateToPropsType => ({
-    isLoginIn: auth.isLoginIn,
+    isAuth: auth.isAuth,
 })
 
 type mapDispatchToPropsType = {

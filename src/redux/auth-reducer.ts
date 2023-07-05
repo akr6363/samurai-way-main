@@ -3,10 +3,10 @@ import {authAPI, LoginRequestType, profileAPI} from "../api/api";
 import {FormDataType} from "../components/Login/LoginForm";
 import {ThunkDispatch} from "redux-thunk";
 import {AppStateType} from "./redux-store";
+import {FormAction, stopSubmit, StopSubmitAction} from "redux-form";
 
 const SET_AUTH = 'SET_AUTH'
 const SET_IS_LOGIN_IN = 'SET_IS_LOGIN_IN'
-const SET_IS_AUTH = 'SET_IS_AUTH'
 
 
 export type AuthStateType = {
@@ -14,7 +14,7 @@ export type AuthStateType = {
     email: string | null
     login: string | null
     isAuth: boolean,
-    isLoginIn: boolean
+   // isLoginIn: boolean
 }
 
 const initialState: AuthStateType = {
@@ -22,60 +22,39 @@ const initialState: AuthStateType = {
     email: null,
     login: null,
     isAuth: false,
-    isLoginIn: false,
 }
 
 type setAuthUserDataActionType = ReturnType<typeof setAuthUserData>
-type setIsLoginIN = ReturnType<typeof setIsLoginIn>
-type setIsAuth = ReturnType<typeof setIsAuth>
-export type ActionsTypesForAuth = setAuthUserDataActionType | setIsLoginIN | setIsAuth
+//type setIsLoginIN = ReturnType<typeof setIsLoginIn>
+export type ActionsTypesForAuth = setAuthUserDataActionType
 
 export const authReducer = (state: AuthStateType = initialState, action: ActionsTypesForAuth) => {
     switch (action.type) {
         case SET_AUTH:
             return {
                 ...state,
-                ...action.data,
-                isAuth: true
-            }
-        case SET_IS_LOGIN_IN:
-            return {
-                ...state,
-                isLoginIn: action.isLoginIn
-            }
-        case SET_IS_AUTH:
-            return {
-                ...state,
-                isAuth: action.isAuth
+                ...action.payload,
             }
         default:
             return state
     }
 };
 
-export const setAuthUserData = (userId: number, email: string, login: string) => ({
+export const setAuthUserData = (userId: number | null, email: string| null, login: string| null ,isAuth: boolean) => ({
     type: SET_AUTH,
-    data: {userId, email, login}
-} as const)
-
-export const setIsLoginIn = (isLoginIn: boolean) => ({
-    type: SET_IS_LOGIN_IN,
-    isLoginIn
-} as const)
-
-export const setIsAuth = (isAuth: boolean) => ({
-    type: SET_IS_AUTH,
-    isAuth
+    payload: {userId, email, login, isAuth}
 } as const)
 
 
-export const authTC = () => (dispatch: Dispatch<setAuthUserDataActionType | setIsLoginIN>) => {
+
+
+
+export const authTC = () => (dispatch: Dispatch<setAuthUserDataActionType >) => {
     authAPI.auth()
         .then(response => {
             if (response.resultCode === 0) {
                 const {id, email, login} = response.data
-                dispatch(setAuthUserData(id, email, login))
-                dispatch(setIsLoginIn(true))
+                dispatch(setAuthUserData(id, email, login, true))
                 return id
             }
         })
@@ -84,23 +63,25 @@ export const authTC = () => (dispatch: Dispatch<setAuthUserDataActionType | setI
     // })
 }
 export const loginTC = (loginData: FormDataType) => (dispatch: AppDispatch) => {
+
     authAPI.login(loginData)
         .then(response => {
             if (response.resultCode === 0) {
-                dispatch(setIsLoginIn(true))
                 dispatch(authTC())
+            } else {
+                const message = response.messages.length > 0 ? response.messages[0] : 'Some error'
+                dispatch(stopSubmit('login', {_error: message}))
             }
         })
 }
-export type AppDispatch = ThunkDispatch<AppStateType, unknown, ActionsTypesForAuth>
+export type AppDispatch = ThunkDispatch<AppStateType, unknown, ActionsTypesForAuth | FormAction>
 
 
-export const logoutTC = () => (dispatch: Dispatch<setIsLoginIN | setIsAuth>) => {
+export const logoutTC = () => (dispatch: Dispatch<ActionsTypesForAuth>) => {
     authAPI.logout()
         .then(response => {
             if (response.resultCode === 0) {
-                dispatch(setIsLoginIn(false))
-                dispatch(setIsAuth(false))
+                dispatch(setAuthUserData(null, null, null, false))
             }
         })
 }
