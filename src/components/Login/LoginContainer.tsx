@@ -1,12 +1,9 @@
-
 import {AppStateType} from "../../redux/redux-store";
 import {connect} from "react-redux";
 import {loginTC} from "../../redux/auth-reducer";
 import {Login} from "./Login";
 import {LoginRequestType} from "../../api/api";
 import React from "react";
-
-
 
 type mapStateToPropsType = {
     isLoginIn: boolean

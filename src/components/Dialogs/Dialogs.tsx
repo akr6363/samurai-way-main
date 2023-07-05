@@ -1,19 +1,10 @@
-import React, {ChangeEvent, createRef} from 'react';
+import React from 'react';
 import styles from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
 import {DialogsPropsType} from "./DialogsContainer";
-import {Redirect} from "react-router-dom";
 import {SendMessageFormDataType, SendMessageReduxForm} from "./SendMessageForm";
-import {MyPostsFormDataType} from "../Profile/MyPosts/MyPostsForm";
 
-
-
-// type DialogsPropsType = {
-//     state: dialogsPageType
-//     sendMessage(): void
-//     changeNewMessageText(value: string): void
-// }
 
 const Dialogs: React.FC<DialogsPropsType> = (props) => {
 
