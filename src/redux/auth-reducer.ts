@@ -3,18 +3,15 @@ import {authAPI, LoginRequestType, profileAPI} from "../api/api";
 import {FormDataType} from "../components/Login/LoginForm";
 import {ThunkDispatch} from "redux-thunk";
 import {AppStateType} from "./redux-store";
-import {FormAction, stopSubmit, StopSubmitAction} from "redux-form";
+import {FormAction, stopSubmit} from "redux-form";
 
 const SET_AUTH = 'SET_AUTH'
-const SET_IS_LOGIN_IN = 'SET_IS_LOGIN_IN'
-
 
 export type AuthStateType = {
     userId: number | null
     email: string | null
     login: string | null
     isAuth: boolean,
-   // isLoginIn: boolean
 }
 
 const initialState: AuthStateType = {
@@ -25,7 +22,6 @@ const initialState: AuthStateType = {
 }
 
 type setAuthUserDataActionType = ReturnType<typeof setAuthUserData>
-//type setIsLoginIN = ReturnType<typeof setIsLoginIn>
 export type ActionsTypesForAuth = setAuthUserDataActionType
 
 export const authReducer = (state: AuthStateType = initialState, action: ActionsTypesForAuth) => {
@@ -50,7 +46,7 @@ export const setAuthUserData = (userId: number | null, email: string| null, logi
 
 
 export const authTC = () => (dispatch: Dispatch<setAuthUserDataActionType >) => {
-    authAPI.auth()
+    return authAPI.auth()
         .then(response => {
             if (response.resultCode === 0) {
                 const {id, email, login} = response.data

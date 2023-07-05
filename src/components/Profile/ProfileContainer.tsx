@@ -4,7 +4,6 @@ import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {getProfileTC, getStatusTC, ProfileType, updateStatusTC} from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
-import WithAuthRedirect from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 
 class ProfileContainer extends React.Component<ProfileContainerPropsType> {
@@ -12,16 +11,19 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
         let userId = this.props.match.params.userId
         if (!userId && this.props.authorizedUserI) {
             userId = this.props.authorizedUserI.toString()
+        } else if (!userId && !this.props.authorizedUserI) {
+            this.props.history.push('/login')
         }
-        this.props.getProfileTC(userId)
-        this.props.getStatusTC(userId)
+        if (userId) {
+            this.props.getProfileTC(userId)
+            this.props.getStatusTC(userId)
+        }
     }
+
     render() {
         return <Profile profile={this.props.profile} status={this.props.status}
                         updateStatus={this.props.updateStatusTC}
-        />
-
-    }
+        />}
 }
 
 type PathParamsType = {

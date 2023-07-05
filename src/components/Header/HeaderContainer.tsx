@@ -7,9 +7,7 @@ import {AppStateType} from "../../redux/redux-store";
 
 class HeaderContainer extends React.Component<AuthContainerPropsType> {
 
-    componentDidMount() {
-        this.props.authTC()
-    }
+
 
     render() {
         return (
@@ -31,12 +29,11 @@ const mapStateToProps = ({auth}: AppStateType): mapStateToPropsType => ({
 })
 
 type mapDispatchToPropsType = {
-    authTC(): void
     logoutTC(): void
 }
 
 const mapDispatchToProps: mapDispatchToPropsType = {
-    authTC, logoutTC
+    logoutTC
 }
 
 export type AuthContainerPropsType = mapStateToPropsType & mapDispatchToPropsType
