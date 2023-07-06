@@ -1,9 +1,9 @@
 import React from 'react';
-import userPhoto from '../../img/userPhoto.jpg';
 import styled from 'styled-components';
 import {UsersPageType} from '../../redux/users-reducer';
 import {Preloader} from "../common/Preloader/Preloader";
-import {NavLink} from "react-router-dom";
+import Paginator from "../common/Paginator/Paginator";
+import {User} from "./User";
 
 export type UsersPropsType = UsersPageType & {
     selectPage(pageNumber: number): void
@@ -23,110 +23,29 @@ export const Users: React.FC<UsersPropsType> = (
         unfollowTC,
         followTC
     }) => {
+
     const usersItems = users.map(u => {
         return (
-            <UserItem key={u.id}>
-                <UserLeft>
-                    <UserImg>
-                        <NavLink to={`/profile/${u.id}`}>
-                            <img src={u.photos?.small ?? userPhoto} alt='users photo'/>
-                        </NavLink>
-                    </UserImg>
-                    {u.followed
-                        ? <FollowBtn
-                            disabled={followingInProgress.some(el => el === u.id)}
-                            onClick={() => {
-                                unfollowTC(u.id)
-                            }}>Unfollow</FollowBtn>
-
-                        : <FollowBtn
-                            disabled={followingInProgress.some(el => el === u.id)}
-                            onClick={() => {
-                                followTC(u.id)
-                            }}>Follow</FollowBtn>}
-                </UserLeft>
-                <UserRight>
-                    <h3>{u.name}</h3>
-                    <div>{u.status}</div>
-                </UserRight>
-            </UserItem>
+            <User user={u} followingInProgress={followingInProgress} unfollowTC={unfollowTC} followTC={followTC}/>
         )
     })
 
-    const getPageNumbers = () => {
-        const pageCount = Math.ceil(pageTotalCount / pageSize)
-        let numbersArray = []
-        for (let i = 1; i <= pageCount; i++) {
-            numbersArray.push(i)
-        }
-        return numbersArray.map(p => {
-            return (
-                <PaginationItem key={p}
-                                className={currentPage === p ? 'current' : ''}
-                                onClick={() => {
-                                    selectPage(p)
-                                }}>
-                    {p}</PaginationItem>
-            )
-        })
-    }
-
     return (
         <>
-            <Pagination>
-                {getPageNumbers()}
-            </Pagination>
+            <Paginator pageTotalCount={pageTotalCount} pageSize={pageSize} selectPage={selectPage}
+                       currentPage={currentPage}/>
             <UsersPage>
                 {isFetching
                     ? <Preloader/>
-                    : usersItems}
+                    : {usersItems}
+                }
             </UsersPage>
         </>
     )
 }
 
 
-const UserItem = styled.div`
-  display: flex;
-
-  &:not(:last-child) {
-    margin-bottom: 20px;
-  }
-`
-
-const UserLeft = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-right: 20px;
-`
-
-const UserRight = styled.div`
-`
-
-const UserImg = styled.div`
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-bottom: 10px;
-
-  & img {
-    width: 100%;
-
-  }
-`
-const FollowBtn = styled.button`
-`
 const UsersPage = styled.div`
   padding: 10px 10px;
 `
 
-const Pagination = styled.div`
-
-`
-const PaginationItem = styled.span`
-  &.current {
-    font-weight: bold;
-  }
-`

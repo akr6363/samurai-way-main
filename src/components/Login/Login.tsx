@@ -3,13 +3,13 @@ import {FormDataType, LoginReduxForm} from "./LoginForm";
 import {LoginContainerPropsType} from "./LoginContainer";
 import {Redirect} from "react-router-dom";
 
-export const Login: React.FC<LoginContainerPropsType> = (props) => {
+export const Login: React.FC<LoginContainerPropsType> = ({loginTC,isAuth}) => {
     const onSubmit = (formData: FormDataType) => {
         console.log(formData)
-        props.loginTC(formData)
+        loginTC(formData)
     }
 
-    if(props.isAuth) {
+    if(isAuth) {
         return <Redirect to={'/profile'}/>
     }
 

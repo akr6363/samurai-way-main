@@ -19,7 +19,6 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
             this.props.getStatusTC(userId)
         }
     }
-
     render() {
         return <Profile profile={this.props.profile} status={this.props.status}
                         updateStatus={this.props.updateStatusTC}
@@ -61,20 +60,6 @@ const mapDispatchToProps: mapDispatchReturnType = {
     getStatusTC,
     updateStatusTC
 }
-
-// const AuthRedirectComponent = WithAuthRedirect(ProfileContainerAPI)
-
-// const AuthRedirectComponent = (props: ProfileContainerPropsType) => {
-//     return props.isAuth
-//         ? <ProfileContainerAPI {...props}/>
-//         : <Redirect to={'/login'}/>
-// }
-
-//const WithUrlDataContainer = withRouter(AuthRedirectComponent)
-
-// const WithUrlDataContainer = withRouter(ProfileContainerAPI)
-//
-// export const ProfileContainer = WithAuthRedirect(connect(mapStateToProps, mapDispatchToProps)(WithUrlDataContainer))
 
 export default compose<React.ComponentType>(
     // WithAuthRedirect,

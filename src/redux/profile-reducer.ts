@@ -2,10 +2,10 @@ import {ActionsTypes} from "./redux-store";
 import {Dispatch} from "redux";
 import {profileAPI} from "../api/api";
 
-const ADD_POST = "ADD_POST"
-const DELETE_POST = "DELETE_POST"
-const SET_PROFILE = 'SET_PROFILE'
-const SET_STATUS = 'SET_STATUS'
+const ADD_POST = "profile/ADD_POST"
+const DELETE_POST = "profile/DELETE_POST"
+const SET_PROFILE = 'profile/SET_PROFILE'
+const SET_STATUS = 'profile/SET_STATUS'
 
 export type ProfileType = {
     aboutMe: string,
@@ -113,25 +113,19 @@ export const setStatus = (status: string) => ({
 
 export default profileReducer
 
-export const getProfileTC = (userId: string) => (dispatch: Dispatch<ActionsTypesForProfile>) => {
-    profileAPI.getProfile(userId)
-        .then(response => {
-            dispatch(setProfile(response))
-        })
+export const getProfileTC = (userId: string) => async (dispatch: Dispatch<ActionsTypesForProfile>) => {
+    const response = await profileAPI.getProfile(userId)
+    dispatch(setProfile(response))
 }
 
-export const getStatusTC = (userId: string) => (dispatch: Dispatch<ActionsTypesForProfile>) => {
-    profileAPI.getStatus(userId)
-        .then(response => {
-            dispatch(setStatus(response))
-        })
+export const getStatusTC = (userId: string) => async (dispatch: Dispatch<ActionsTypesForProfile>) => {
+    const response = await profileAPI.getStatus(userId)
+    dispatch(setStatus(response))
 }
 
-export const updateStatusTC = (status: string) => (dispatch: Dispatch<ActionsTypesForProfile>) => {
-    profileAPI.updateStatus(status)
-        .then(response => {
-            if (response.resultCode === 0) {
-                dispatch(setStatus(status))
-            }
-        })
+export const updateStatusTC = (status: string) => async (dispatch: Dispatch<ActionsTypesForProfile>) => {
+    const response = await profileAPI.updateStatus(status)
+    if (response.resultCode === 0) {
+        dispatch(setStatus(status))
+    }
 }

@@ -16,7 +16,7 @@ type getUsersResponseType = {
     totalCount: number
 }
 
-type ResponseType<T = {}> = {
+export type ResponseType<T = {}> = {
     data: T
     fieldsErrors: string[]
     messages: string[]

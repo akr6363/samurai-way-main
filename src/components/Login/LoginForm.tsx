@@ -5,8 +5,7 @@ import {required} from "../../utils/validators/validators";
 import styles from '../common/FormsControls/FormsControls.module.css'
 
 
-const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
-    const {handleSubmit} = props
+const LoginForm: React.FC<InjectedFormProps<FormDataType>> = ({handleSubmit, error}) => {
     return (
         <form onSubmit={handleSubmit}>
             <div>
@@ -23,9 +22,7 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
                     <Field type={"checkbox"} name={'rememberMe'} component={'input'}/>
                 </label>
             </div>
-            {props.error && <div className={styles.formSummaryError}>
-                {props.error}
-            </div>}
+            {error && <div className={styles.formSummaryError}>{error}</div>}
             <button>Login</button>
         </form>
     )

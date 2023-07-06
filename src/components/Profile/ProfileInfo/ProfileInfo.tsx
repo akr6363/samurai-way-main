@@ -2,7 +2,6 @@ import styles from "./ProfileInfo.module.css";
 import React from "react";
 import {ProfileType} from "../../../redux/profile-reducer";
 import {Preloader} from "../../common/Preloader/Preloader";
-import {ProfileStatus} from "./ProfileStatus";
 import userPhoto from '../../../img/userPhoto.jpg';
 import {ProfileStatusWithHooks} from "./ProfileStatusWithHooks";
 
@@ -13,15 +12,8 @@ type ProfileInfoPropsType = {
 }
 
 export class ProfileInfo extends React.PureComponent<ProfileInfoPropsType> {
-
-
-    // shouldComponentUpdate(nextProps: Readonly<ProfileInfoPropsType>, nextState: Readonly<{}>, nextContext: any): boolean {
-    //     return nextProps !== this.props || nextState !== this.state
-    // }
-
-
     render() {
-        let {profile, status, updateStatus} = this.props;
+        const {profile, status, updateStatus} = this.props;
         return (
             profile ?
                 <>

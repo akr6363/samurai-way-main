@@ -14,7 +14,6 @@ type ProfilePropsType = {
 const Profile: React.FC<ProfilePropsType> = ({profile, status, updateStatus}) => {
 
     return (
-
             <>
                 <ProfileInfo profile={profile} status={status}  updateStatus={updateStatus}/>
                 <MyPostsContainer/>

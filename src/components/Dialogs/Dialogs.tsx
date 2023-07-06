@@ -6,12 +6,12 @@ import {DialogsPropsType} from "./DialogsContainer";
 import {SendMessageFormDataType, SendMessageReduxForm} from "./SendMessageForm";
 
 
-const Dialogs: React.FC<DialogsPropsType> = (props) => {
+const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, sendMessage, }) => {
 
-    let dialogsElements = props.dialogsPage.dialogsData
+    let dialogsElements = dialogsPage.dialogsData
         .map(dialog => <DialogItem key={dialog.id} name={dialog.name} id={dialog.id}/>)
 
-    let messagesElements = props.dialogsPage.messageData
+    let messagesElements = dialogsPage.messageData
         .map(message => <Message
             id={message.id}
             key={message.id}
@@ -19,9 +19,8 @@ const Dialogs: React.FC<DialogsPropsType> = (props) => {
             isMy={message.isMy}/>)
 
     const onSubmit = (formData: SendMessageFormDataType, ) => {
-        props.sendMessage(formData.message)
+        sendMessage(formData.message)
     }
-
 
     return (
          <div className={styles.page}>

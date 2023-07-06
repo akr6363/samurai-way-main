@@ -9,11 +9,9 @@ import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import LoginContainer from "./components/Login/LoginContainer";
 import {connect} from "react-redux";
-import {authTC, logoutTC} from "./redux/auth-reducer";
 import {AppStateType} from "./redux/redux-store";
 import {compose} from "redux";
 import {initializeApp} from "./redux/app-reducer";
-import {Preloader} from "./components/common/Preloader/Preloader";
 
 class App extends React.Component<AppContainerPropsType> {
 

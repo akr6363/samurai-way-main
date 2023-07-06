@@ -1,7 +1,7 @@
 import {ActionsTypes} from "./redux-store";
 
-const SEND_MESSAGE = 'SEND-MESSAGE'
-const CHANGE_NEW_MESSAGE_TEXT = 'CHANGE_NEW_MESSAGE_TEXT'
+const SEND_MESSAGE = 'dialogs/SEND-MESSAGE'
+const CHANGE_NEW_MESSAGE_TEXT = 'dialogs/CHANGE_NEW_MESSAGE_TEXT'
 
 export type DialogsType = {
     id: number
