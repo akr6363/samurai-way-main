@@ -26,24 +26,24 @@ export const Users: React.FC<UsersPropsType> = (
 
     const usersItems = users.map(u => {
         return (
-            <User user={u} followingInProgress={followingInProgress} unfollowTC={unfollowTC} followTC={followTC}/>
+            <User key={u.id} user={u} followingInProgress={followingInProgress}
+                  unfollowTC={unfollowTC} followTC={followTC}/>
         )
     })
 
+
     return (
         <>
-            <Paginator pageTotalCount={pageTotalCount} pageSize={pageSize} selectPage={selectPage}
+            <Paginator pageItemsCount={pageTotalCount} pageSize={pageSize} selectPage={selectPage}
                        currentPage={currentPage}/>
             <UsersPage>
                 {isFetching
                     ? <Preloader/>
-                    : {usersItems}
-                }
+                    : usersItems}
             </UsersPage>
         </>
     )
 }
-
 
 const UsersPage = styled.div`
   padding: 10px 10px;

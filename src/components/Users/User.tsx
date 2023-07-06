@@ -14,7 +14,7 @@ type UserPropsType = {
 
 export const User: React.FC<UserPropsType> = ({user, followingInProgress, followTC, unfollowTC}) => {
     return (
-        <UserItem key={user.id}>
+        <UserItem>
             <UserLeft>
                 <UserImg>
 
