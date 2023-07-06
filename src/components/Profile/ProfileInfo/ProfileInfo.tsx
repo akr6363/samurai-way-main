@@ -12,7 +12,14 @@ type ProfileInfoPropsType = {
     updateStatus(status: string): void
 }
 
-export class ProfileInfo extends React.Component<ProfileInfoPropsType> {
+export class ProfileInfo extends React.PureComponent<ProfileInfoPropsType> {
+
+
+    // shouldComponentUpdate(nextProps: Readonly<ProfileInfoPropsType>, nextState: Readonly<{}>, nextContext: any): boolean {
+    //     return nextProps !== this.props || nextState !== this.state
+    // }
+
+
     render() {
         let {profile, status, updateStatus} = this.props;
         return (

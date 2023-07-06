@@ -1,14 +1,13 @@
-import React, {ChangeEvent, createRef} from 'react';
+import React from 'react';
 import styles from './MyPosts.module.css'
 import Post from "./Post/Post";
 import {MyPostsPropsType} from "./MyPostsContainer";
-import {FormDataType} from "../../Login/LoginForm";
 import {MyPostsFormDataType, MyPostsReduxForm} from "./MyPostsForm";
 
 
-const MyPosts: React.FC<MyPostsPropsType> = (props) => {
-
-    const onSubmit = (formData: MyPostsFormDataType, ) => {
+const  MyPosts = React.memo((props: MyPostsPropsType) =>{
+    console.log('myposts')
+    const onSubmit = (formData: MyPostsFormDataType,) => {
         console.log(formData)
         props.addPost(formData.post)
 
@@ -24,6 +23,6 @@ const MyPosts: React.FC<MyPostsPropsType> = (props) => {
             {postsElements}
         </div>
     );
-};
+})
 
 export default MyPosts;
