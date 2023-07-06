@@ -2,19 +2,27 @@ import React from 'react';
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {
-    followTC, getUsersTC, unfollowTC,
+    followTC, requestUsers, unfollowTC,
     UsersPageType,
 } from "../../redux/users-reducer";
 import {Users} from "./Users";
+import {
+    gePageTotalCount,
+    getCurrentPage,
+    getFollowingInProgress,
+    getIsFetching,
+    getPageSize,
+    getUsers, getUsersSuperSelector
+} from "../../redux/users-selectors";
 
 
 class UsersContainerAPI extends React.Component<UsersContainerPropsType> {
     componentDidMount() {
-        this.props.getUsersTC(this.props.currentPage, this.props.pageSize)
+        this.props.requestUsers(this.props.currentPage, this.props.pageSize)
     }
 
     selectPage = (pageNumber: number) => {
-        this.props.getUsersTC(pageNumber, this.props.pageSize)
+        this.props.requestUsers(pageNumber, this.props.pageSize)
     }
 
     render() {
@@ -32,7 +40,7 @@ class UsersContainerAPI extends React.Component<UsersContainerPropsType> {
 }
 
 type mapDispatchReturnType = {
-    getUsersTC(currentPage: number, pageSize: number): void
+    requestUsers(currentPage: number, pageSize: number): void
     unfollowTC(userId: number): void
     followTC(userId: number): void
 }
@@ -46,14 +54,15 @@ export type UsersContainerPropsType = UsersPageType & mapDispatchReturnType
 // }
 
 //деструктцризация
-const mapStateToProps = ({usersPage}: AppStateType): UsersPageType => {
+const mapStateToProps = (state: AppStateType) => {
     return {
-        users: usersPage.users,
-        pageTotalCount: usersPage.pageTotalCount,
-        pageSize: usersPage.pageSize,
-        currentPage: usersPage.currentPage,
-        isFetching: usersPage.isFetching,
-        followingInProgress: usersPage.followingInProgress
+       // users: getUsers(state),
+        users: getUsersSuperSelector(state),
+        pageTotalCount: gePageTotalCount(state),
+        pageSize: getPageSize(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        followingInProgress: getFollowingInProgress(state)
 
     }
 }
@@ -81,7 +90,7 @@ const mapStateToProps = ({usersPage}: AppStateType): UsersPageType => {
 // }
 
 const mapDispatchToProps: mapDispatchReturnType = {
-    getUsersTC, unfollowTC, followTC
+    requestUsers, unfollowTC, followTC
 }
 
 
