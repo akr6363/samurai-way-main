@@ -32,28 +32,44 @@ class App extends React.Component<AppContainerPropsType> {
         return (
             !this.props.isInitialized
                 ? <div>Загрузка...</div>
-                : <div className="app-wrapper">
-                    <HeaderContainer/>
-                    <NavBarContainer/>
-                    <div className="app-wrapper__content">
-                        <Route path='/profile/:userId?' render={WithSuspense(ProfileContainer)}/>
-                        <Route path='/dialogs' render={WithSuspense(DialogsContainer)}/>
-                        <Route path='/news' render={() => <News/>}/>
-                        <Route path='/users' render={() => <UsersContainer/>}/>
-                        <Route path='/login' render={() => <LoginContainer/>}/>
-                    </div>
-                </div>
-
+                : <>
+                    <Route exact path={['/', '/profile/:userId?', '/dialogs', '/news', '/users']} render={Content}/>
+                    <Route exact path='/login' render={() => <LoginContainer/>}/>
+                </>
         );
     }
 }
 
+const Content = () => {
+    return (
+        <div className="app-wrapper">
+            <HeaderContainer/>
+            <NavBarContainer/>
+            <div className="app-wrapper__content">
+                <Route path='/profile/:userId?' render={WithSuspense(ProfileContainer)}/>
+                <Route path='/dialogs' render={WithSuspense(DialogsContainer)}/>
+                <Route path='/news' render={() => <News/>}/>
+                <Route path='/users' render={() => <UsersContainer/>}/>
+            </div>
+        </div>
+
+    )
+}
+
+const Login2 = () => {
+    return <div>
+        login2
+    </div>
+}
+
 type mapStateToPropsType = {
     isInitialized: boolean
+    isAuth: boolean
 }
 
 const mapStateToProps = (state: AppStateType): mapStateToPropsType => ({
-    isInitialized: state.app.isInitialized
+    isInitialized: state.app.isInitialized,
+    isAuth: state.auth.isAuth
 })
 
 type mapDispatchToPropsType = {
