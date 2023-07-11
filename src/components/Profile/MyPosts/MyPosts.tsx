@@ -4,10 +4,13 @@ import Post from "./Post/Post";
 import {MyPostsPropsType} from "./MyPostsContainer";
 import {MyPostsFormDataType, MyPostsReduxForm} from "./MyPostsForm";
 import userPhoto from '../../../img/userPhoto.jpg';
+import {Dispatch} from "redux";
+import {reset} from "redux-form";
 
 const  MyPosts = React.memo((props: MyPostsPropsType) =>{
-    const onSubmit = (formData: MyPostsFormDataType,) => {
+    const onSubmit = (formData: MyPostsFormDataType, dispatch:Dispatch) => {
         props.addPost(formData.post)
+        dispatch(reset('my-posts'));
     }
 
     let postsElements = props.postsData

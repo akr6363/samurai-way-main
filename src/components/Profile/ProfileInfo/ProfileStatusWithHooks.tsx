@@ -34,30 +34,37 @@ export const ProfileStatusWithHooks: React.FC<ProfileStatusPropsType> = (props) 
                     ? <StatusInput autoFocus type="text" value={status}
                                    onBlur={deactivateEditMode}
                                    onChange={onChangeStatus}/>
-                    : <StatusSpan onDoubleClick={activateEditMode}
-
-                    >{status || 'No status'}</StatusSpan>
+                    : <StatusSpan onDoubleClick={activateEditMode}>{status || 'No status'}</StatusSpan>
                 }
+                {/*<StatusSpan onDoubleClick={activateEditMode}>{status || 'No status'}</StatusSpan>*/}
             </ProfileStatusBlock>
 
         )
 }
 
-const StatusSpan = styled.span`
+const StatusSpan = styled.p`
   display: block;
-  padding: 5px 10px;
-
+  margin-bottom: 20px;
+  font-size: 16px;
+  word-wrap: break-word;
   &:hover {
     background-color: rgba(161, 161, 161, 0.56);
   }
 `
 const StatusInput = styled.input`
-  flex: 1 1 100%;
-  padding: 5px 10px;
+  width: 100%;
+  outline: none;
+  border: none;
+  font-size: 16px;
+  margin-bottom: 20px;
+  &:focus {
+    outline: none;
+    border: none;
+  }
 `
 
 
 const ProfileStatusBlock = styled.div`
-  display: flex;
-  flex-direction: column;
+
+  //max-width: 100%;
 `

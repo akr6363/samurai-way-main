@@ -1,4 +1,4 @@
-
+@import '../../../../accets/styles/variables.scss';
 .postContainer {
   display: flex;
   flex-direction: column;
@@ -33,7 +33,7 @@
       .post__data {
         margin: 0;
         font-size: 14px;
-        color: #989898;
+        color: $gray-color;
       }
     }
   }
@@ -45,13 +45,19 @@
     .post__text {
       padding-left: 5px;
       margin: 0 0 10px;
+      word-wrap: break-word;
     }
 
     .post__reactions {
       display: flex;
       .reactionBtn {
         border-radius: 20px;
+        color: $gray-dark-color;
+        &.like {
+          color: #c70667;
+        }
       }
+
 
       .post__views {
 

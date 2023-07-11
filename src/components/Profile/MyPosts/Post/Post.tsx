@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {MouseEventHandler, useState} from 'react';
 import styles from './Post.module.scss'
 import userPhoto from '../../../../img/userPhoto.jpg';
 import {IconButton} from "@mui/material";
@@ -6,7 +6,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import Button from "@mui/material/Button";
-
+import FavoriteIcon from '@mui/icons-material/Favorite';
 type PostPropsType = {
     message: string
     likeCount: number
@@ -17,6 +17,21 @@ type PostPropsType = {
 }
 
 const Post: React.FC<PostPropsType> = (props) => {
+
+    const [likes, setLikes] = useState<number>(props.likeCount)
+    const [isLike, setIsLike] = useState<boolean>(false)
+
+    const toggleLike = () => {
+        if(!isLike) {
+            setIsLike(true)
+            setLikes(likes+1)
+        }
+        else {
+            setIsLike(false)
+            setLikes(likes-1)
+        }
+
+    }
 
     return (
         <div className={styles.postContainer}>
@@ -33,12 +48,13 @@ const Post: React.FC<PostPropsType> = (props) => {
                 </div>
             </div>
             <div className={styles.post}>
-
-                <p className={styles.post__text}>{props.message}</p>
+                    <p className={styles.post__text}>{props.message}</p>
                 <div className={styles.post__reactions}>
 
-                    <Button variant="text" startIcon={<FavoriteBorderIcon/>} className={styles.reactionBtn}>
-                        {props.likeCount}
+                    <Button variant="text" startIcon={isLike ? <FavoriteIcon/> :<FavoriteBorderIcon/>}
+                            className={`${styles.reactionBtn} ${isLike ? styles.like : ''}`}
+                    onClick={ toggleLike}>
+                        {likes}
                     </Button>
                     <Button variant="text" startIcon={<ChatBubbleOutlineIcon/>} className={styles.reactionBtn}>
                         {props.comments}

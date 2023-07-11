@@ -4,6 +4,8 @@ import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
 import {DialogsPropsType} from "./DialogsContainer";
 import {SendMessageFormDataType, SendMessageReduxForm} from "./SendMessageForm";
+import {reset} from "redux-form";
+import {Dispatch} from "redux";
 
 
 const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, sendMessage, }) => {
@@ -18,8 +20,9 @@ const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, sendMessage, }) => {
             message={message.message}
             isMy={message.isMy}/>)
 
-    const onSubmit = (formData: SendMessageFormDataType, ) => {
+    const onSubmit = (formData: SendMessageFormDataType, dispatch:Dispatch ) => {
         sendMessage(formData.message)
+        dispatch(reset('send-message'));
     }
 
     return (

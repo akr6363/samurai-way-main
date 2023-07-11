@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 import {BrowserRouter, Redirect, Route, withRouter} from "react-router-dom";
 import News from "./components/News/News";
 import {NavBarContainer} from "./components/Navbar/NavbarContainer";
