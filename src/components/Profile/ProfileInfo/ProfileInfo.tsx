@@ -3,17 +3,19 @@ import React from "react";
 import {ProfileType} from "../../../redux/profile-reducer";
 import {Preloader} from "../../common/Preloader/Preloader";
 import userPhoto from '../../../img/userPhoto.jpg';
-import {ProfileStatusWithHooks} from "./ProfileStatusWithHooks";
+import {ProfileStatusWithHooks, StatusSpan} from "./ProfileStatusWithHooks";
+import styled from "styled-components";
 
 type ProfileInfoPropsType = {
     profile: ProfileType | null
     status: string
     updateStatus(status: string): void
+    isMe: boolean
 }
 
 export class ProfileInfo extends React.PureComponent<ProfileInfoPropsType> {
     render() {
-        const {profile, status, updateStatus} = this.props;
+        const {profile, status, updateStatus, isMe} = this.props;
         return (
             profile ?
                 <div className={styles.profile}>
@@ -28,20 +30,32 @@ export class ProfileInfo extends React.PureComponent<ProfileInfoPropsType> {
                         </div>
                         <div className={styles.user__info}>
                             <h3 className={styles.user__title}>{profile.fullName}</h3>
-                            <ProfileStatusWithHooks status={status} updateStatus={updateStatus}/>
+                            {isMe
+                                ? <ProfileStatusWithHooks status={status} updateStatus={updateStatus}/>
+                                : <StatusSpanUser>{status || 'No status'}</StatusSpanUser>}
                             <hr/>
                             <p><b>About me:</b> {profile.aboutMe ? profile.aboutMe : 'No information'}</p>
-                            <p><b>Looking for a job:</b> {profile.lookingForAJob ? profile.lookingForAJob : 'No information'}</p>
-                            <p><b>Post:</b> {profile.lookingForAJobDescription ? profile.lookingForAJobDescription : 'No information'}</p>
+                            <p><b>Looking for a
+                                job:</b> {profile.lookingForAJob ? profile.lookingForAJob : 'No information'}</p>
+                            <p>
+                                <b>Post:</b> {profile.lookingForAJobDescription ? profile.lookingForAJobDescription : 'No information'}
+                            </p>
                             <hr/>
                             <h4 className={styles.user__subtitle}>Contacts:</h4>
-                            <p><b>Facebook:</b> {profile.contacts.facebook ? profile.contacts.facebook : 'No information'}</p>
+                            <p>
+                                <b>Facebook:</b> {profile.contacts.facebook ? profile.contacts.facebook : 'No information'}
+                            </p>
                             <p><b>Github:</b> {profile.contacts.github ? profile.contacts.github : 'No information'}</p>
                             <p><b>Vk:</b> {profile.contacts.vk ? profile.contacts.vk : 'No information'}</p>
-                            <p><b>Twitter:</b> {profile.contacts.twitter ? profile.contacts.twitter : 'No information'}</p>
-                            <p><b>Instagram:</b> {profile.contacts.instagram ? profile.contacts.instagram : 'No information'}</p>
-                            <p><b>Youtube:</b> {profile.contacts.youtube ? profile.contacts.youtube : 'No information'}</p>
-                            <p><b>Website:</b> {profile.contacts.website ? profile.contacts.website : 'No information'}</p>
+                            <p><b>Twitter:</b> {profile.contacts.twitter ? profile.contacts.twitter : 'No information'}
+                            </p>
+                            <p>
+                                <b>Instagram:</b> {profile.contacts.instagram ? profile.contacts.instagram : 'No information'}
+                            </p>
+                            <p><b>Youtube:</b> {profile.contacts.youtube ? profile.contacts.youtube : 'No information'}
+                            </p>
+                            <p><b>Website:</b> {profile.contacts.website ? profile.contacts.website : 'No information'}
+                            </p>
                             {/*<ProfileStatus status={status} updateStatus={updateStatus}/>*/}
 
                         </div>
@@ -52,3 +66,10 @@ export class ProfileInfo extends React.PureComponent<ProfileInfoPropsType> {
         )
     }
 }
+
+export const StatusSpanUser = styled.span`
+  display: block;
+  margin-bottom: 20px;
+  font-size: 16px;
+  word-wrap: break-word;
+`

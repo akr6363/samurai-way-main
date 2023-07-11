@@ -36,8 +36,8 @@ export type LoginRequestType = {
 }
 
 export const usersAPI = {
-    getUsers(currentPage: number, pageSize: number) {
-        return instance.get<getUsersResponseType>(`users?page=${currentPage}&count=${pageSize}`)
+    getUsers(currentPage: number, pageSize: number, friend?: boolean) {
+        return instance.get<getUsersResponseType>(`users?page=${currentPage}&count=${pageSize}&friend=${friend}`)
             .then(response => response.data)
     },
     unfollow(id: number) {

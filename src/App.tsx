@@ -34,7 +34,7 @@ class App extends React.Component<AppContainerPropsType> {
             !this.props.isInitialized
                 ? <div>Загрузка...</div>
                 : <>
-                    <Route exact path={['/', '/profile/:userId?', '/dialogs', '/news', '/users']} render={() => <Content isAuth={this.props.isAuth}/>}/>
+                    <Route exact path={['/', '/profile/:userId?', '/dialogs', '/news', '/users/friends', '/users/all']} render={() => <Content isAuth={this.props.isAuth}/>}/>
                     <Route exact path='/login' render={() => <LoginContainer/>}/>
                 </>
         );
@@ -63,9 +63,11 @@ const Content: React.FC<ContentPropsType> = ({isAuth}) => {
                 <Route path='/profile/:userId?' render={WithSuspense(ProfileContainer)}/>
                 <Route path='/dialogs' render={WithSuspense(DialogsContainer)}/>
                 <Route path='/news' render={() => <News/>}/>
-                <Route path='/users' render={() => <UsersContainer/>}/>
+                <Route path='/users/friends' render={() => <UsersContainer page={'friends'}/>}/>
+                <Route path='/users/all' render={() => <UsersContainer page={'find'}/>}/>
             </div>
-                <FriendsNavBarContainer/>
+                <Route path={[ '/dialogs', '/news']} render={()=> <FriendsNavBarContainer/>}/>
+                {/*<FriendsNavBarContainer/>*/}
             </div>
         </div>
 

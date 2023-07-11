@@ -16,7 +16,7 @@ const Profile: React.FC<ProfilePropsType> = ({profile, status, updateStatus, isM
 
     return (
             <>
-                <ProfileInfo profile={profile} status={status}  updateStatus={updateStatus}/>
+                <ProfileInfo profile={profile} status={status}  updateStatus={updateStatus} isMe={isMe}/>
                 {isMe && <MyPostsContainer/>}
             </>
 

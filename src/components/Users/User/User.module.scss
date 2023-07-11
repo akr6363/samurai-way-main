@@ -1,0 +1,60 @@
+@import '../../../accets/styles/variables.scss';
+
+.user {
+  display: flex;
+  margin-top: 20px;
+  align-items: center;
+  &:not(:last-child) {
+    margin-bottom: 20px;
+  }
+  .user__photoContainer {
+    width: 80px;
+    height: 80px;
+    margin-right: 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .user__infoContainer {
+    flex: 1 1 auto;
+
+    .user__title {
+      margin: 10px 0px 5px;
+    }
+    .user__location {
+      margin-left: -3px;
+      display: flex;
+      color: $gray-dark-color;
+      align-items: center;
+      margin-bottom: 10px;
+      .user__locationCity {
+        font-size: 14px;
+      }
+    }
+
+}
+  .userActions {
+    .userActionsBtn {
+      position: relative;
+      text-transform: none;
+      margin-right: 10px;
+      min-width: 0;
+      &:hover {
+        background-color: transparent;
+        //&:after {
+        //  content: '';
+        //  height: 1px;
+        //  width: 100%;
+        //  position: absolute;
+        //  left: 0;
+        //  bottom: 2px;
+        //  background-color:  #1976d2;
+        //}
+      }
+
+    }
+  }
+}

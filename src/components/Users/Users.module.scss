@@ -1,0 +1,22 @@
+.usersPage {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 30px;
+  .usersPage_nav {
+    display: flex;
+
+  }
+  .usersPage__btn {
+    &:not(:last-child) {
+      margin-right: 20px;
+    }
+    .usersPage__btn_link {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+  .findInput {
+    height: 40px;
+  }
+
+}

@@ -24,10 +24,16 @@
 
 
 .container {
-    max-width: 1440px;
+    max-width: 1100px;
     display: flex;
     margin: 0 auto;
 }
 body {
     background-color: $gray-color;
+    font-family: Roboto,sans-serif;
+}
+
+hr {
+    //margin: 0;
+
 }

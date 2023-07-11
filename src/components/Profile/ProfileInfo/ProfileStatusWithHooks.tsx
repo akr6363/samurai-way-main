@@ -1,5 +1,6 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import styled from "styled-components";
+import {TextareaAutosize} from "@mui/material";
 
 type ProfileStatusPropsType = {
     status: string
@@ -24,39 +25,51 @@ export const ProfileStatusWithHooks: React.FC<ProfileStatusPropsType> = (props) 
         props.updateStatus(status)
     }
 
-    const onChangeStatus = (e: ChangeEvent<HTMLInputElement>) => {
+    const onChangeStatus = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setStatus(e.currentTarget.value)
     }
 
-        return (
+    const onFocus= (e: ChangeEvent<HTMLTextAreaElement>) => {
+        e.currentTarget.select()
+    }
+
+
+    return (
             <ProfileStatusBlock>
                 {editMode
-                    ? <StatusInput autoFocus type="text" value={status}
+                    ?
+                    <StatusInput autoFocus value={status}
                                    onBlur={deactivateEditMode}
-                                   onChange={onChangeStatus}/>
+                                   onChange={onChangeStatus}
+                                 onFocus={onFocus}/>
+
                     : <StatusSpan onDoubleClick={activateEditMode}>{status || 'No status'}</StatusSpan>
                 }
-                {/*<StatusSpan onDoubleClick={activateEditMode}>{status || 'No status'}</StatusSpan>*/}
             </ProfileStatusBlock>
 
         )
 }
 
-const StatusSpan = styled.p`
+export const StatusSpan = styled.span`
+  
   display: block;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   font-size: 16px;
   word-wrap: break-word;
+  padding: 5px 0;
   &:hover {
     background-color: rgba(161, 161, 161, 0.56);
   }
 `
-const StatusInput = styled.input`
+const StatusInput = styled(TextareaAutosize)`
+  font-family: Roboto,sans-serif;
+  padding: 5px 0;
   width: 100%;
   outline: none;
   border: none;
   font-size: 16px;
-  margin-bottom: 20px;
+  margin-bottom: 2px;
+  resize: none;
   &:focus {
     outline: none;
     border: none;
@@ -65,6 +78,5 @@ const StatusInput = styled.input`
 
 
 const ProfileStatusBlock = styled.div`
-
   //max-width: 100%;
 `

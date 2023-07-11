@@ -40,7 +40,7 @@ const Navbar: React.FC<NavBarPropsType> = ({logoutTC}) => {
                     </NavLink>
                 </li>
                 <li className={styles.item}>
-                    <NavLink to="/users" activeClassName={styles.active}>
+                    <NavLink to="/users/friends" activeClassName={styles.active}>
                         <IconFriends/>Users
                     </NavLink>
                 </li>

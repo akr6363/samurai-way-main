@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import styled from "styled-components";
+import {Pagination} from "@mui/material";
 
 
 type PaginationPropsType = {
@@ -31,39 +32,49 @@ export const Paginator: React.FC<PaginationPropsType> =
             setPortionNumber(portionNumber + 1)
         }
 
-        return <Pagination>
-            {portionNumber > 1 && <button onClick={setPrevPortionPages}>PREV</button>}
-            {numbersArray
-                .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
-                .map(p => {
-                    return (
+        const onChangePage = (e: ChangeEvent<unknown>, page: number) => {
+            selectPage(page)
+        }
 
-                            <PaginationItem key={p}
-                                            className={currentPage === p ? 'current' : ''}
-                                            onClick={() => {
-                                                selectPage(p)
-                                            }}>
-
-                               {p}
-                            </PaginationItem>
-
-                    )
-                })}
-            {portionCount > portionNumber && <button onClick={setNextPortionPages}>NEXT</button>}
-        </Pagination>
+        // return <Pagination>
+        //     {portionNumber > 1 && <button onClick={setPrevPortionPages}>PREV</button>}
+        //     {numbersArray
+        //         .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
+        //         .map(p => {
+        //             return (
+        //
+        //                     <PaginationItem key={p}
+        //                                     className={currentPage === p ? 'current' : ''}
+        //                                     onClick={() => {
+        //                                         selectPage(p)
+        //                                     }}>
+        //
+        //                        {p}
+        //                     </PaginationItem>
+        //
+        //             )
+        //         })}
+        //     {portionCount > portionNumber && <button onClick={setNextPortionPages}>NEXT</button>}
+        // </Pagination>
+        return (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Pagination count={pageCount} variant="outlined" shape="rounded" onChange={onChangePage}/>
+            </div>
+        )
     };
 
 const PaginationItem = styled.span`
   padding: 2px;
+
   &.current {
     font-weight: bold;
   }
 `
 
-const Pagination = styled.div`
-  display: flex;
-  flex-direction: row;
-`
+// const Pagination = styled.div`
+//   display: flex;
+//   flex-direction: row;
+// `
 
 const PageNumberContainer = styled.div`
 
