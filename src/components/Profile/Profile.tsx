@@ -9,14 +9,15 @@ type ProfilePropsType = {
     profile: ProfileType | null
     status: string
     updateStatus(status: string): void
+    isMe: boolean
 }
 
-const Profile: React.FC<ProfilePropsType> = ({profile, status, updateStatus}) => {
+const Profile: React.FC<ProfilePropsType> = ({profile, status, updateStatus, isMe}) => {
 
     return (
             <>
                 <ProfileInfo profile={profile} status={status}  updateStatus={updateStatus}/>
-                <MyPostsContainer/>
+                {isMe && <MyPostsContainer/>}
             </>
 
     );

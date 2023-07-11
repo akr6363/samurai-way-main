@@ -1,0 +1,23 @@
+
+.profile {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 30px;
+  margin-bottom: 20px;
+  .user {
+    display: flex;
+
+
+    .user__photo {
+      position: relative;
+      overflow: hidden;
+      margin-right: 20px;
+
+      img {
+        height: 200px;
+      }
+    }
+  }
+}
+
+

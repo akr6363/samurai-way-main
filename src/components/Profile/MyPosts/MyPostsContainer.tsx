@@ -7,10 +7,13 @@ import MyPosts from "./MyPosts";
 
 type MapStateReturnType = {
     postsData: Array<PostsType>
+    profilePhoto?: string
+    name?: string
 }
 
 type mapDispatchReturnType = {
     addPost(text: string): void
+
 }
 
 export type MyPostsPropsType = MapStateReturnType & mapDispatchReturnType
@@ -18,6 +21,8 @@ export type MyPostsPropsType = MapStateReturnType & mapDispatchReturnType
 const mapStateToProps = (state: AppStateType): MapStateReturnType => {
     return {
         postsData: state.profilePage.postsData,
+        profilePhoto: state.profilePage.profile?.photos.small,
+        name: state.profilePage.profile?.fullName
     }
 }
 

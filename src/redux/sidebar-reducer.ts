@@ -4,7 +4,7 @@ import DimaPhoto from "../img/friends/Dima.png";
 import GarryPhoto from "../img/friends/Garry.png";
 import {ActionsTypes} from "./redux-store";
 
-type friendsType = {
+export type friendsType = {
     id: number
     name: string
     photo: string

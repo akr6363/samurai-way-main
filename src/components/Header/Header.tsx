@@ -1,31 +1,36 @@
 import React from 'react';
-import styles from './Header.module.css'
+import styles from './Header.module.scss'
 import {NavLink, Redirect} from "react-router-dom";
+import Banner from '../../img/banner.jpg'
 
 
 type HeaderPropsType = {
     isAuth: boolean
     login: string | null
-    logout(): void
+
 }
 
 
-const Header: React.FC<HeaderPropsType> = ({isAuth, login, logout}) => {
+const Header: React.FC<HeaderPropsType> = ({isAuth, login}) => {
 
-    const onLogout = () => {
-        logout()
-    }
+
 
     return (
         <header className={styles.header}>
-            <img className={styles.logo} src="https://free-png.ru/wp-content/uploads/2021/07/free-png.ru-53.png" alt="logo"/>
-            <div>
-                {isAuth
-                ? login
-                :   <NavLink to="/login">Login</NavLink>}
+            <div className={styles.headerBannerContainer}>
+                <img src={Banner} alt="" className={styles.headerBanner}/>
+            </div>
+            <div className={`container ${styles.headerContainer}`}>
+                {/*<img className={styles.logo} src="https://free-png.ru/wp-content/uploads/2021/07/free-png.ru-53.png"*/}
+                {/*     alt="logo"/>*/}
+                {/*<div>*/}
+                {/*    {isAuth*/}
+                {/*        ? login*/}
+                {/*        : <NavLink to="/login">Login</NavLink>}*/}
+
+                {/*</div>*/}
 
             </div>
-            {isAuth && <button onClick={onLogout}>Log out</button>}
         </header>
     );
 };

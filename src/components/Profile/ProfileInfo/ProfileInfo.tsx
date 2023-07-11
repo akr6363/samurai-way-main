@@ -1,4 +1,4 @@
-import styles from "./ProfileInfo.module.css";
+import styles from "./ProfileInfo.module.scss";
 import React from "react";
 import {ProfileType} from "../../../redux/profile-reducer";
 import {Preloader} from "../../common/Preloader/Preloader";
@@ -16,12 +16,12 @@ export class ProfileInfo extends React.PureComponent<ProfileInfoPropsType> {
         const {profile, status, updateStatus} = this.props;
         return (
             profile ?
-                <>
-                    <div className={styles.banner}>
-                        <img
-                            src="https://www.pavelin.ru/images/stories/flamingo/flam_003.jpg"
-                            alt="" className="content__banner"/>
-                    </div>
+                <div className={styles.profile}>
+                    {/*<div className={styles.banner}>*/}
+                    {/*    <img*/}
+                    {/*        src="https://www.pavelin.ru/images/stories/flamingo/flam_003.jpg"*/}
+                    {/*        alt="" className="content__banner"/>*/}
+                    {/*</div>*/}
                     <div className={styles.user}>
                         <div className={styles.user__photo}>
                             <img src={profile.photos.large ?? userPhoto} alt='users photo'/>
@@ -34,7 +34,7 @@ export class ProfileInfo extends React.PureComponent<ProfileInfoPropsType> {
                         </div>
 
                     </div>
-                </>
+                </div>
                 : <Preloader/>
         )
     }

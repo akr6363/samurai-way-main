@@ -19,7 +19,7 @@ export const Login: React.FC<LoginContainerPropsType> = ({loginTC, isAuth}) => {
         <div className={styles.login}>
             <div className={styles.login__leftBlock}>
                 <h1>Hello!</h1>
-                <img src={loginCat} alt=""/>
+                <img src={loginCat} alt="" className={styles.login__img}/>
                 <p className={styles.desc}>
                     Welcome to my social network!<br/>
                 </p>

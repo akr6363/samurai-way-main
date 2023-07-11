@@ -33,6 +33,8 @@ export type PostsType = {
     id: number
     message: string
     likeCount: number
+    comments: number
+    views: number
 }
 export type ProfilePageType = {
     postsData: Array<PostsType>
@@ -51,13 +53,13 @@ export type ActionsTypesForProfile =
     | setProfileActionType
     | setStatusActionType | DeletePostActionType
 
-
+const text = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 const initialState: ProfilePageType = {
     postsData: [
-        {id: 1, message: "Hi, how are you?", likeCount: 15},
-        {id: 2, message: "It is my first post", likeCount: 20},
-        {id: 3, message: "Yoooo", likeCount: 1111},
-        {id: 4, message: "Vlad dibil", likeCount: 100500},
+        {id: 1, message: "Hi, how are you?", likeCount: 15, comments: 2, views: 43},
+        {id: 2, message: "It is my first post", likeCount: 20, comments: 4, views: 57},
+        {id: 3, message: "Yoooo", likeCount: 1111, comments: 342, views: 2455},
+        {id: 4, message: "Vlad dibil", likeCount: 100500, comments: 257, views: 43543535},
     ],
     profile: null,
     status: ''
@@ -69,7 +71,9 @@ const profileReducer = (state: ProfilePageType = initialState, action: ActionsTy
             const newPost = {
                 id: 5,
                 message: action.text,
-                likeCount: 0
+                likeCount: 0,
+                comments: 0,
+                views: 0
             }
             return {
                 ...state,

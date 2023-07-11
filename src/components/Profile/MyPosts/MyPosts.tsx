@@ -1,27 +1,30 @@
 import React from 'react';
-import styles from './MyPosts.module.css'
+import styles from './MyPosts.module.scss'
 import Post from "./Post/Post";
 import {MyPostsPropsType} from "./MyPostsContainer";
 import {MyPostsFormDataType, MyPostsReduxForm} from "./MyPostsForm";
-
+import userPhoto from '../../../img/userPhoto.jpg';
 
 const  MyPosts = React.memo((props: MyPostsPropsType) =>{
-    console.log('myposts')
     const onSubmit = (formData: MyPostsFormDataType,) => {
-        console.log(formData)
         props.addPost(formData.post)
-
     }
 
     let postsElements = props.postsData
-        .map(post => <Post key={post.id} message={post.message} likeCount={post.likeCount}/>)
+        .map(post => <Post key={post.id} message={post.message} likeCount={post.likeCount} photo={props.profilePhoto} name={props.name} comments={post.comments} views={post.views}/>)
 
     return (
-        <div className={styles.posts}>
-            <h2>My Posts</h2>
+        <>
+            <div className={styles.postsFormContainer}>
+                <div className={styles.postsForm__photo}>
+                    <img src={props.profilePhoto ? props.profilePhoto : userPhoto} alt=""/>
+                </div>
             <MyPostsReduxForm onSubmit={onSubmit}/>
-            {postsElements}
-        </div>
+            </div>
+            <div className={styles.posts}>
+                {postsElements}
+            </div>
+        </>
     );
 })
 

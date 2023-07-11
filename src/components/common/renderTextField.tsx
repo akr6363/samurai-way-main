@@ -1,7 +1,7 @@
 import React from "react";
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
-import { FormControlLabel } from "@mui/material";
+import {FormControlLabel, TextareaAutosize} from "@mui/material";
 
 
 export const renderTextField: React.FC<any> = ({
@@ -32,4 +32,12 @@ export const renderCheckbox = ({ input, label }: any) => (
         }
         label={label}
     />
+);
+export const renderTextarea = ({ input, label, meta: { touched, error } }: any) => (
+    <div>
+        <div>
+            <TextareaAutosize {...input} placeholder={label} />
+            {touched && error && <span>{error}</span>}
+        </div>
+    </div>
 );

@@ -4,13 +4,14 @@ import {connect} from "react-redux";
 import {navBarType} from "../../redux/sidebar-reducer";
 import {ActionsTypes, AppStateType} from "../../redux/redux-store";
 import Navbar from "./Navbar";
+import {logoutTC} from "../../redux/auth-reducer";
 
 type MapStateReturnType = {
     navBar: navBarType
 }
 
 type mapDispatchReturnType = {
-
+    logoutTC(): void
 }
 
 
@@ -22,10 +23,8 @@ const mapStateToProps = (state: AppStateType): MapStateReturnType => {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<ActionsTypes>): mapDispatchReturnType => {
-    return {
-
-    }
+const mapDispatchToProps: mapDispatchReturnType = {
+    logoutTC
 }
 
 export const NavBarContainer = connect(mapStateToProps, mapDispatchToProps)(Navbar)

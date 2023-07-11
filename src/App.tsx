@@ -1,10 +1,7 @@
 import React from 'react';
 import './App.css';
-import {BrowserRouter, Route, withRouter} from "react-router-dom";
+import {BrowserRouter, Redirect, Route, withRouter} from "react-router-dom";
 import News from "./components/News/News";
-import {Suspense} from 'react';
-
-
 import {NavBarContainer} from "./components/Navbar/NavbarContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
@@ -15,6 +12,10 @@ import {compose, Store} from "redux";
 import {initializeApp} from "./redux/app-reducer";
 import {Preloader} from "./components/common/Preloader/Preloader";
 import {WithSuspense} from "./hoc/withSuspense";
+import styles from "./components/Navbar/Navbar.module.scss";
+import Friend from "./components/Navbar/Friend/Friend";
+import {friendsType} from "./redux/sidebar-reducer";
+import {FriendsNavBarContainer} from "./components/FriendsNavBar/FriendsNavBarContainer";
 
 // import DialogsContainer from "./components/Dialogs/DialogsContainer";
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
@@ -33,17 +34,30 @@ class App extends React.Component<AppContainerPropsType> {
             !this.props.isInitialized
                 ? <div>Загрузка...</div>
                 : <>
-                    <Route exact path={['/', '/profile/:userId?', '/dialogs', '/news', '/users']} render={Content}/>
+                    <Route exact path={['/', '/profile/:userId?', '/dialogs', '/news', '/users']} render={() => <Content isAuth={this.props.isAuth}/>}/>
                     <Route exact path='/login' render={() => <LoginContainer/>}/>
                 </>
         );
     }
 }
 
-const Content = () => {
+type ContentPropsType = {
+    isAuth: boolean
+}
+
+const Content: React.FC<ContentPropsType> = ({isAuth}) => {
+
+
+
+    if (!isAuth) {
+        return <Redirect to={'/login'}/>
+    }
+
+
     return (
         <div className="app-wrapper">
             <HeaderContainer/>
+            <div className={'container'}>
             <NavBarContainer/>
             <div className="app-wrapper__content">
                 <Route path='/profile/:userId?' render={WithSuspense(ProfileContainer)}/>
@@ -51,16 +65,13 @@ const Content = () => {
                 <Route path='/news' render={() => <News/>}/>
                 <Route path='/users' render={() => <UsersContainer/>}/>
             </div>
+                <FriendsNavBarContainer/>
+            </div>
         </div>
 
     )
 }
 
-const Login2 = () => {
-    return <div>
-        login2
-    </div>
-}
 
 type mapStateToPropsType = {
     isInitialized: boolean
@@ -69,7 +80,7 @@ type mapStateToPropsType = {
 
 const mapStateToProps = (state: AppStateType): mapStateToPropsType => ({
     isInitialized: state.app.isInitialized,
-    isAuth: state.auth.isAuth
+    isAuth: state.auth.isAuth,
 })
 
 type mapDispatchToPropsType = {
