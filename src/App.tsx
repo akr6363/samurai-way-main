@@ -13,9 +13,9 @@ import {initializeApp} from "./redux/app-reducer";
 import {Preloader} from "./components/common/Preloader/Preloader";
 import {WithSuspense} from "./hoc/withSuspense";
 import styles from "./components/Navbar/Navbar.module.scss";
-import Friend from "./components/FriendsNavBar/Friend/Friend";
+import NavDialogsItem from "./components/Dialogs/navDialogs/navDialogsItem/NavDialogsItem";
 import {friendsType} from "./redux/sidebar-reducer";
-import FriendsNavBarContainer from "./components/FriendsNavBar/FriendsNavBarContainer";
+import FriendsNavBarContainer from "./components/Dialogs/navDialogs/NavDialogsContainer";
 
 
 // import DialogsContainer from "./components/Dialogs/DialogsContainer";
@@ -67,7 +67,7 @@ const Content: React.FC<ContentPropsType> = ({isAuth}) => {
                 <Route path='/users/friends' render={() => <UsersContainer page={'friends'}/>}/>
                 <Route path='/users/all' render={() => <UsersContainer page={'find'}/>}/>
             </div>
-                <Route path={[ '/dialogs/:userId?', '/news']} render={()=> <FriendsNavBarContainer/>}/>
+                {/*<Route path={[ '/dialogs/:userId?', '/news']} render={()=> <FriendsNavBarContainer/>}/>*/}
                 {/*<FriendsNavBarContainer/>*/}
             </div>
         </div>

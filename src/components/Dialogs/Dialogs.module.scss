@@ -2,9 +2,12 @@
 
 
 .dialogsPage {
- background-color: #fff;
-    border-radius: 20px;
-  height: calc(100vh - 100px) ;
+flex: 1 1 auto;
+  margin-right: 20px;
+  background-color: #fff;
+  border-radius: 20px;
+  height: calc(100vh - 100px);
+
   .dialogsPage__empty {
     display: flex;
     align-items: center;
@@ -16,14 +19,14 @@
 }
 
 .page__dialogs {
-    padding: 20px;
+  padding: 20px;
 
 }
 
 .page__messages {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 }
 

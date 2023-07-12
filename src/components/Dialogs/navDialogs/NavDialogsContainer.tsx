@@ -1,9 +1,9 @@
 import React from 'react';
 import {Dispatch} from "redux";
 import {connect} from "react-redux";
-import {ActionsTypes, AppStateType} from "../../redux/redux-store";
-import FriendsNavBar from "./FriendsNavBar";
-import {DialogsType, requestDialogs} from "../../redux/dialogs-reducer";
+import {ActionsTypes, AppStateType} from "../../../redux/redux-store";
+import NavDialogs from "./NavDialogs";
+import {DialogsType, requestDialogs} from "../../../redux/dialogs-reducer";
 
 
 type MapStateReturnType = {
@@ -16,14 +16,14 @@ type mapDispatchReturnType = {
 
 export type FriendsNavBarPropsType = MapStateReturnType & mapDispatchReturnType
 
-class FriendsNavBarContainer extends React.Component<FriendsNavBarPropsType> {
+class NavDialogsContainer extends React.Component<FriendsNavBarPropsType> {
 
     componentDidMount() {
         this.props.requestDialogs(1, 100, true)
     }
 
     render () {
-        return <FriendsNavBar {...this.props}/>
+        return <NavDialogs {...this.props}/>
     }
 }
 
@@ -39,4 +39,4 @@ const mapDispatchToProps = (dispatch: Dispatch<ActionsTypes>): mapDispatchReturn
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FriendsNavBarContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(NavDialogsContainer)
