@@ -15,27 +15,52 @@ import styles from "../Navbar/Navbar.module.scss";
 import {ReactComponent as IconNews} from "../../img/icons/navbar/news.svg";
 import {NavLink} from "react-router-dom";
 
-
+type StateType = {
+    searchValue: string,
+}
 
 class UsersContainerAPI extends React.Component<UsersContainerPropsType> {
+
+    state: StateType = {
+        searchValue: '',
+    }
+
+    onChangeValue = (newValue: string) => {
+        this.setState({
+            searchValue: newValue,
+        })
+    }
+
+
+    componentDidUpdate(prevProps: Readonly<UsersContainerPropsType>, prevState: Readonly<StateType>) {
+        if (prevState.searchValue !== this.state.searchValue) {
+            const {currentPage, pageSize} = this.props
+            if (this.props.page === 'friends') {
+                this.props.requestUsers(currentPage, pageSize, true, this.state.searchValue)
+            }
+            if (this.props.page === 'find') {
+                this.props.requestUsers(currentPage, pageSize, undefined, this.state.searchValue)
+            }
+        }
+    }
 
 
     componentDidMount() {
         const {currentPage, pageSize} = this.props
-        if(this.props.page === 'friends') {
+        if (this.props.page === 'friends') {
             this.props.requestUsers(currentPage, pageSize, true)
         }
-        if(this.props.page === 'find') {
+        if (this.props.page === 'find') {
             this.props.requestUsers(currentPage, pageSize)
         }
     }
 
     selectPage = (pageNumber: number) => {
         const {pageSize} = this.props
-        if(this.props.page === 'friends') {
+        if (this.props.page === 'friends') {
             this.props.requestUsers(pageNumber, pageSize, true)
         }
-        if(this.props.page === 'find') {
+        if (this.props.page === 'find') {
             this.props.requestUsers(pageNumber, pageSize)
         }
 
@@ -53,20 +78,22 @@ class UsersContainerAPI extends React.Component<UsersContainerPropsType> {
                    unfollowTC={this.props.unfollowTC}
                    followTC={this.props.followTC}
                    page={this.props.page}
+                   searchValue={this.state.searchValue}
+                   onChangeValue={this.onChangeValue}
             />
         </>)
     }
 }
 
 type mapDispatchReturnType = {
-    requestUsers(currentPage: number, pageSize: number, friend?: boolean): void
+    requestUsers(currentPage: number, pageSize: number, friend?: boolean, term?: string): void
     unfollowTC(userId: number): void
     followTC(userId: number): void
 }
 
-export type usersPageType =  'friends' | 'find'
+export type usersPageType = 'friends' | 'find'
 
-export type UsersContainerPropsType = UsersPageType & mapDispatchReturnType & {page:  usersPageType }
+export type UsersContainerPropsType = UsersPageType & mapDispatchReturnType & { page: usersPageType }
 
 const mapStateToProps = (state: AppStateType) => {
     return {

@@ -143,10 +143,10 @@ export const toggleFollowingProgress = (isFetching: boolean, userID: number) => 
 } as const)
 
 
-export const requestUsers = (currentPage: number, pageSize: number, friend?: boolean) => async (dispatch: Dispatch<ActionsTypesForUsers>) => {
+export const requestUsers = (currentPage: number, pageSize: number, friend?: boolean, term: string = '') => async (dispatch: Dispatch<ActionsTypesForUsers>) => {
     dispatch(setCurrentPage(currentPage))
     dispatch(togglePreloader(true))
-    const response = await usersAPI.getUsers(currentPage, pageSize, friend)
+    const response = await usersAPI.getUsers(currentPage, pageSize, friend, term)
     dispatch(setUsers(response.items))
     dispatch(setPageTotalCount(response.totalCount))
     dispatch(togglePreloader(false))

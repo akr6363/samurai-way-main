@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import styled from 'styled-components';
 import {UsersPageType} from '../../redux/users-reducer';
 import {Preloader} from "../common/Preloader/Preloader";
@@ -23,6 +23,8 @@ export type UsersPropsType = UsersPageType & {
     unfollowTC(userId: number): void
     followTC(userId: number): void
     page: usersPageType
+    searchValue: string,
+    onChangeValue(newValue: string): void
 }
 
 
@@ -37,8 +39,12 @@ export const Users: React.FC<UsersPropsType> = (
         followingInProgress,
         unfollowTC,
         followTC,
-        page
+        page,
+        searchValue,
+        onChangeValue
     }) => {
+
+
 
     const usersItems = users.map(u => {
         return (
@@ -46,6 +52,10 @@ export const Users: React.FC<UsersPropsType> = (
                   unfollowTC={unfollowTC} followTC={followTC}/>
         )
     })
+
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+      onChangeValue(e.currentTarget.value)
+  }
 
 
     return (
@@ -69,6 +79,8 @@ export const Users: React.FC<UsersPropsType> = (
                     sx={{ml: 1, flex: 1}}
                     placeholder="Search user.."
                     inputProps={{'aria-label': 'search google maps'}}
+                    value={searchValue}
+                    onChange={onChangeHandler}
                 />
                 <SearchIcon  sx={{color: 'gray'}}/>
             </Paper>
