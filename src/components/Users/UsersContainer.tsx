@@ -11,9 +11,6 @@ import {
     getPageSize,
     getUsersSuperSelector
 } from "../../redux/users-selectors";
-import styles from "../Navbar/Navbar.module.scss";
-import {ReactComponent as IconNews} from "../../img/icons/navbar/news.svg";
-import {NavLink} from "react-router-dom";
 
 type StateType = {
     searchValue: string,

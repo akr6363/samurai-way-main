@@ -2,6 +2,7 @@ import {ActionsTypes} from './redux-store';
 import {ResponseType, usersAPI} from "../api/api";
 import {Dispatch} from "redux";
 import {updateObjectInArray} from "../utils/object-helpers";
+import {getRandomString} from "../components/common/utils/getRandomString";
 
 const FOLLOW = 'users/FOLLOW'
 const UNFOLLOW = 'users/UNFOLLOW'
@@ -19,6 +20,7 @@ export type UserType = {
     photos: { small?: string, large?: string }
     status?: string
     uniqueUrlName?: string
+    city: string
 }
 export type UsersPageType = {
     users: UserType[]
@@ -52,7 +54,7 @@ const initialState: UsersPageType = {
     pageSize: 10,
     currentPage: 1,
     isFetching: false,
-    followingInProgress: []
+    followingInProgress: [],
 }
 
 
@@ -75,8 +77,9 @@ export const usersReducer = (state: UsersPageType = initialState, action: Action
         //
         //     }
         case SET_USERS:
+
             return {
-                ...state, users: action.users
+                ...state, users: action.users.map(u => ({...u, city: getRandomString()}))
             }
         case SET_PAGE_TOTAL_COUNT:
             return {

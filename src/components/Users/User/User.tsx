@@ -15,7 +15,7 @@ type UserPropsType = {
     followTC(userId: number): void
 }
 
-const cities = ['Saint Petersburg', 'Moscow', 'Minsk', 'Volgograd', 'Kazan', 'Samara']
+
 
 export const User: React.FC<UserPropsType> = React.memo(({user, followingInProgress, followTC, unfollowTC}) => {
     return (
@@ -31,7 +31,7 @@ export const User: React.FC<UserPropsType> = React.memo(({user, followingInProgr
                     {/*<div>{user.status ? user.status : 'No status'}</div>*/}
                     <div className={styles.user__location}>
                         <LocationOnIcon className={styles.user__locationIcon}/>
-                        <div className={styles.user__locationCity}>{getRandomString(cities)}</div>
+                        <div className={styles.user__locationCity}>{user.city}</div>
                     </div>
                 </div>
                 <div  className={styles.userActions}>

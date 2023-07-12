@@ -7,16 +7,12 @@ import {User} from "./User/User";
 import {NavLink} from "react-router-dom";
 import styles from "./Users.module.scss";
 import Button from "@mui/material/Button";
-
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import DirectionsIcon from '@mui/icons-material/Directions';
 import {usersPageType} from "./UsersContainer";
-import {Pagination} from "@mui/material";
+import {getRandomString} from "../common/utils/getRandomString";
+
 
 export type UsersPropsType = UsersPageType & {
     selectPage(pageNumber: number): void
@@ -43,6 +39,7 @@ export const Users: React.FC<UsersPropsType> = (
         searchValue,
         onChangeValue
     }) => {
+
 
 
 
