@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Navbar.module.scss'
 import {NavLink} from "react-router-dom";
-import Friend from "./Friend/Friend";
+import Friend from "../FriendsNavBar/Friend/Friend";
 import {ReactComponent as IconProfile} from "../../img/icons/navbar/profile.svg";
 import {ReactComponent as IconMessages} from "../../img/icons/navbar/messages.svg";
 import {ReactComponent as IconFriends} from "../../img/icons/navbar/friends.svg";

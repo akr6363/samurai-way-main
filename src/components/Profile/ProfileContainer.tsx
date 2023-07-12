@@ -27,7 +27,7 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
         />}
 }
 
-type PathParamsType = {
+export type PathParamsType = {
     userId?: string | undefined
 }
 

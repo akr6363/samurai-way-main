@@ -37,17 +37,18 @@ export const store: StoreType = {
         },
         dialogsPage: {
             dialogsData: [
-                {id: 1, name: "Sveta"},
-                {id: 2, name: "Dima"},
-                {id: 3, name: "Igor"},
-                {id: 4, name: "Oksana"},
-                {id: 5, name: "Andrey"},
+                {id: 1, name: "Sveta", photo: ''},
+                {id: 2, name: "Dima", photo: ''},
+                {id: 3, name: "Igor", photo: ''},
+                {id: 4, name: "Oksana", photo: ''},
+                {id: 5, name: "Andrey", photo: ''},
             ],
-            messageData: [
-                {id: 1, message: "Hi", isMy: false},
-                {id: 2, message: "How are you?", isMy: true},
-                {id: 3, message: "Im fine motherfucker", isMy: false},
-            ],
+            // messageData: [
+            //     {id: 1, message: "Hi", isMy: false},
+            //     {id: 2, message: "How are you?", isMy: true},
+            //     {id: 3, message: "Im fine motherfucker", isMy: false},
+            // ],
+            messageData: {}
         },
         navBar: {
             friends: [

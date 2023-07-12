@@ -13,9 +13,10 @@ import {initializeApp} from "./redux/app-reducer";
 import {Preloader} from "./components/common/Preloader/Preloader";
 import {WithSuspense} from "./hoc/withSuspense";
 import styles from "./components/Navbar/Navbar.module.scss";
-import Friend from "./components/Navbar/Friend/Friend";
+import Friend from "./components/FriendsNavBar/Friend/Friend";
 import {friendsType} from "./redux/sidebar-reducer";
-import {FriendsNavBarContainer} from "./components/FriendsNavBar/FriendsNavBarContainer";
+import FriendsNavBarContainer from "./components/FriendsNavBar/FriendsNavBarContainer";
+
 
 // import DialogsContainer from "./components/Dialogs/DialogsContainer";
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
@@ -34,7 +35,7 @@ class App extends React.Component<AppContainerPropsType> {
             !this.props.isInitialized
                 ? <div>Загрузка...</div>
                 : <>
-                    <Route exact path={['/', '/profile/:userId?', '/dialogs', '/news', '/users/friends', '/users/all']} render={() => <Content isAuth={this.props.isAuth}/>}/>
+                    <Route exact path={['/', '/profile/:userId?', '/dialogs/:userId?', '/news', '/users/friends', '/users/all']} render={() => <Content isAuth={this.props.isAuth}/>}/>
                     <Route exact path='/login' render={() => <LoginContainer/>}/>
                 </>
         );
@@ -61,12 +62,12 @@ const Content: React.FC<ContentPropsType> = ({isAuth}) => {
             <NavBarContainer/>
             <div className="app-wrapper__content">
                 <Route path='/profile/:userId?' render={WithSuspense(ProfileContainer)}/>
-                <Route path='/dialogs' render={WithSuspense(DialogsContainer)}/>
+                <Route path='/dialogs/:userId?' render={WithSuspense(DialogsContainer)}/>
                 <Route path='/news' render={() => <News/>}/>
                 <Route path='/users/friends' render={() => <UsersContainer page={'friends'}/>}/>
                 <Route path='/users/all' render={() => <UsersContainer page={'find'}/>}/>
             </div>
-                <Route path={[ '/dialogs', '/news']} render={()=> <FriendsNavBarContainer/>}/>
+                <Route path={[ '/dialogs/:userId?', '/news']} render={()=> <FriendsNavBarContainer/>}/>
                 {/*<FriendsNavBarContainer/>*/}
             </div>
         </div>

@@ -1,10 +1,11 @@
 import React from 'react';
-import Friend from "../Navbar/Friend/Friend";
+import Friend from "./Friend/Friend";
 import styles from './FriendsNavBar.module.scss'
 import {friendsType} from "../../redux/sidebar-reducer";
+import {DialogsType} from "../../redux/dialogs-reducer";
 
 type FriendsNavBarPropsType = {
-    friends: Array<friendsType>
+    friends: DialogsType[]
 }
 
 export const FriendsNavBar: React.FC<FriendsNavBarPropsType> = ({friends}) => {
@@ -15,7 +16,7 @@ export const FriendsNavBar: React.FC<FriendsNavBarPropsType> = ({friends}) => {
 
     return (
         <div className={styles.friendNavBar}>
-            <h2>Friends</h2>
+            <h2 className={styles.friendNavBar__title}>Friends</h2>
             <div className={styles.nav__friends}>
                 {friendsList}
             </div>

@@ -61,33 +61,17 @@ const initialState: UsersPageType = {
 export const usersReducer = (state: UsersPageType = initialState, action: ActionsTypes): UsersPageType => {
     switch (action.type) {
         case FOLLOW:
-            // return {
-            //     ...state, users: state.users
-            //         .map((u) => u.id === action.userId ? {...u, followed: action.isFollow} : u)
-            // }
             return {
                 ...state,
                 users: updateObjectInArray(state.users, action.userId, 'id', {followed: action.isFollow})
             }
-        // case UNFOLLOW:
-        //     return {
-        //         ...state,
-        //         users: state.users
-        //             .map(u => u.id === action.userId ? {...u, followed: false} : u)
-        //
-        //     }
         case SET_USERS:
-
             return {
                 ...state, users: action.users.map(u => ({...u, city: getRandomString()}))
             }
         case SET_PAGE_TOTAL_COUNT:
             return {
                 ...state, pageTotalCount: action.pageTotalCount
-            }
-        case SET_CURRENT_PAGE:
-            return {
-                ...state, currentPage: action.currentPage
             }
         case SET_CURRENT_PAGE:
             return {
@@ -113,11 +97,6 @@ export const follow = (userId: number, isFollow: boolean) => ({
     type: FOLLOW,
     userId, isFollow
 } as const)
-
-// export const unFollow = (userId: number) => ({
-//     type: UNFOLLOW,
-//     userId
-// } as const)
 
 export const setUsers = (users: UserType[]) => ({
     type: SET_USERS,

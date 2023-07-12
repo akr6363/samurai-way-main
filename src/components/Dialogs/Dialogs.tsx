@@ -1,40 +1,49 @@
 import React from 'react';
-import styles from './Dialogs.module.css'
+import styles from './Dialogs.module.scss'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {DialogsPropsType} from "./DialogsContainer";
+import {DialogsContainerPropsType} from "./DialogsContainer";
 import {SendMessageFormDataType, SendMessageReduxForm} from "./SendMessageForm";
 import {reset} from "redux-form";
 import {Dispatch} from "redux";
+import {MessageType, sendMessageAC} from "../../redux/dialogs-reducer";
+
+type DialogsPropsType = DialogsContainerPropsType & {
+    dialog: MessageType[]
+}
 
 
-const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, sendMessage, }) => {
+const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, sendMessageAC, dialog}) => {
+    let messagesElements: JSX.Element[] = []
+    if (dialog) {
+        messagesElements = dialog
+            .map(message => <Message
+                id={message.id}
+                key={message.id}
+                message={message.message}
+                isMy={message.isMy}/>)
+    }
 
-    let dialogsElements = dialogsPage.dialogsData
-        .map(dialog => <DialogItem key={dialog.id} name={dialog.name} id={dialog.id}/>)
-
-    let messagesElements = dialogsPage.messageData
-        .map(message => <Message
-            id={message.id}
-            key={message.id}
-            message={message.message}
-            isMy={message.isMy}/>)
-
-    const onSubmit = (formData: SendMessageFormDataType, dispatch:Dispatch ) => {
-        sendMessage(formData.message)
+    const onSubmit = (formData: SendMessageFormDataType, dispatch: Dispatch) => {
+        sendMessageAC(formData.message)
         dispatch(reset('send-message'));
     }
 
     return (
-         <div className={styles.page}>
-            <div className={styles.page__dialogs}>
-                {dialogsElements}
-            </div>
-            <div className={styles.page__messages}>
-                {messagesElements}
-                <SendMessageReduxForm onSubmit={onSubmit}/>
-            </div>
+
+        <div className={styles.dialogsPage}>
+            {
+                dialog
+                    ? <div className={styles.page__messages}>
+                        {messagesElements}
+                        <SendMessageReduxForm onSubmit={onSubmit}/>
+                    </div>
+                    : <div className={styles.dialogsPage__empty}>Select a dialog...</div>
+            }
+
         </div>
+
+
     );
 };
 
