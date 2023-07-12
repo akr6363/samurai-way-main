@@ -13,8 +13,8 @@ export const NavDialogs: React.FC<FriendsNavBarPropsType> = ({friends}) => {
 
     const friendsList = friends.map(friend => {
         return (
-            <NavLink to={`/dialogs/${friend.id}`} className={styles.friendLInk}>
-                <NavDialogsItem id={friend.id} key={friend.id} name={friend.name} photo={friend.photo}/>
+            <NavLink to={`/dialogs/${friend.id}`} className={styles.friendLInk} key={friend.id}>
+                <NavDialogsItem id={friend.id}  name={friend.name} photo={friend.photo}/>
             </NavLink>
         )
     })

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import styles from './Dialogs.module.scss'
 import {Message} from "./Message/Message";
 import {DialogsContainerPropsType} from "./DialogsContainer";
@@ -19,6 +19,16 @@ type DialogsPropsType = DialogsContainerPropsType & {
 
 
 const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, sendMessageAC, userId, myPhoto, myName}) => {
+
+    const messagesContainerRef = useRef<HTMLDivElement>(null); // ссылка на элемент messagesContainer
+
+    useEffect(() => {
+        if (messagesContainerRef.current) {
+            messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight
+        }
+    }, [dialogsPage.messageData[userId]]);
+
+
     let messagesElements: JSX.Element[] = []
     const dialog = dialogsPage.messageData[userId]
     const user = dialogsPage.dialogsData.find(d => d.id === userId)
@@ -36,7 +46,7 @@ const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, sendMessageAC, userId
     }
 
     const onSubmit = (formData: SendMessageFormDataType, dispatch: Dispatch) => {
-        sendMessageAC(formData.message)
+        sendMessageAC(formData.message, userId)
         dispatch(reset('send-message'));
     }
 
@@ -44,11 +54,9 @@ const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, sendMessageAC, userId
         <div style={{display: 'flex'}}>
             <div className={styles.dialogsPage}>
 
-
                 {
                     dialog
-                        ? <>
-                            <div className={styles.page__messages}>
+                        ? <div className={styles.page__messages}>
                                 <div className={styles.dialogsPage__info}>
                                     <NavDialogsItem id={userId} photo={user?.photo} name={user?.name}/>
                                     <NavLink to={`/profile/${userId}`} className={styles.friendLInk}>
@@ -59,15 +67,13 @@ const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, sendMessageAC, userId
                                             Go to profile</Button>
                                     </NavLink>
                                 </div>
-                                <div className={styles.messagesContainer}>
+                                <div className={styles.messagesContainer} ref={messagesContainerRef}>
                                     {messagesElements}
                                 </div>
                                 <SendMessageReduxForm onSubmit={onSubmit}/>
                             </div>
-                        </>
                         : <div className={styles.dialogsPage__empty}>Select a dialog...</div>
                 }
-
             </div>
             <NavDialogsContainer/>
         </div>

@@ -1,8 +1,10 @@
 import React from "react";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
-import styles from "./SendMessageForm.module.css";
-import {TextArea} from "../common/FormsControls/FormsControls";
-import {maxLengthCreator, required} from "../../utils/validators/validators";
+import styles from "./SendMessageForm.module.scss";
+import {maxLengthCreator} from "../../utils/validators/validators";
+import {renderTextarea} from "../common/renderTextField";
+import {IconButton} from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
 
 const maxLength100 = maxLengthCreator(100)
 
@@ -10,12 +12,11 @@ const SendMessageForm: React.FC<InjectedFormProps<SendMessageFormDataType>> = (p
     const {handleSubmit} = props
     return (
         <form onSubmit={handleSubmit} className={styles.messageForm}>
-            <div className={styles.send}>
-                <Field name={'message'} component={TextArea}
-                       validate={[required, maxLength100]}
-                       className={styles.send__input}/>
-                <button className={styles.send__btn}>Send</button>
-            </div>
+            <Field label={'Write a message...'}
+                   name={'message'} component={renderTextarea} className={styles.send__input}/>
+            <IconButton aria-label="send" size="large"  type='submit' className={styles.postButton} >
+                <SendIcon fontSize="inherit" className={styles.postButton__icon}/>
+            </IconButton>
         </form>
     )
 }

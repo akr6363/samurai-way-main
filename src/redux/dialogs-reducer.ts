@@ -60,6 +60,10 @@ const dialogsReducer = (state: dialogsPageType = initialState, action: ActionsTy
             return {
                 ...state,
                 // messageData: [...state.messageData, newMessage]
+                messageData: {
+                    ...state.messageData,
+                    [action.userId]: [...state.messageData[action.userId], newMessage]
+                }
             }
         case SET_DIALOGS:
             return {
@@ -75,9 +79,9 @@ const dialogsReducer = (state: dialogsPageType = initialState, action: ActionsTy
 };
 
 
-export const sendMessageAC = (message: string) => ({
+export const sendMessageAC = (message: string, userId: number) => ({
     type: SEND_MESSAGE,
-    message
+    message, userId
 } as const)
 
 export const setDialogs = (dialogs: DialogsType[]) => ({

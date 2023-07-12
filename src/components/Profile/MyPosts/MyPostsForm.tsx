@@ -9,7 +9,7 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import AudiotrackIcon from '@mui/icons-material/Audiotrack';
 import {IconButton} from "@mui/material";
 import {renderTextarea} from "../../common/renderTextField";
-
+import SendIcon from '@mui/icons-material/Send';
 const maxLength1000 = maxLengthCreator(1000)
 
 const MyPostsForm: React.FC<InjectedFormProps<MyPostsFormDataType>> = (props) => {
@@ -32,6 +32,7 @@ const MyPostsForm: React.FC<InjectedFormProps<MyPostsFormDataType>> = (props) =>
                     </IconButton>
 
             </div>
+
             <Button variant="contained" type='submit' size={'small'} className={styles.postButton}>Send</Button>
         </div>
 </form>

@@ -1,0 +1,49 @@
+@import '../../accets/styles/variables.scss';
+
+
+.messageForm {
+  width: 100%;
+  display: flex;
+  margin-top: 20px;
+  align-items: end;
+
+  textarea {
+    flex: 1 1 auto;
+    margin-right: 10px;
+    resize: none;
+    min-height: 17px;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid $gray-dark-color;
+    font-size: 14px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .send__input {
+
+  }
+
+  .postButton {
+    padding: 3px;
+
+    &:hover {
+      .postButton__icon {
+        transition: fill 0.3s ease-in-out;
+        fill: $primary-mui;
+      }
+
+      background-color: transparent;
+
+
+    }
+  }
+
+}
+
+
+.send__btn {
+  padding: 5px 10px;
+}

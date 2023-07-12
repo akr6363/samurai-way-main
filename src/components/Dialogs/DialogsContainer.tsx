@@ -15,7 +15,7 @@ type MapStateReturnType = {
 }
 
 type mapDispatchReturnType = {
-    sendMessageAC(message: string): void
+    sendMessageAC(message: string, userId: number): void
     requestDialogs(currentPage: number, pageSize: number, friend?: boolean, term?: string): void
 }
 
