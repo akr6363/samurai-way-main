@@ -1,4 +1,4 @@
-
+@import '../../../accets/styles/variables.scss';
 .message {
     display: flex;
     margin-bottom: 10px;
@@ -34,7 +34,7 @@
 }
 
 .text {
-    background-color: white;
+    background-color: $gray-color;
     padding: 5px 10px;
     border-radius: 10px;
 }

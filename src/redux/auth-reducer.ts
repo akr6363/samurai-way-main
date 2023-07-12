@@ -4,14 +4,18 @@ import {FormDataType} from "../components/Login/LoginForm";
 import {ThunkDispatch} from "redux-thunk";
 import {AppStateType} from "./redux-store";
 import {FormAction, stopSubmit} from "redux-form";
+import userPhoto from '../../src/img/userPhoto.jpg';
 
 const SET_AUTH = 'auth/SET_AUTH'
+const SET_PHOTO = 'auth/SET_PHOTO'
 
 export type AuthStateType = {
     userId: number | null
     email: string | null
     login: string | null
     isAuth: boolean,
+    photo: string
+    name: string
 }
 
 const initialState: AuthStateType = {
@@ -19,10 +23,13 @@ const initialState: AuthStateType = {
     email: null,
     login: null,
     isAuth: false,
+    photo: '',
+    name: ''
 }
 
 type setAuthUserDataActionType = ReturnType<typeof setAuthUserData>
-export type ActionsTypesForAuth = setAuthUserDataActionType
+type setMyDataActionType = ReturnType<typeof setMyData>
+export type ActionsTypesForAuth = setAuthUserDataActionType | setMyDataActionType
 
 export const authReducer = (state: AuthStateType = initialState, action: ActionsTypesForAuth) => {
     switch (action.type) {
@@ -30,6 +37,12 @@ export const authReducer = (state: AuthStateType = initialState, action: Actions
             return {
                 ...state,
                 ...action.payload,
+            }
+        case SET_PHOTO:
+            return {
+                ...state,
+                photo: action.photo,
+                name: action.name
             }
         default:
             return state
@@ -41,17 +54,22 @@ export const setAuthUserData = (userId: number | null, email: string | null, log
     payload: {userId, email, login, isAuth}
 } as const)
 
+export const setMyData = (photo: string, name: string) => ({
+    type: SET_PHOTO,
+    photo,
+    name
+} as const)
 
-export const authTC = () => async (dispatch: Dispatch<setAuthUserDataActionType>) => {
+
+export const authTC = () => async (dispatch: Dispatch<ActionsTypesForAuth>) => {
     const response = await authAPI.auth()
     if (response.resultCode === 0) {
         const {id, email, login} = response.data
         dispatch(setAuthUserData(id, email, login, true))
-        return id
+        const profileResponse = await profileAPI.getProfile(String(id));
+        dispatch(setMyData(profileResponse.photos.small ? profileResponse.photos.small : userPhoto, profileResponse.fullName))
+
     }
-    // .then((userId) => {
-    //     return profileAPI.getProfile(String(userId))
-    // })
 }
 export const loginTC = (loginData: FormDataType) => async (dispatch: AppDispatch) => {
     const response = await authAPI.login(loginData)

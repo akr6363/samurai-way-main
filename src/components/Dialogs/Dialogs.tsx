@@ -7,21 +7,28 @@ import {reset} from "redux-form";
 import {Dispatch} from "redux";
 import {MessageType, sendMessageAC} from "../../redux/dialogs-reducer";
 import NavDialogsContainer from "./navDialogs/NavDialogsContainer";
+import NavDialogsItem from "./navDialogs/navDialogsItem/NavDialogsItem";
 
 type DialogsPropsType = DialogsContainerPropsType & {
-    dialog: MessageType[]
+    userId: number
 }
 
 
-const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, sendMessageAC, dialog}) => {
+const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, sendMessageAC, userId, myPhoto, myName}) => {
     let messagesElements: JSX.Element[] = []
+    const dialog = dialogsPage.messageData[userId]
+    const user = dialogsPage.dialogsData.find(d => d.id === userId)
     if (dialog) {
         messagesElements = dialog
             .map(message => <Message
                 id={message.id}
                 key={message.id}
                 message={message.message}
-                isMy={message.isMy}/>)
+                isMy={message.isMy}
+                user={user}
+                myPhoto={myPhoto}
+                myName={myName}
+            />)
     }
 
     const onSubmit = (formData: SendMessageFormDataType, dispatch: Dispatch) => {
@@ -32,6 +39,8 @@ const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, sendMessageAC, dialog
     return (
         <div style={{display: 'flex'}}>
             <div className={styles.dialogsPage}>
+                    <NavDialogsItem id={userId} photo={user?.photo} name={user?.name}/>
+                <hr/>
                 {
                     dialog
                         ? <>

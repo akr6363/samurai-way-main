@@ -46,56 +46,7 @@
       transition: background 0.3s ease;
     }
 
-    .friendContainer {
-      position: relative;
-      display: flex;
-      box-sizing: border-box;
-      align-items: center;
-      padding: 10px 20px;
 
-      &:after {
-        content: '';
-        position: absolute;
-        width: calc(100% - 40px);
-        height: 1px;
-        left: 20px;
-        bottom: 0;
-        background-color: $gray-color;
-      }
-
-      &:before {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        left: 0;
-        top: 0;
-        background-color: rgba(169, 169, 169, 0.25);
-        opacity: 0;
-      }
-
-      &:hover:before {
-        opacity: 1;
-      }
-
-      .photo {
-        display: flex;
-        width: 50px;
-        height: 50px;
-        overflow: hidden;
-        border-radius: 50%;
-        margin: 0 10px 0 0;
-
-        img {
-          max-width: 100%;
-          object-fit: cover;
-        }
-      }
-
-      .name {
-        font-weight: 500;
-      }
-    }
 
   }
 }

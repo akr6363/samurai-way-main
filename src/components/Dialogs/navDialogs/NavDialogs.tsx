@@ -3,6 +3,7 @@ import NavDialogsItem from "./navDialogsItem/NavDialogsItem";
 import styles from './NavDialogs.module.scss'
 import {friendsType} from "../../../redux/sidebar-reducer";
 import {DialogsType} from "../../../redux/dialogs-reducer";
+import {NavLink} from "react-router-dom";
 
 type FriendsNavBarPropsType = {
     friends: DialogsType[]
@@ -10,8 +11,13 @@ type FriendsNavBarPropsType = {
 
 export const NavDialogs: React.FC<FriendsNavBarPropsType> = ({friends}) => {
 
-    const friendsList = friends
-        .map(friend => <NavDialogsItem id={friend.id} key={friend.id} name={friend.name} photo={friend.photo}/>)
+    const friendsList = friends.map(friend => {
+        return (
+            <NavLink to={`/dialogs/${friend.id}`} className={styles.friendLInk}>
+                <NavDialogsItem id={friend.id} key={friend.id} name={friend.name} photo={friend.photo}/>
+            </NavLink>
+        )
+    })
 
 
     return (
