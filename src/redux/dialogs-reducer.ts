@@ -38,28 +38,22 @@ export type ActionsTypesForDialogs =
 
 const initialState: dialogsPageType = {
     dialogsData: [],
-    // messageData: [
-    //     {id: 1, message: "Hi", isMy: false},
-    //     {id: 2, message: "How are you?", isMy: true},
-    //     {id: 3, message: "Im fine motherfucker", isMy: false},
-    // ],
     messageData: {}
-
 }
 
 const dialogsReducer = (state: dialogsPageType = initialState, action: ActionsTypes): dialogsPageType => {
 
     switch (action.type) {
         case SEND_MESSAGE:
+            const id = state.messageData[action.userId].length + 2
             const newMessage =
                 {
-                    id: 4,
+                    id: id,
                     message: action.message,
                     isMy: true
                 }
             return {
                 ...state,
-                // messageData: [...state.messageData, newMessage]
                 messageData: {
                     ...state.messageData,
                     [action.userId]: [...state.messageData[action.userId], newMessage]
@@ -89,10 +83,6 @@ export const setDialogs = (dialogs: DialogsType[]) => ({
     dialogs
 } as const)
 
-export const requestMessages = () => ({
-    type: SET_DIALOGS,
-    dialogs
-} as const)
 
 export const requestDialogs = (currentPage: number, pageSize: number, friend?: boolean, term: string = '') => async (dispatch: Dispatch<ActionsTypesForDialogs>) => {
     // dispatch(togglePreloader(true))

@@ -4,12 +4,12 @@
 .dialogsPage {
   padding: 30px;
   box-sizing: border-box;
-flex: 1 1 auto;
+  flex: 1 1 auto;
   margin-right: 20px;
   background-color: #fff;
   border-radius: 20px;
   height: calc(100vh - 100px);
-
+  min-width: 0;
 
   .dialogsPage__empty {
     display: flex;
@@ -37,6 +37,8 @@ flex: 1 1 auto;
     overflow-y: scroll;
     padding: 0 10px 0 0;
     flex: 1 1 auto;
+    min-width: 0;
+
     &::-webkit-scrollbar {
       width: 5px;
       background: transparent;
@@ -52,16 +54,19 @@ flex: 1 1 auto;
       transition: background 0.3s ease;
     }
   }
+
   .dialogsPage__info {
-width: calc(100% + 20px);
+    width: calc(100% + 20px);
     position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin: -10px 0 20px -20px;
+
     .toProfileBtn {
       text-transform: none;
     }
+
     &:after {
       content: '';
       position: absolute;

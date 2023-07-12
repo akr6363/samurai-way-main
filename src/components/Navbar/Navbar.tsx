@@ -25,8 +25,8 @@ const Navbar: React.FC<NavBarPropsType> = ({logoutTC}) => {
         <nav className={styles.nav}>
             <ul>
                 <li className={styles.item}>
-                    <NavLink to="/profile" activeClassName={styles.active}>
-                       <IconProfile/>Profile
+                    <NavLink to="/profile/" activeClassName={styles.active}>
+                       <IconProfile/>My page
                     </NavLink>
                 </li>
                 <li className={styles.item}>
@@ -45,13 +45,13 @@ const Navbar: React.FC<NavBarPropsType> = ({logoutTC}) => {
                     </NavLink>
                 </li>
                 <li className={styles.item}>
-                    <NavLink to="#">
+                    <NavLink to='/settings' activeClassName={styles.active}>
                         <IconSettings/> Settings
                     </NavLink>
                 </li>
                 <li className={styles.item}>
-                    <NavLink to="#">
-                        <IconPhotos/> Photo
+                    <NavLink to="/photos" activeClassName={styles.active}>
+                        <IconPhotos/> Photos
                     </NavLink>
                 </li>
                 <hr/>

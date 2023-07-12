@@ -1,6 +1,7 @@
 import {ActionsTypes} from "./redux-store";
 import {Dispatch} from "redux";
 import {profileAPI} from "../api/api";
+import {createDate} from "../components/common/utils/createDate";
 
 const ADD_POST = "profile/ADD_POST"
 const DELETE_POST = "profile/DELETE_POST"
@@ -35,6 +36,7 @@ export type PostsType = {
     likeCount: number
     comments: number
     views: number
+    date: string
 }
 export type ProfilePageType = {
     postsData: Array<PostsType>
@@ -56,10 +58,10 @@ export type ActionsTypesForProfile =
 const text = 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
 const initialState: ProfilePageType = {
     postsData: [
-        {id: 1, message: text, likeCount: 15, comments: 2, views: 43},
-        {id: 2, message: "It is my first post", likeCount: 20, comments: 4, views: 57},
-        {id: 3, message: "Yoooo", likeCount: 1111, comments: 342, views: 2455},
-        {id: 4, message: "Vlad dibil", likeCount: 100500, comments: 257, views: 43543535},
+        {id: 1, message: text, likeCount: 15, comments: 2, views: 43, date: '14 dec 2022'},
+        {id: 2, message: "It is my first post", likeCount: 20, comments: 4, views: 57, date: '11 nov 2022'},
+        {id: 3, message: "Yoooo", likeCount: 1111, comments: 342, views: 2455, date: '07 jul 2022'},
+        {id: 4, message: "Vlad dibil", likeCount: 100500, comments: 257, views: 43543535, date: '07 dec 2021'},
     ],
     profile: null,
     status: ''
@@ -73,7 +75,8 @@ const profileReducer = (state: ProfilePageType = initialState, action: ActionsTy
                 message: action.text,
                 likeCount: 0,
                 comments: 0,
-                views: 0
+                views: 0,
+                date:createDate(new Date())
             }
             return {
                 ...state,

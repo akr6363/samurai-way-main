@@ -7,18 +7,16 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import Button from "@mui/material/Button";
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import {PostsType} from "../../../../redux/profile-reducer";
 type PostPropsType = {
-    message: string
-    likeCount: number
-    comments: number
-    views: number
+    post: PostsType
     photo?: string
     name?: string
 }
 
-const Post: React.FC<PostPropsType> = (props) => {
+const Post: React.FC<PostPropsType> = ({post, photo, name}) => {
 
-    const [likes, setLikes] = useState<number>(props.likeCount)
+    const [likes, setLikes] = useState<number>(post.likeCount)
     const [isLike, setIsLike] = useState<boolean>(false)
 
     const toggleLike = () => {
@@ -38,17 +36,17 @@ const Post: React.FC<PostPropsType> = (props) => {
             <div className={styles.post__top}>
                 <div className={styles.post__photo}>
                     <img
-                        src={props.photo ? props.photo : userPhoto}
+                        src={photo ? photo : userPhoto}
                         alt=""/>
 
                 </div>
                 <div className={styles.post__info}>
-                    <h3 className={styles.post__desc}>{props.name}</h3>
-                    <p className={styles.post__data}>14 dec 2022</p>
+                    <h3 className={styles.post__desc}>{name}</h3>
+                    <p className={styles.post__data}>{post.date}</p>
                 </div>
             </div>
             <div className={styles.post}>
-                    <p className={styles.post__text}>{props.message}</p>
+                    <p className={styles.post__text}>{post.message}</p>
                 <div className={styles.post__reactions}>
 
                     <Button variant="text" startIcon={isLike ? <FavoriteIcon/> :<FavoriteBorderIcon/>}
@@ -57,10 +55,10 @@ const Post: React.FC<PostPropsType> = (props) => {
                         {likes}
                     </Button>
                     <Button variant="text" startIcon={<ChatBubbleOutlineIcon/>} className={styles.reactionBtn}>
-                        {props.comments}
+                        {post.comments}
                     </Button>
                     <Button variant="text" startIcon={<RemoveRedEyeIcon/>} className={styles.reactionBtn}>
-                        {props.views}
+                        {post.views}
                     </Button>
 
                 </div>

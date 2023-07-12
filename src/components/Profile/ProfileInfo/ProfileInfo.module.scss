@@ -30,13 +30,16 @@
     }
 
     .user__photo {
+      text-align: center;
       position: relative;
       overflow: hidden;
       margin-right: 30px;
       flex-shrink: 0;
 
       img {
+        display: block;
         height: 200px;
+        margin-bottom: 5px;
       }
     }
   }

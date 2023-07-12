@@ -51,7 +51,7 @@ const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, sendMessageAC, userId
     }
 
     return (
-        <div style={{display: 'flex'}}>
+        <div style={{display: 'flex', maxWidth: '100%'}}>
             <div className={styles.dialogsPage}>
 
                 {

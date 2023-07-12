@@ -38,3 +38,15 @@ hr {
     //margin: 0;
 
 }
+
+.page {
+    background-color: #fff;
+    border-radius: 20px;
+    flex-direction: column;
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $gray-dark-color;
+    font-size: 20px;
+}

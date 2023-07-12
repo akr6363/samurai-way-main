@@ -74,8 +74,8 @@ export const Users: React.FC<UsersPropsType> = (
             >
                 <InputBase
                     sx={{ml: 1, flex: 1}}
-                    placeholder="Search user.."
-                    inputProps={{'aria-label': 'search google maps'}}
+                    placeholder="Search users.."
+                    inputProps={{'aria-label': 'search users'}}
                     value={searchValue}
                     onChange={onChangeHandler}
                 />

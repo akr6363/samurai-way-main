@@ -19,7 +19,7 @@ export type NavBarPropsType = MapStateReturnType & mapDispatchReturnType
 
 const mapStateToProps = (state: AppStateType): MapStateReturnType => {
     return {
-        navBar: state.navBar
+        navBar: state.navBar,
     }
 }
 

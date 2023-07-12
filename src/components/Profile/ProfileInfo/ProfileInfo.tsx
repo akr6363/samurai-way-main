@@ -5,7 +5,9 @@ import {Preloader} from "../../common/Preloader/Preloader";
 import userPhoto from '../../../img/userPhoto.jpg';
 import {ProfileStatusWithHooks, StatusSpan} from "./ProfileStatusWithHooks";
 import styled from "styled-components";
-
+import Button from "@mui/material/Button";
+import LogoutIcon from "@mui/icons-material/Logout";
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 type ProfileInfoPropsType = {
     profile: ProfileType | null
     status: string
@@ -27,6 +29,7 @@ export class ProfileInfo extends React.PureComponent<ProfileInfoPropsType> {
                     <div className={styles.user}>
                         <div className={styles.user__photo}>
                             <img src={profile.photos.large ?? userPhoto} alt='users photo'/>
+                            <Button onClick={()=> {}} startIcon={<ChangeCircleIcon /> } style={{textTransform: 'none'}}>Edit photo</Button>
                         </div>
                         <div className={styles.user__info}>
                             <h3 className={styles.user__title}>{profile.fullName}</h3>

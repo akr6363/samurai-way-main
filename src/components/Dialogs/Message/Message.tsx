@@ -24,8 +24,9 @@ export const Message: React.FC<MessagePropsType> = ({id, message, isMy, user, my
                 <img src={isMy ? myPhoto : user?.photo} alt=""/>
             </div>
             <div className={styles.text}>
-                <div>{isMy ? myName : user?.name}</div>
-                {message}
+                <div className={`${styles.name}
+                 ${isMy ? styles.name__my : styles.name__friend}`}>{isMy ? myName : user?.name}</div>
+                <div>{message}</div>
             </div>
         </div>
     )

@@ -7,7 +7,8 @@ import {RouteComponentProps, withRouter} from "react-router-dom";
 import {compose} from "redux";
 
 class ProfileContainer extends React.Component<ProfileContainerPropsType> {
-    componentDidMount() {
+
+    getProfile = () => {
         let userId = this.props.match.params.userId
         if (!userId && this.props.authorizedUserI) {
             userId = this.props.authorizedUserI.toString()
@@ -19,6 +20,17 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
             this.props.getStatusTC(userId)
         }
     }
+
+    componentDidMount() {
+      this.getProfile()
+    }
+    componentDidUpdate(prevProps: Readonly<ProfileContainerPropsType>) {
+        if (this.props.location !== prevProps.location) {
+            this.getProfile()
+        }
+    }
+
+
     render() {
         return <Profile profile={this.props.profile} status={this.props.status}
                         updateStatus={this.props.updateStatusTC}

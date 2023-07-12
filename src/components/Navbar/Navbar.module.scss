@@ -1,3 +1,5 @@
+@import '../../accets/styles/variables.scss';
+
 .nav {
   background-color: #fff;
   flex: 0 0 20%;
@@ -14,12 +16,16 @@ ul {
 
 
 .item {
+
+
   &:not(:last-child) {
     margin-bottom: 20px;
   }
   a {
     text-decoration: none;
     color: #000;
+    display: flex;
+    align-items: center;
   }
 
 
@@ -33,8 +39,6 @@ ul {
 }
 
 .item a.active {
-
- color: gold;
-
+ color: $primary-mui;
 }
 
