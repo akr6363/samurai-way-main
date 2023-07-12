@@ -8,6 +8,10 @@ import {Dispatch} from "redux";
 import {MessageType, sendMessageAC} from "../../redux/dialogs-reducer";
 import NavDialogsContainer from "./navDialogs/NavDialogsContainer";
 import NavDialogsItem from "./navDialogs/navDialogsItem/NavDialogsItem";
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import Button from "@mui/material/Button";
+import LogoutIcon from "@mui/icons-material/Logout";
+import {NavLink} from "react-router-dom";
 
 type DialogsPropsType = DialogsContainerPropsType & {
     userId: number
@@ -39,13 +43,25 @@ const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, sendMessageAC, userId
     return (
         <div style={{display: 'flex'}}>
             <div className={styles.dialogsPage}>
-                    <NavDialogsItem id={userId} photo={user?.photo} name={user?.name}/>
-                <hr/>
+
+
                 {
                     dialog
                         ? <>
                             <div className={styles.page__messages}>
-                                {messagesElements}
+                                <div className={styles.dialogsPage__info}>
+                                    <NavDialogsItem id={userId} photo={user?.photo} name={user?.name}/>
+                                    <NavLink to={`/profile/${userId}`} className={styles.friendLInk}>
+                                        <Button className={styles.toProfileBtn}
+                                                onClick={() => {
+                                                }}
+                                                endIcon={<ArrowRightAltIcon/>}>
+                                            Go to profile</Button>
+                                    </NavLink>
+                                </div>
+                                <div className={styles.messagesContainer}>
+                                    {messagesElements}
+                                </div>
                                 <SendMessageReduxForm onSubmit={onSubmit}/>
                             </div>
                         </>
