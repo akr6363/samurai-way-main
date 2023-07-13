@@ -7,6 +7,8 @@ import {ProfileStatusWithHooks} from "./ProfileStatusWithHooks";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
+import {Input} from "@mui/material";
+import UploadingImagesBtn from "../../common/UploadingImagesBtn/UploadingImagesBtn";
 
 type ProfileInfoPropsType = {
     profile: ProfileType | null
@@ -14,26 +16,28 @@ type ProfileInfoPropsType = {
     updateStatus(status: string): void
     isMe: boolean
     changePhoto(photoFile: File): void
+    isFetching: boolean
 }
 
 export function ProfileInfo(props: ProfileInfoPropsType) {
-    const {profile, status, updateStatus, isMe, changePhoto} = props;
+    const {profile, status, updateStatus, isMe, changePhoto, isFetching} = props;
 
     const onSelectedPhoto = (e: ChangeEvent<HTMLInputElement>) => {
-        if(e.currentTarget.files?.length) {
-            debugger
+        if (e.currentTarget.files?.length) {
             changePhoto(e.currentTarget.files[0])
         }
     }
+
+
+
     return (
         profile ?
             <div className={styles.profile}>
                 <div className={styles.user}>
                     <div className={styles.user__photo}>
-                        <img src={profile.photos.large ?? userPhoto} alt='users photo' className={styles.photo__img}/>
-                        {/*{isMe && <Button onClick={() => {*/}
-                        {/*}} startIcon={<ChangeCircleIcon/>} style={{textTransform: 'none'}}>Edit photo</Button>}*/}
-                        {isMe && <input type="file" onChange={onSelectedPhoto}/>}
+                        {isFetching ? <Preloader/> :  <img src={profile.photos.large ?? userPhoto} alt='users photo' className={styles.photo__img}/>}
+
+                        {isMe && <UploadingImagesBtn onChange={onSelectedPhoto}/>}
                     </div>
                     <div className={styles.user__info}>
                         <h3 className={styles.user__title}>{profile.fullName}</h3>

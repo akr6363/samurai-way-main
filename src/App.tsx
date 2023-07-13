@@ -25,7 +25,7 @@ class App extends React.Component<AppContainerPropsType> {
     render() {
         return (
             !this.props.isInitialized
-                ? <div>Загрузка...</div>
+                ? <div className={'initializationPrePage'}>Wait a bit, the application is loading...</div>
                 : <>
                     <Route exact path={['/', '/profile/:userId?', '/dialogs/:userId?', '/news', '/users/friends', '/users/all', '/settings', '/photos']} render={() => <Content isAuth={this.props.isAuth}/>}/>
                     <Route exact path='/login' render={() => <LoginContainer/>}/>

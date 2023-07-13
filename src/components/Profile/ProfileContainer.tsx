@@ -39,7 +39,8 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
             <Profile profile={this.props.profile} status={this.props.status}
                      updateStatus={this.props.updateStatusTC}
-                     isMe={this.props.profile?.userId === this.props.authorizedUserI} isFetching={this.props.isFetching}
+                     isMe={this.props.profile?.userId === this.props.authorizedUserI}
+                     isFetching={this.props.isFetching}
                      changePhoto={this.props.changePhoto}/>
 
         )

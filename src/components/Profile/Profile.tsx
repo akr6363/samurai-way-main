@@ -25,7 +25,7 @@ const Profile: React.FC<ProfilePropsType> = ({profile, status, updateStatus, isM
             </div>
 
             : <>
-                <ProfileInfo profile={profile} status={status} updateStatus={updateStatus} isMe={isMe} changePhoto={changePhoto}/>
+                <ProfileInfo profile={profile} status={status} updateStatus={updateStatus} isMe={isMe} changePhoto={changePhoto} isFetching={isFetching}/>
                 {isMe && <MyPostsContainer/>}
             </>
 

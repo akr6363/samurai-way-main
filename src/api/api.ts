@@ -73,14 +73,12 @@ export const profileAPI = {
     changePhoto(photoFile: File) {
         const formData = new FormData()
         formData.append('image', photoFile)
-        debugger
         return instance.put<ResponseType<{ photos: PhotoType }>>(`profile/photo`, formData, {
             headers: {
                 'Content-type': 'multipart/form-data'
             }
         })
             .then(response => {
-                debugger
                 return response.data
             })
     }

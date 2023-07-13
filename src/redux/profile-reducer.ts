@@ -74,8 +74,9 @@ const initialState: ProfilePageType = {
 const profileReducer = (state: ProfilePageType = initialState, action: ActionsTypes): ProfilePageType => {
     switch (action.type) {
         case ADD_POST:
+            const id = state.postsData.length + 2
             const newPost = {
-                id: 5,
+                id: id,
                 message: action.text,
                 likeCount: 0,
                 comments: 0,
@@ -150,10 +151,11 @@ export const updateStatusTC = (status: string) => async (dispatch: Dispatch<Acti
 }
 
 export const changePhoto = (file: File) => async (dispatch: Dispatch<ActionsTypesForProfile| setMyDataActionType>) => {
-    debugger
+    dispatch(togglePreloader(true))
     const response = await profileAPI.changePhoto(file)
     if (response.resultCode === 0) {
         dispatch(setPhoto(response.data.photos))
         dispatch(setMyData({photo: response.data.photos.small}))
     }
+    dispatch(togglePreloader(false))
 }
