@@ -84,7 +84,7 @@ export const Users: React.FC<UsersPropsType> = (
             </div>
             <UsersPage>
                 {isFetching
-                    ? <Preloader/>
+                    ? <div className={'page'} style={{minHeight: '100vh'}}><Preloader/></div>
                     : usersItems}
             </UsersPage>
             <Paginator pageItemsCount={pageTotalCount} pageSize={pageSize} selectPage={selectPage}

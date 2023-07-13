@@ -21,15 +21,10 @@ export class ProfileInfo extends React.PureComponent<ProfileInfoPropsType> {
         return (
             profile ?
                 <div className={styles.profile}>
-                    {/*<div className={styles.banner}>*/}
-                    {/*    <img*/}
-                    {/*        src="https://www.pavelin.ru/images/stories/flamingo/flam_003.jpg"*/}
-                    {/*        alt="" className="content__banner"/>*/}
-                    {/*</div>*/}
                     <div className={styles.user}>
                         <div className={styles.user__photo}>
                             <img src={profile.photos.large ?? userPhoto} alt='users photo'/>
-                            <Button onClick={()=> {}} startIcon={<ChangeCircleIcon /> } style={{textTransform: 'none'}}>Edit photo</Button>
+                            {isMe && <Button onClick={()=> {}} startIcon={<ChangeCircleIcon /> } style={{textTransform: 'none'}}>Edit photo</Button>}
                         </div>
                         <div className={styles.user__info}>
                             <h3 className={styles.user__title}>{profile.fullName}</h3>
@@ -59,8 +54,6 @@ export class ProfileInfo extends React.PureComponent<ProfileInfoPropsType> {
                             </p>
                             <p><b>Website:</b> {profile.contacts.website ? profile.contacts.website : 'No information'}
                             </p>
-                            {/*<ProfileStatus status={status} updateStatus={updateStatus}/>*/}
-
                         </div>
 
                     </div>

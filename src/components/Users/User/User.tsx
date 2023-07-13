@@ -28,7 +28,6 @@ export const User: React.FC<UserPropsType> = React.memo(({user, followingInProgr
                 </div>
                 <div className={styles.user__infoContainer}>
                     <h3 className={styles.user__title}>{user.name}</h3>
-                    {/*<div>{user.status ? user.status : 'No status'}</div>*/}
                     <div className={styles.user__location}>
                         <LocationOnIcon className={styles.user__locationIcon}/>
                         <div className={styles.user__locationCity}>{user.city}</div>
@@ -48,11 +47,16 @@ export const User: React.FC<UserPropsType> = React.memo(({user, followingInProgr
 
                     </Button>
 
-                    {user.followed && <Button variant={'outlined'}
+                    {user.followed &&
+
+                        <NavLink to={`/dialogs/${user.id}`} className={styles.friendLInk}>
+                        <Button variant={'outlined'}
                                               size={'small'}
                                               className={styles.userActionsBtn}>
                         Send Message
-                    </Button>}
+                    </Button>
+                        </NavLink>}
+
                 </div>
             </div>
             <hr/>

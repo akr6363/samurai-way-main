@@ -19,12 +19,12 @@ const Profile: React.FC<ProfilePropsType> = ({profile, status, updateStatus, isM
     return (
 
         isFetching
-            ?<div className={'page'}>
+            ? <div className={'page'}>
                 <Preloader/>
-        </div>
+            </div>
 
-            :<>
-                <ProfileInfo profile={profile} status={status}  updateStatus={updateStatus} isMe={isMe}/>
+            : <>
+                <ProfileInfo profile={profile} status={status} updateStatus={updateStatus} isMe={isMe}/>
                 {isMe && <MyPostsContainer/>}
             </>
 

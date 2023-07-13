@@ -12,13 +12,14 @@ import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import Button from "@mui/material/Button";
 import LogoutIcon from "@mui/icons-material/Logout";
 import {NavLink} from "react-router-dom";
+import {Preloader} from "../common/Preloader/Preloader";
 
 type DialogsPropsType = DialogsContainerPropsType & {
     userId: number
 }
 
 
-const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, sendMessageAC, userId, myPhoto, myName}) => {
+const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, sendMessageAC, userId, myPhoto, myName, isFetching}) => {
 
     const messagesContainerRef = useRef<HTMLDivElement>(null); // ссылка на элемент messagesContainer
 
@@ -52,11 +53,14 @@ const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, sendMessageAC, userId
 
     return (
         <div style={{display: 'flex', maxWidth: '100%'}}>
-            <div className={styles.dialogsPage}>
+            {isFetching
 
-                {
-                    dialog
-                        ? <div className={styles.page__messages}>
+                ? <div className={'page'} style={{flex: '1 1 auto', marginRight: '20px'}}><Preloader/></div>
+            : <div className={styles.dialogsPage}>
+
+                    {
+                        dialog
+                            ? <div className={styles.page__messages}>
                                 <div className={styles.dialogsPage__info}>
                                     <NavDialogsItem id={userId} photo={user?.photo} name={user?.name}/>
                                     <NavLink to={`/profile/${userId}`} className={styles.friendLInk}>
@@ -72,9 +76,10 @@ const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, sendMessageAC, userId
                                 </div>
                                 <SendMessageReduxForm onSubmit={onSubmit}/>
                             </div>
-                        : <div className={styles.dialogsPage__empty}>Select a dialog...</div>
-                }
-            </div>
+                            : <div className={styles.dialogsPage__empty}>Select a dialog...</div>
+                    }
+                </div>}
+
             <NavDialogsContainer/>
         </div>
 

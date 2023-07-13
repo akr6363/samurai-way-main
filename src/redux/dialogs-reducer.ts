@@ -1,7 +1,14 @@
 import {ActionsTypes} from "./redux-store";
 import {Dispatch} from "redux";
 import {usersAPI} from "../api/api";
-import {ActionsTypesForUsers, setCurrentPage, setPageTotalCount, setUsers, togglePreloader} from "./users-reducer";
+import {
+    ActionsTypesForUsers,
+    setCurrentPage,
+    setPageTotalCount,
+    setUsers,
+    togglePreloader,
+    togglePreloaderActionType
+} from "./users-reducer";
 import dialogs from "../components/Dialogs/Dialogs";
 import userPhoto from '../img/userPhoto.jpg';
 import {createMessages} from "../components/common/utils/createMessages";
@@ -34,7 +41,7 @@ type SendMessageActionType = ReturnType<typeof sendMessageAC>
 type setDialogsActionType = ReturnType<typeof setDialogs>
 
 export type ActionsTypesForDialogs =
-    SendMessageActionType | setDialogsActionType
+    SendMessageActionType | setDialogsActionType| togglePreloaderActionType
 
 const initialState: dialogsPageType = {
     dialogsData: [],
@@ -85,11 +92,11 @@ export const setDialogs = (dialogs: DialogsType[]) => ({
 
 
 export const requestDialogs = (currentPage: number, pageSize: number, friend?: boolean, term: string = '') => async (dispatch: Dispatch<ActionsTypesForDialogs>) => {
-    // dispatch(togglePreloader(true))
+     dispatch(togglePreloader(true))
     const response = await usersAPI.getUsers(currentPage, pageSize, friend, term)
     const dialogs: DialogsType[] = response.items.map(u=> ({id: u.id, name: u.name, photo: u.photos.small ? u.photos.small : userPhoto}))
     dispatch(setDialogs(dialogs))
-    // dispatch(togglePreloader(false))
+    dispatch(togglePreloader(false))
 }
 
 
