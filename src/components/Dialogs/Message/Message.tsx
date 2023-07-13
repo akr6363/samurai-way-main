@@ -1,8 +1,7 @@
 import React from "react";
 import styles from "./Message.module.scss";
-import myPhoto from '../../../img/my.png'
-import friendPhoto from '../../../img/friends/Andrew.png'
 import {DialogsType} from "../../../redux/dialogs-reducer";
+import {MyDataType} from "../../../redux/auth-reducer";
 
 
 type MessagePropsType = {
@@ -10,22 +9,21 @@ type MessagePropsType = {
     message: string
     isMy: boolean
     user?: DialogsType
-    myPhoto: string
-    myName: string
+    myData: MyDataType
 }
 
 
-export const Message: React.FC<MessagePropsType> = ({id, message, isMy, user, myPhoto, myName}) => {
+export const Message: React.FC<MessagePropsType> = ({id, message, isMy, user,myData}) => {
     return (
         <div className={`${styles.message} 
         ${isMy ? styles.message__my : styles.message__friend}`}>
             <div className={`${styles.photo}
                  ${isMy ? styles.photo__my : styles.photo__friend}`}>
-                <img src={isMy ? myPhoto : user?.photo} alt=""/>
+                <img src={isMy ? myData.photo : user?.photo} alt=""/>
             </div>
             <div className={styles.text}>
                 <div className={`${styles.name}
-                 ${isMy ? styles.name__my : styles.name__friend}`}>{isMy ? myName : user?.name}</div>
+                 ${isMy ? styles.name__my : styles.name__friend}`}>{isMy ? myData.name : user?.name}</div>
                 <div>{message}</div>
             </div>
         </div>

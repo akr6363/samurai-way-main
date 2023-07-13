@@ -12,9 +12,10 @@ type ProfilePropsType = {
     updateStatus(status: string): void
     isMe: boolean
     isFetching: boolean
+    changePhoto(photoFile: File): void
 }
 
-const Profile: React.FC<ProfilePropsType> = ({profile, status, updateStatus, isMe, isFetching}) => {
+const Profile: React.FC<ProfilePropsType> = ({profile, status, updateStatus, isMe, isFetching, changePhoto}) => {
 
     return (
 
@@ -24,7 +25,7 @@ const Profile: React.FC<ProfilePropsType> = ({profile, status, updateStatus, isM
             </div>
 
             : <>
-                <ProfileInfo profile={profile} status={status} updateStatus={updateStatus} isMe={isMe}/>
+                <ProfileInfo profile={profile} status={status} updateStatus={updateStatus} isMe={isMe} changePhoto={changePhoto}/>
                 {isMe && <MyPostsContainer/>}
             </>
 

@@ -7,15 +7,19 @@ import {FormAction, stopSubmit} from "redux-form";
 import userPhoto from '../../src/img/userPhoto.jpg';
 
 const SET_AUTH = 'auth/SET_AUTH'
-const SET_PHOTO = 'auth/SET_PHOTO'
+const SET_MY_DATA = 'auth/SET_MY_DATA'
+
+export type MyDataType = {
+    photo?: string
+    name?: string
+}
 
 export type AuthStateType = {
     userId: number | null
     email: string | null
     login: string | null
     isAuth: boolean,
-    photo: string
-    name: string
+    myData: MyDataType
 }
 
 const initialState: AuthStateType = {
@@ -23,12 +27,14 @@ const initialState: AuthStateType = {
     email: null,
     login: null,
     isAuth: false,
-    photo: '',
-    name: ''
+    myData: {
+        photo: '',
+        name: '',
+    }
 }
 
 type setAuthUserDataActionType = ReturnType<typeof setAuthUserData>
-type setMyDataActionType = ReturnType<typeof setMyData>
+export type setMyDataActionType = ReturnType<typeof setMyData>
 export type ActionsTypesForAuth = setAuthUserDataActionType | setMyDataActionType
 
 export const authReducer = (state: AuthStateType = initialState, action: ActionsTypesForAuth) => {
@@ -38,11 +44,13 @@ export const authReducer = (state: AuthStateType = initialState, action: Actions
                 ...state,
                 ...action.payload,
             }
-        case SET_PHOTO:
+        case SET_MY_DATA:
             return {
                 ...state,
-                photo: action.photo,
-                name: action.name
+                myData: {
+                    ...state.myData,
+                    ...action.myData
+                }
             }
         default:
             return state
@@ -54,10 +62,9 @@ export const setAuthUserData = (userId: number | null, email: string | null, log
     payload: {userId, email, login, isAuth}
 } as const)
 
-export const setMyData = (photo: string, name: string) => ({
-    type: SET_PHOTO,
-    photo,
-    name
+export const setMyData = (myData: MyDataType) => ({
+    type: SET_MY_DATA,
+    myData
 } as const)
 
 
@@ -67,7 +74,11 @@ export const authTC = () => async (dispatch: Dispatch<ActionsTypesForAuth>) => {
         const {id, email, login} = response.data
         dispatch(setAuthUserData(id, email, login, true))
         const profileResponse = await profileAPI.getProfile(String(id));
-        dispatch(setMyData(profileResponse.photos.small ? profileResponse.photos.small : userPhoto, profileResponse.fullName))
+        const myData = {
+            photo: profileResponse.photos.small ? profileResponse.photos.small : userPhoto,
+            name: profileResponse.fullName,
+        }
+        dispatch(setMyData(myData))
 
     }
 }

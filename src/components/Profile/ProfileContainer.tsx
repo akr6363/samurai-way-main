@@ -2,7 +2,7 @@ import React from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import {getProfileTC, getStatusTC, ProfileType, updateStatusTC} from "../../redux/profile-reducer";
+import {changePhoto, getProfileTC, getStatusTC, ProfileType, updateStatusTC} from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {compose} from "redux";
 import {getIsFetching} from "../../redux/users-selectors";
@@ -24,10 +24,11 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
     }
 
     componentDidMount() {
-      this.getProfile()
+        this.getProfile()
     }
+
     componentDidUpdate(prevProps: Readonly<ProfileContainerPropsType>) {
-        if (this.props.location !== prevProps.location) {
+        if (this.props.match.params.userId !== prevProps.match.params.userId) {
             this.getProfile()
         }
     }
@@ -37,8 +38,9 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
         return (
 
             <Profile profile={this.props.profile} status={this.props.status}
-                          updateStatus={this.props.updateStatusTC}
-                          isMe={this.props.profile?.userId === this.props.authorizedUserI}  isFetching={this.props.isFetching}/>
+                     updateStatus={this.props.updateStatusTC}
+                     isMe={this.props.profile?.userId === this.props.authorizedUserI} isFetching={this.props.isFetching}
+                     changePhoto={this.props.changePhoto}/>
 
         )
     }
@@ -52,6 +54,7 @@ type mapDispatchReturnType = {
     getProfileTC(userId: string | undefined): void
     getStatusTC(userId: string | undefined): void
     updateStatusTC(status: string): void
+    changePhoto(photoFile: File): void
 }
 type MapStateToPropsReturnType = {
     profile: ProfileType | null
@@ -79,7 +82,8 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsReturnType => {
 const mapDispatchToProps: mapDispatchReturnType = {
     getProfileTC,
     getStatusTC,
-    updateStatusTC
+    updateStatusTC,
+    changePhoto
 }
 
 export default compose<React.ComponentType>(

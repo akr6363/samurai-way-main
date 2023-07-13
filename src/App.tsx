@@ -50,7 +50,7 @@ const Content: React.FC<ContentPropsType> = ({isAuth}) => {
             <div className={'container'}>
             <NavBarContainer/>
             <div className="app-wrapper__content">
-                <Route path='/' render={() => <Redirect to={'/profile'}/>}/>
+                <Route exact path='/' render={() => <Redirect to={'/profile'}/>}/>
                 <Route path='/profile/:userId?' render={WithSuspense(ProfileContainer)}/>
                 <Route path='/dialogs/:userId?' render={WithSuspense(DialogsContainer)}/>
                 <Route path='/news' render={() => <InDevelop/>}/>
@@ -64,6 +64,7 @@ const Content: React.FC<ContentPropsType> = ({isAuth}) => {
 
     )
 }
+
 
 
 type mapStateToPropsType = {

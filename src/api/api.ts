@@ -1,5 +1,5 @@
 import axios from "axios";
-import {ProfileType} from "../redux/profile-reducer";
+import {changePhoto, ProfileType} from "../redux/profile-reducer";
 import {UserType} from "../redux/users-reducer";
 
 const instance = axios.create({
@@ -35,6 +35,11 @@ export type LoginRequestType = {
     rememberMe: boolean
 }
 
+export type PhotoType = {
+    small: string
+    large: string
+}
+
 export const usersAPI = {
     getUsers(currentPage: number, pageSize: number, friend?: boolean, term?: string) {
         return instance.get<getUsersResponseType>(`users?page=${currentPage}&count=${pageSize}&friend=${friend}&term=${term}`)
@@ -65,6 +70,20 @@ export const profileAPI = {
                 return response.data
             })
     },
+    changePhoto(photoFile: File) {
+        const formData = new FormData()
+        formData.append('image', photoFile)
+        debugger
+        return instance.put<ResponseType<{ photos: PhotoType }>>(`profile/photo`, formData, {
+            headers: {
+                'Content-type': 'multipart/form-data'
+            }
+        })
+            .then(response => {
+                debugger
+                return response.data
+            })
+    }
 }
 
 export const authAPI = {

@@ -19,7 +19,7 @@ type DialogsPropsType = DialogsContainerPropsType & {
 }
 
 
-const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, sendMessageAC, userId, myPhoto, myName, isFetching}) => {
+const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, sendMessageAC, userId, myData, isFetching}) => {
 
     const messagesContainerRef = useRef<HTMLDivElement>(null); // ссылка на элемент messagesContainer
 
@@ -41,8 +41,7 @@ const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, sendMessageAC, userId
                 message={message.message}
                 isMy={message.isMy}
                 user={user}
-                myPhoto={myPhoto}
-                myName={myName}
+                myData={myData}
             />)
     }
 

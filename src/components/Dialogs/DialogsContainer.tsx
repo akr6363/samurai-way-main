@@ -8,11 +8,11 @@ import WithAuthRedirect from "../../hoc/withAuthRedirect";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {PathParamsType} from "../Profile/ProfileContainer";
 import {getIsFetching} from "../../redux/users-selectors";
+import {MyDataType} from "../../redux/auth-reducer";
 
 type MapStateReturnType = {
     dialogsPage: dialogsPageType
-    myPhoto: string
-    myName: string
+    myData: MyDataType
     isFetching: boolean,
 }
 
@@ -38,10 +38,8 @@ class DialogsContainer extends React.Component<DialogsContainerPropsType> {
 const mapStateToProps = (state: AppStateType): MapStateReturnType => {
     return {
         dialogsPage: state.dialogsPage,
-        myPhoto: state.auth.photo,
-        myName: state.auth.name,
+        myData: state.auth.myData,
         isFetching: getIsFetching(state),
-
     }
 }
 
