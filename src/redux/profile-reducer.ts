@@ -1,9 +1,11 @@
-import {ActionsTypes} from "./redux-store";
+import {ActionsTypes, AppStateType} from "./redux-store";
 import {Dispatch} from "redux";
 import {PhotoType, profileAPI} from "../api/api";
 import {createDate} from "../components/common/utils/createDate";
 import {togglePreloader, togglePreloaderActionType} from "./users-reducer";
-import {setMyData, setMyDataActionType} from "./auth-reducer";
+import {AppDispatch, setMyData, setMyDataActionType} from "./auth-reducer";
+import {EditProfileFormFormDataType} from "../components/Profile/ProfileInfo/EditProdfileForm/EditProdfileForm";
+import {stopSubmit} from "redux-form";
 
 const ADD_POST = "profile/ADD_POST"
 const DELETE_POST = "profile/DELETE_POST"
@@ -11,18 +13,20 @@ const SET_PROFILE = 'profile/SET_PROFILE'
 const SET_STATUS = 'profile/SET_STATUS'
 const SET_PHOTO = 'profile/SET_PHOTO'
 
+export type ContactsType = {
+    facebook: string
+    website: string
+    vk: string
+    twitter: string
+    instagram: string
+    youtube: string
+    github: string
+    mainLink: string
+}
+
 export type ProfileType = {
     aboutMe: string,
-    contacts: {
-        facebook: string
-        website: string
-        vk: string
-        twitter: string
-        instagram: string
-        youtube: string
-        github: string
-        mainLink: string
-    },
+    contacts: ContactsType,
     lookingForAJob: boolean,
     lookingForAJobDescription: string
     fullName: string
@@ -150,7 +154,7 @@ export const updateStatusTC = (status: string) => async (dispatch: Dispatch<Acti
     }
 }
 
-export const changePhoto = (file: File) => async (dispatch: Dispatch<ActionsTypesForProfile| setMyDataActionType>) => {
+export const changePhoto = (file: File) => async (dispatch: Dispatch<ActionsTypesForProfile | setMyDataActionType>) => {
     dispatch(togglePreloader(true))
     const response = await profileAPI.changePhoto(file)
     if (response.resultCode === 0) {
@@ -158,4 +162,34 @@ export const changePhoto = (file: File) => async (dispatch: Dispatch<ActionsType
         dispatch(setMyData({photo: response.data.photos.small}))
     }
     dispatch(togglePreloader(false))
+}
+
+export const updateProfile = (data: EditProfileFormFormDataType) => async (dispatch: AppDispatch, getState:()=>AppStateType) => {
+    // dispatch(togglePreloader(true))
+    const response = await profileAPI.updateProfileData(data)
+    if (response.resultCode === 0) {
+        const userId = getState().auth.userId?.toString()
+        if(userId) {
+            dispatch(getProfileTC(userId))
+        }
+    } else {
+        const errors: ErrorsType = {
+            contacts: {}
+        }
+        response.messages.forEach(m=> {
+            const key = m.split("->")[1].slice(0, -1).toLowerCase()
+            errors.contacts[key] = 'Invalid url format'
+        })
+        console.log(response.messages)
+        dispatch(stopSubmit('edit-profile', errors))
+        return Promise.reject(response.messages)
+    }
+
+    // dispatch(togglePreloader(false))
+}
+
+type ErrorsType = {
+    contacts: {
+        [key: string]: string
+    }
 }

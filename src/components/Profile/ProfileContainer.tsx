@@ -2,11 +2,20 @@ import React from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import {changePhoto, getProfileTC, getStatusTC, ProfileType, updateStatusTC} from "../../redux/profile-reducer";
+import {
+    changePhoto,
+    getProfileTC,
+    getStatusTC,
+    ProfileType,
+    updateProfile,
+    updateStatusTC
+} from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {compose} from "redux";
 import {getIsFetching} from "../../redux/users-selectors";
 import {Preloader} from "../common/Preloader/Preloader";
+import {EditProfileFormFormDataType} from "./ProfileInfo/EditProdfileForm/EditProdfileForm";
+import {ResponseType} from "../../api/api";
 
 class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
@@ -41,7 +50,9 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
                      updateStatus={this.props.updateStatusTC}
                      isMe={this.props.profile?.userId === this.props.authorizedUserI}
                      isFetching={this.props.isFetching}
-                     changePhoto={this.props.changePhoto}/>
+                     changePhoto={this.props.changePhoto}
+                     updateProfile={this.props.updateProfile}
+            />
 
         )
     }
@@ -56,6 +67,7 @@ type mapDispatchReturnType = {
     getStatusTC(userId: string | undefined): void
     updateStatusTC(status: string): void
     changePhoto(photoFile: File): void
+    updateProfile(data: EditProfileFormFormDataType):any
 }
 type MapStateToPropsReturnType = {
     profile: ProfileType | null
@@ -84,7 +96,8 @@ const mapDispatchToProps: mapDispatchReturnType = {
     getProfileTC,
     getStatusTC,
     updateStatusTC,
-    changePhoto
+    changePhoto,
+    updateProfile
 }
 
 export default compose<React.ComponentType>(

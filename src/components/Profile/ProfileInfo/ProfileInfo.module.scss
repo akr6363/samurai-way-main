@@ -1,4 +1,4 @@
-
+@import '../../../accets/styles/variables.scss';
 .profile {
   padding: 20px;
   background-color: #fff;
@@ -45,5 +45,15 @@
     }
   }
 }
+.noInfo {
+  color: $gray-color;
+}
 
+.editProfileBtn {
+  float: right;
+}
+
+.jobIcon {
+  transform: translateY(6px);
+}
 

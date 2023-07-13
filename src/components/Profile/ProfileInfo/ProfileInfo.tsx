@@ -1,15 +1,15 @@
 import styles from "./ProfileInfo.module.scss";
-import React, {ChangeEvent} from "react";
-import {ProfileType} from "../../../redux/profile-reducer";
+import React, {ChangeEvent, useState} from "react";
+import {ContactsType, ProfileType} from "../../../redux/profile-reducer";
 import {Preloader} from "../../common/Preloader/Preloader";
 import userPhoto from '../../../img/userPhoto.jpg';
 import {ProfileStatusWithHooks} from "./ProfileStatusWithHooks";
 import styled from "styled-components";
-import Button from "@mui/material/Button";
-import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
-import {Input} from "@mui/material";
 import UploadingImagesBtn from "../../common/UploadingImagesBtn/UploadingImagesBtn";
-
+import {EditProfileFormFormDataType, EditProfileReduxForm} from "./EditProdfileForm/EditProdfileForm";
+import Button from "@mui/material/Button";
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
 type ProfileInfoPropsType = {
     profile: ProfileType | null
     status: string
@@ -17,10 +17,11 @@ type ProfileInfoPropsType = {
     isMe: boolean
     changePhoto(photoFile: File): void
     isFetching: boolean
+    updateProfile(data: EditProfileFormFormDataType): Promise<ResponseType>
 }
 
 export function ProfileInfo(props: ProfileInfoPropsType) {
-    const {profile, status, updateStatus, isMe, changePhoto, isFetching} = props;
+    const {profile, status, updateStatus, isMe, changePhoto, isFetching, updateProfile} = props;
 
     const onSelectedPhoto = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.currentTarget.files?.length) {
@@ -29,13 +30,13 @@ export function ProfileInfo(props: ProfileInfoPropsType) {
     }
 
 
-
     return (
         profile ?
             <div className={styles.profile}>
                 <div className={styles.user}>
                     <div className={styles.user__photo}>
-                        {isFetching ? <Preloader/> :  <img src={profile.photos.large ?? userPhoto} alt='users photo' className={styles.photo__img}/>}
+                        {isFetching ? <Preloader/> : <img src={profile.photos.large ?? userPhoto} alt='users photo'
+                                                          className={styles.photo__img}/>}
 
                         {isMe && <UploadingImagesBtn onChange={onSelectedPhoto}/>}
                     </div>
@@ -45,28 +46,7 @@ export function ProfileInfo(props: ProfileInfoPropsType) {
                             ? <ProfileStatusWithHooks status={status} updateStatus={updateStatus}/>
                             : <StatusSpanUser>{status || 'No status'}</StatusSpanUser>}
                         <hr/>
-                        <p><b>About me:</b> {profile.aboutMe ? profile.aboutMe : 'No information'}</p>
-                        <p><b>Looking for a
-                            job:</b> {profile.lookingForAJob ? profile.lookingForAJob : 'No information'}</p>
-                        <p>
-                            <b>Post:</b> {profile.lookingForAJobDescription ? profile.lookingForAJobDescription : 'No information'}
-                        </p>
-                        <hr/>
-                        <h4 className={styles.user__subtitle}>Contacts:</h4>
-                        <p>
-                            <b>Facebook:</b> {profile.contacts.facebook ? profile.contacts.facebook : 'No information'}
-                        </p>
-                        <p><b>Github:</b> {profile.contacts.github ? profile.contacts.github : 'No information'}</p>
-                        <p><b>Vk:</b> {profile.contacts.vk ? profile.contacts.vk : 'No information'}</p>
-                        <p><b>Twitter:</b> {profile.contacts.twitter ? profile.contacts.twitter : 'No information'}
-                        </p>
-                        <p>
-                            <b>Instagram:</b> {profile.contacts.instagram ? profile.contacts.instagram : 'No information'}
-                        </p>
-                        <p><b>Youtube:</b> {profile.contacts.youtube ? profile.contacts.youtube : 'No information'}
-                        </p>
-                        <p><b>Website:</b> {profile.contacts.website ? profile.contacts.website : 'No information'}
-                        </p>
+                        <ProfileData profile={profile} updateProfile={updateProfile} isMe={isMe}/>
                     </div>
 
                 </div>
@@ -74,6 +54,67 @@ export function ProfileInfo(props: ProfileInfoPropsType) {
             : <Preloader/>
     )
 }
+
+type AboutMePropsType = {
+    profile: ProfileType
+    updateProfile(data: EditProfileFormFormDataType): Promise<ResponseType>
+    isMe: boolean
+}
+
+
+const ProfileData: React.FC<AboutMePropsType> = ({profile, updateProfile, isMe}) => {
+
+    const [isEdit, setIsEdit] = useState<boolean>(false)
+
+    const onSubmit = (formData: EditProfileFormFormDataType) => {
+        updateProfile(formData).then(() => {
+            setIsEdit(false)
+        })
+            .catch(e => {
+                console.warn(e)
+            })
+    }
+
+    return (
+        isEdit
+            ? <EditProfileReduxForm profile={profile} initialValues={profile} onSubmit={onSubmit}/>
+            : <>
+                <p><b>About me:</b> {profile.aboutMe ? profile.aboutMe : 'No information'}</p>
+                <p><b>Looking for a
+                    job:</b> {profile.lookingForAJob ? <CheckIcon  className={styles.jobIcon}/> : <ClearIcon  className={styles.jobIcon}/>}</p>
+                <p>
+                    <b>My
+                        skills:</b> {profile.lookingForAJobDescription ? profile.lookingForAJobDescription : 'No information'}
+                </p>
+                <hr/>
+                <h4 className={styles.user__subtitle}>Contacts:</h4>
+                {Object.keys(profile.contacts).map((key) => {
+                    return <Contact key={key} title={key}
+                                    value={profile.contacts[key as keyof ContactsType] ? profile.contacts[key as keyof ContactsType] : 'No information'}/>
+                })}
+                {isMe &&
+                    <Button type="submit" variant="outlined"
+                            onClick={() => setIsEdit(true)} size={'small'}
+                            className={styles.editProfileBtn}>
+                        Edit</Button>}
+            </>
+
+    )
+}
+
+export type ContactPropsType = {
+    title: string
+    value: string
+}
+
+const Contact: React.FC<ContactPropsType> = ({title, value}) => {
+    return (
+        <p>
+            <b>{title}:</b> {value}
+        </p>
+    )
+}
+
 
 export const StatusSpanUser = styled.span`
   display: block;
