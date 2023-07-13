@@ -5,9 +5,14 @@ import styles from './Login.module.scss'
 import Checkbox from '@mui/material/Checkbox';
 import {renderCheckbox, renderTextField} from "../common/renderTextField";
 import Button from '@mui/material/Button';
+import {EditProfileFormFormDataType} from "../Profile/ProfileInfo/EditProdfileForm/EditProdfileForm";
 
 
-const LoginForm: React.FC<InjectedFormProps<FormDataType>> = ({handleSubmit, error}) => {
+type LoginFormPropsType = {
+    captchaUrl: string | null
+}
+
+const LoginForm: React.FC<InjectedFormProps<FormDataType, LoginFormPropsType> & LoginFormPropsType> = ({handleSubmit, error,captchaUrl}) => {
     return (
         <form onSubmit={handleSubmit} className={styles.loginForm1}>
             <div className={styles.loginInput}>
@@ -36,13 +41,24 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = ({handleSubmit, err
                     label="Remember me"
                 />
             </div>
+            {captchaUrl &&
+                <>
+                <img src={captchaUrl} alt=""/>
+                    <Field
+                        name="captcha"
+                        component={renderTextField}
+                        variant="outlined"
+                        validate={[required]}
+                    />
+                </>
+            }
             {error && <div className={styles.formSummaryError}>{error}</div>}
             <Button  type="submit" variant="contained" className={styles.submitButton}>Login</Button >
         </form>
     )
 }
 
-export const LoginReduxForm = reduxForm<FormDataType>({
+export const LoginReduxForm = reduxForm<FormDataType, LoginFormPropsType>({
     form: 'login'
 })(LoginForm)
 
@@ -50,4 +66,5 @@ export type FormDataType = {
     email: string
     password: string
     rememberMe: boolean
+    captcha: string | null
 }

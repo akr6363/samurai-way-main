@@ -34,6 +34,7 @@ export type LoginRequestType = {
     email: string
     password: string
     rememberMe: boolean
+    captcha: string | null
 }
 
 export type PhotoType = {
@@ -104,4 +105,11 @@ export const authAPI = {
         return instance.delete<ResponseType<{ userId: number }>>(`auth/login`)
             .then(response => response.data)
     }
+}
+
+export const securityAPI = {
+    getCaptchaUrl() {
+        return instance.get<{url: string}>(`security/get-captcha-url`)
+            .then(response => response.data)
+    },
 }

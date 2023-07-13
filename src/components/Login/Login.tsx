@@ -5,9 +5,8 @@ import {Redirect} from "react-router-dom";
 import styles from './Login.module.scss'
 import loginCat from '../../img/login.png'
 
-export const Login: React.FC<LoginContainerPropsType> = ({loginTC, isAuth}) => {
+export const Login: React.FC<LoginContainerPropsType> = ({loginTC, isAuth, captchaUrl}) => {
     const onSubmit = (formData: FormDataType) => {
-        console.log(formData)
         loginTC(formData)
     }
 
@@ -35,7 +34,7 @@ export const Login: React.FC<LoginContainerPropsType> = ({loginTC, isAuth}) => {
             <div className={styles.login__rightBlock}>
                 <div className={styles.loginFormContainer}>
                     <h1 className={styles.loginFormTitle}>Login</h1>
-                    <LoginReduxForm onSubmit={onSubmit}/>
+                    <LoginReduxForm onSubmit={onSubmit} captchaUrl={captchaUrl}/>
                 </div>
             </div>
         </div>

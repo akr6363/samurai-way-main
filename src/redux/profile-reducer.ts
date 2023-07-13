@@ -165,13 +165,13 @@ export const changePhoto = (file: File) => async (dispatch: Dispatch<ActionsType
 }
 
 export const updateProfile = (data: EditProfileFormFormDataType) => async (dispatch: AppDispatch, getState:()=>AppStateType) => {
-    // dispatch(togglePreloader(true))
     const response = await profileAPI.updateProfileData(data)
     if (response.resultCode === 0) {
         const userId = getState().auth.userId?.toString()
         if(userId) {
             dispatch(getProfileTC(userId))
         }
+        dispatch(setMyData({name: data.fullName}))
     } else {
         const errors: ErrorsType = {
             contacts: {}
@@ -182,9 +182,7 @@ export const updateProfile = (data: EditProfileFormFormDataType) => async (dispa
         })
         console.log(response.messages)
         dispatch(stopSubmit('edit-profile', errors))
-        // return Promise.reject(response.messages)
     }
-    // dispatch(togglePreloader(false))
 }
 
 
