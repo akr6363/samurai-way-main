@@ -1,6 +1,6 @@
 import {ActionsTypes, AppStateType} from "./redux-store";
 import {Dispatch} from "redux";
-import {PhotoType, profileAPI} from "../api/api";
+import {PhotoType, profileAPI, ResponseType} from "../api/api";
 import {createDate} from "../components/common/utils/createDate";
 import {togglePreloader, togglePreloaderActionType} from "./users-reducer";
 import {AppDispatch, setMyData, setMyDataActionType} from "./auth-reducer";
@@ -182,11 +182,11 @@ export const updateProfile = (data: EditProfileFormFormDataType) => async (dispa
         })
         console.log(response.messages)
         dispatch(stopSubmit('edit-profile', errors))
-        return Promise.reject(response.messages)
+        // return Promise.reject(response.messages)
     }
-
     // dispatch(togglePreloader(false))
 }
+
 
 type ErrorsType = {
     contacts: {

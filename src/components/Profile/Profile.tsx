@@ -5,6 +5,7 @@ import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
 import {ProfileType} from "../../redux/profile-reducer";
 import {Preloader} from "../common/Preloader/Preloader";
 import {EditProfileFormFormDataType} from "./ProfileInfo/EditProdfileForm/EditProdfileForm";
+import {ResponseType} from "../../api/api";
 
 
 type ProfilePropsType = {
@@ -14,7 +15,7 @@ type ProfilePropsType = {
     isMe: boolean
     isFetching: boolean
     changePhoto(photoFile: File): void
-    updateProfile(data: EditProfileFormFormDataType): Promise<ResponseType>
+    updateProfile(data: EditProfileFormFormDataType): void
 }
 
 const Profile: React.FC<ProfilePropsType> = ({profile, status, updateStatus, isMe, isFetching, changePhoto,updateProfile}) => {

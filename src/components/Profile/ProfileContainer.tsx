@@ -67,14 +67,14 @@ type mapDispatchReturnType = {
     getStatusTC(userId: string | undefined): void
     updateStatusTC(status: string): void
     changePhoto(photoFile: File): void
-    updateProfile(data: EditProfileFormFormDataType):any
+    updateProfile(data: EditProfileFormFormDataType): void
 }
 type MapStateToPropsReturnType = {
     profile: ProfileType | null
     status: string
     authorizedUserI: number | null
     isAuth: boolean
-    isFetching: boolean,
+    isFetching: boolean
 }
 
 export type ProfileContainerPropsType =

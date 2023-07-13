@@ -35,7 +35,7 @@ export const renderCheckbox = ({ input, label }: any) => (
 );
 export const renderTextarea = ({ input, label, meta: { touched, error } }: any) => (
     <>
-            <TextareaAutosize {...input} placeholder={label} />
+            <TextareaAutosize {...input} placeholder={label}/>
             {touched && error && <span>{error}</span>}
     </>
 );

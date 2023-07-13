@@ -10,6 +10,8 @@ import {EditProfileFormFormDataType, EditProfileReduxForm} from "./EditProdfileF
 import Button from "@mui/material/Button";
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
+import {ResponseType} from "../../../api/api";
+
 type ProfileInfoPropsType = {
     profile: ProfileType | null
     status: string
@@ -17,7 +19,7 @@ type ProfileInfoPropsType = {
     isMe: boolean
     changePhoto(photoFile: File): void
     isFetching: boolean
-    updateProfile(data: EditProfileFormFormDataType): Promise<ResponseType>
+    updateProfile(data: EditProfileFormFormDataType): void
 }
 
 export function ProfileInfo(props: ProfileInfoPropsType) {
@@ -57,7 +59,7 @@ export function ProfileInfo(props: ProfileInfoPropsType) {
 
 type AboutMePropsType = {
     profile: ProfileType
-    updateProfile(data: EditProfileFormFormDataType): Promise<ResponseType>
+    updateProfile(data: EditProfileFormFormDataType): void
     isMe: boolean
 }
 
@@ -67,24 +69,29 @@ const ProfileData: React.FC<AboutMePropsType> = ({profile, updateProfile, isMe})
     const [isEdit, setIsEdit] = useState<boolean>(false)
 
     const onSubmit = (formData: EditProfileFormFormDataType) => {
-        updateProfile(formData).then(() => {
-            setIsEdit(false)
-        })
-            .catch(e => {
-                console.warn(e)
-            })
+        updateProfile(formData)
+
+
+        // updateProfile(formData)
+        // setIsEdit(false)
     }
 
     return (
         isEdit
             ? <EditProfileReduxForm profile={profile} initialValues={profile} onSubmit={onSubmit}/>
             : <>
-                <p><b>About me:</b> {profile.aboutMe ? profile.aboutMe : 'No information'}</p>
-                <p><b>Looking for a
-                    job:</b> {profile.lookingForAJob ? <CheckIcon  className={styles.jobIcon}/> : <ClearIcon  className={styles.jobIcon}/>}</p>
-                <p>
+                <p className={styles.profile_text}><b>About me:</b> {profile.aboutMe
+                    ? profile.aboutMe
+                    : <span className={styles.noInfo}>No information</span>}
+                </p>
+                <p className={styles.profile_text_job}><b>Looking for a
+                    job:</b> {profile.lookingForAJob ? <CheckIcon className={styles.jobIcon}/> :
+                    <ClearIcon className={styles.jobIcon}/>}</p>
+                <p className={styles.profile_text}>
                     <b>My
-                        skills:</b> {profile.lookingForAJobDescription ? profile.lookingForAJobDescription : 'No information'}
+                        skills:</b> {profile.lookingForAJobDescription
+                    ? profile.lookingForAJobDescription
+                    : <span className={styles.noInfo}>No information</span>}
                 </p>
                 <hr/>
                 <h4 className={styles.user__subtitle}>Contacts:</h4>
@@ -110,7 +117,7 @@ export type ContactPropsType = {
 const Contact: React.FC<ContactPropsType> = ({title, value}) => {
     return (
         <p>
-            <b>{title}:</b> {value}
+            <b>{title}:</b> <span className={value === 'No information' ? styles.noInfo : ''}>{value}</span>
         </p>
     )
 }

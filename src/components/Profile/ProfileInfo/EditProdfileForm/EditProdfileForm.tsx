@@ -4,6 +4,7 @@ import styles from "./EditProdfileForm.module.scss";
 import {renderCheckbox, renderTextField} from "../../../common/renderTextField";
 import Button from "@mui/material/Button";
 import {ContactsType, ProfileType} from "../../../../redux/profile-reducer";
+import {maxLengthCreator, required} from "../../../../utils/validators/validators";
 
 export type EditProfileFormFormDataType = {
     aboutMe: string,
@@ -15,6 +16,8 @@ export type EditProfileFormFormDataType = {
 type EditProfileFormPropsType = {
     profile: ProfileType
 }
+
+const maxLength30 = maxLengthCreator(30)
 
 const EditProfileForm: React.FC<InjectedFormProps<EditProfileFormFormDataType, EditProfileFormPropsType> & EditProfileFormPropsType> =
     ({
@@ -29,19 +32,19 @@ const EditProfileForm: React.FC<InjectedFormProps<EditProfileFormFormDataType, E
                     <tr>
                         <td><b>Full name:</b></td>
                         <td><Field name="fullName" component={renderTextField}
-                                   variant="outlined" validate={[]}/></td>
+                                   variant="outlined" validate={[required, maxLength30]}/></td>
                     </tr>
                     <tr>
                         <td><b>About me:</b></td>
                         <td><Field name="aboutMe" component={renderTextField}
-                                   variant="outlined" validate={[]}/></td>
+                                   variant="outlined" validate={[required]}/></td>
                     </tr>
 
                     <tr>
                         <td><b>My skills:</b></td>
                         <td>
                             <Field name="lookingForAJobDescription" component={renderTextField}
-                                   variant="outlined" validate={[]}/>
+                                   variant="outlined" validate={[required]}/>
                         </td>
                     </tr>
                     <tr>

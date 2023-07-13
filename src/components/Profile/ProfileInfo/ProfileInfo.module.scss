@@ -54,6 +54,24 @@
 }
 
 .jobIcon {
-  transform: translateY(6px);
+  height: 20px;
 }
 
+.profile_text {
+  word-wrap: break-word;
+}
+
+
+  textarea {
+    width: 100%;
+    resize: none;
+  }
+
+.profile_text_job {
+  display: flex;
+  align-items: center;
+}
+
+.noInfo {
+  color: $gray-color;
+}
