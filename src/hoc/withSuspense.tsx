@@ -6,7 +6,7 @@ export function WithSuspense<T>(Component: ComponentType<T>) {
 
     return (props: any) => {
         return (
-            <Suspense fallback={<Preloader/>}>
+            <Suspense fallback={<div className={'page'} style={{}}><Preloader/></div>}>
                 <Component {...props as T}/>
             </Suspense>
         )
