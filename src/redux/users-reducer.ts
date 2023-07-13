@@ -36,7 +36,7 @@ type followActionType = ReturnType<typeof follow>
 type setUsersActionType = ReturnType<typeof setUsers>
 type setCurrentPageActionType = ReturnType<typeof setCurrentPage>
 type setPageTotalCountActionType = ReturnType<typeof setPageTotalCount>
-type togglePreloaderActionType = ReturnType<typeof togglePreloader>
+export type togglePreloaderActionType = ReturnType<typeof togglePreloader>
 type toggleFollowingProgressActionType = ReturnType<typeof toggleFollowingProgress>
 
 export type ActionsTypesForUsers =

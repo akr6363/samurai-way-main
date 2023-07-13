@@ -5,6 +5,8 @@ import {AppStateType} from "../../redux/redux-store";
 import {getProfileTC, getStatusTC, ProfileType, updateStatusTC} from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {compose} from "redux";
+import {getIsFetching} from "../../redux/users-selectors";
+import {Preloader} from "../common/Preloader/Preloader";
 
 class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
@@ -32,11 +34,14 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
 
     render() {
-        return <Profile profile={this.props.profile} status={this.props.status}
-                        updateStatus={this.props.updateStatusTC}
-                         isMe={this.props.profile?.userId === this.props.authorizedUserI}
+        return (
 
-        />}
+            <Profile profile={this.props.profile} status={this.props.status}
+                          updateStatus={this.props.updateStatusTC}
+                          isMe={this.props.profile?.userId === this.props.authorizedUserI}  isFetching={this.props.isFetching}/>
+
+        )
+    }
 }
 
 export type PathParamsType = {
@@ -53,6 +58,7 @@ type MapStateToPropsReturnType = {
     status: string
     authorizedUserI: number | null
     isAuth: boolean
+    isFetching: boolean,
 }
 
 export type ProfileContainerPropsType =
@@ -66,7 +72,8 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsReturnType => {
         profile: state.profilePage.profile,
         status: state.profilePage.status,
         authorizedUserI: state.auth.userId,
-        isAuth: state.auth.isAuth
+        isAuth: state.auth.isAuth,
+        isFetching: getIsFetching(state),
     }
 }
 const mapDispatchToProps: mapDispatchReturnType = {

@@ -2,6 +2,7 @@ import {ActionsTypes} from "./redux-store";
 import {Dispatch} from "redux";
 import {profileAPI} from "../api/api";
 import {createDate} from "../components/common/utils/createDate";
+import {togglePreloader, togglePreloaderActionType} from "./users-reducer";
 
 const ADD_POST = "profile/ADD_POST"
 const DELETE_POST = "profile/DELETE_POST"
@@ -53,7 +54,7 @@ type setStatusActionType = ReturnType<typeof setStatus>
 export type ActionsTypesForProfile =
     AddPostActionType
     | setProfileActionType
-    | setStatusActionType | DeletePostActionType
+    | setStatusActionType | DeletePostActionType | togglePreloaderActionType
 
 const text = 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
 const initialState: ProfilePageType = {
@@ -121,8 +122,10 @@ export const setStatus = (status: string) => ({
 export default profileReducer
 
 export const getProfileTC = (userId: string) => async (dispatch: Dispatch<ActionsTypesForProfile>) => {
+     dispatch(togglePreloader(true))
     const response = await profileAPI.getProfile(userId)
     dispatch(setProfile(response))
+     dispatch(togglePreloader(false))
 }
 
 export const getStatusTC = (userId: string) => async (dispatch: Dispatch<ActionsTypesForProfile>) => {
