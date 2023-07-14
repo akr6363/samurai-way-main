@@ -6,6 +6,9 @@ import {togglePreloader, togglePreloaderActionType} from "./users-reducer";
 import {AppDispatch, setMyData, setMyDataActionType} from "./auth-reducer";
 import {EditProfileFormFormDataType} from "../components/Profile/ProfileInfo/EditProdfileForm/EditProdfileForm";
 import {stopSubmit} from "redux-form";
+import {Redirect} from "react-router-dom";
+import React from "react";
+import {handleServerNetworkError} from "../utils/errors-utils";
 
 const ADD_POST = "profile/ADD_POST"
 const DELETE_POST = "profile/DELETE_POST"
@@ -135,53 +138,75 @@ export const setPhoto = (photos: PhotoType) => ({
 
 export default profileReducer
 
-export const getProfileTC = (userId: string) => async (dispatch: Dispatch<ActionsTypesForProfile>) => {
-    dispatch(togglePreloader(true))
-    const response = await profileAPI.getProfile(userId)
-    dispatch(setProfile(response))
-    dispatch(togglePreloader(false))
+export const getProfileTC = (userId: string) => async (dispatch: Dispatch<ActionsTypes>) => {
+    try {
+        dispatch(togglePreloader(true))
+        const response = await profileAPI.getProfile(userId)
+        dispatch(setProfile(response))
+        dispatch(togglePreloader(false))
+    }
+    catch (error: any) {
+        handleServerNetworkError(error, dispatch)
+    }
 }
 
-export const getStatusTC = (userId: string) => async (dispatch: Dispatch<ActionsTypesForProfile>) => {
+export const getStatusTC = (userId: string) => async (dispatch: Dispatch<ActionsTypes>) => {
     const response = await profileAPI.getStatus(userId)
     dispatch(setStatus(response))
 }
 
-export const updateStatusTC = (status: string) => async (dispatch: Dispatch<ActionsTypesForProfile>) => {
-    const response = await profileAPI.updateStatus(status)
-    if (response.resultCode === 0) {
-        dispatch(setStatus(status))
+export const updateStatusTC = (status: string) => async (dispatch: Dispatch<ActionsTypes>) => {
+    try {
+        const response = await profileAPI.updateStatus(status)
+        if (response.resultCode === 0) {
+            dispatch(setStatus(status))
+        }
     }
+    catch (error: any) {
+        handleServerNetworkError(error, dispatch)
+        return Promise.reject()
+    }
+
 }
 
-export const changePhoto = (file: File) => async (dispatch: Dispatch<ActionsTypesForProfile | setMyDataActionType>) => {
-    dispatch(togglePreloader(true))
-    const response = await profileAPI.changePhoto(file)
-    if (response.resultCode === 0) {
-        dispatch(setPhoto(response.data.photos))
-        dispatch(setMyData({photo: response.data.photos.small}))
+export const changePhoto = (file: File) => async (dispatch: Dispatch<ActionsTypes>) => {
+    try {
+        dispatch(togglePreloader(true))
+        const response = await profileAPI.changePhoto(file)
+        if (response.resultCode === 0) {
+            dispatch(setPhoto(response.data.photos))
+            dispatch(setMyData({photo: response.data.photos.small}))
+        }
+        dispatch(togglePreloader(false))
     }
-    dispatch(togglePreloader(false))
+    catch (error: any) {
+        handleServerNetworkError(error, dispatch)
+    }
 }
 
 export const updateProfile = (data: EditProfileFormFormDataType) => async (dispatch: AppDispatch, getState:()=>AppStateType) => {
-    const response = await profileAPI.updateProfileData(data)
-    if (response.resultCode === 0) {
-        const userId = getState().auth.userId?.toString()
-        if(userId) {
-            dispatch(getProfileTC(userId))
+    try {
+        const response = await profileAPI.updateProfileData(data)
+        if (response.resultCode === 0) {
+            const userId = getState().auth.userId?.toString()
+            if(userId) {
+                dispatch(getProfileTC(userId))
+            }
+            dispatch(setMyData({name: data.fullName}))
+        } else {
+            const errors: ErrorsType = {
+                contacts: {}
+            }
+            response.messages.forEach(m=> {
+                const key = m.split("->")[1].slice(0, -1).toLowerCase()
+                errors.contacts[key] = 'Invalid url format'
+            })
+            console.log(response.messages)
+            dispatch(stopSubmit('edit-profile', errors))
         }
-        dispatch(setMyData({name: data.fullName}))
-    } else {
-        const errors: ErrorsType = {
-            contacts: {}
-        }
-        response.messages.forEach(m=> {
-            const key = m.split("->")[1].slice(0, -1).toLowerCase()
-            errors.contacts[key] = 'Invalid url format'
-        })
-        console.log(response.messages)
-        dispatch(stopSubmit('edit-profile', errors))
+    }
+    catch (error: any) {
+        handleServerNetworkError(error, dispatch)
     }
 }
 

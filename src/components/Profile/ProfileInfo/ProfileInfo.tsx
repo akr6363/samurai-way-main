@@ -15,11 +15,11 @@ import {ResponseType} from "../../../api/api";
 type ProfileInfoPropsType = {
     profile: ProfileType | null
     status: string
-    updateStatus(status: string): void
+    updateStatus(status: string): Promise<any>
     isMe: boolean
     changePhoto(photoFile: File): void
     isFetching: boolean
-    updateProfile(data: EditProfileFormFormDataType): void
+    updateProfile(data: EditProfileFormFormDataType): any
 }
 
 export function ProfileInfo(props: ProfileInfoPropsType) {

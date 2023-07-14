@@ -1,17 +1,18 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import styled from "styled-components";
 import {TextareaAutosize} from "@mui/material";
 
 type ProfileStatusPropsType = {
     status: string
-    updateStatus(status: string): void
+    updateStatus(status: string): Promise<any>
 }
 
 export const ProfileStatusWithHooks: React.FC<ProfileStatusPropsType> = (props) =>  {
 
     const [editMode, setEditMode] = useState<boolean>(false)
     const [status, setStatus] = useState<string>(props.status)
-
+    const inputRef = useRef<HTMLTextAreaElement | null>(null);
+console.log(editMode)
     useEffect(()=> {
         setStatus(props.status)
     }, [props.status])
@@ -21,8 +22,15 @@ export const ProfileStatusWithHooks: React.FC<ProfileStatusPropsType> = (props) 
     }
 
     const deactivateEditMode = () => {
-        setEditMode(false)
-        props.updateStatus(status)
+        props.updateStatus(status).then(()=>{
+            setEditMode(false)
+        }).catch(e => {
+            if (inputRef.current) {
+                inputRef.current.focus(); // устанавливаем ссылку на input и вызываем метод blur
+            }
+        })
+
+
     }
 
     const onChangeStatus = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -41,9 +49,11 @@ export const ProfileStatusWithHooks: React.FC<ProfileStatusPropsType> = (props) 
                     <StatusInput autoFocus value={status}
                                    onBlur={deactivateEditMode}
                                    onChange={onChangeStatus}
-                                 onFocus={onFocus}/>
+                                 onFocus={onFocus}
+                                 ref={inputRef}
+                    />
 
-                    : <StatusSpan onDoubleClick={activateEditMode}>{status || 'No status'}</StatusSpan>
+                    : <StatusSpan onDoubleClick={activateEditMode}>{props.status || 'No status'}</StatusSpan>
                 }
             </ProfileStatusBlock>
 

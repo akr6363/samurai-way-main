@@ -11,7 +11,7 @@ import {ResponseType} from "../../api/api";
 type ProfilePropsType = {
     profile: ProfileType | null
     status: string
-    updateStatus(status: string): void
+    updateStatus(status: string): Promise<any>
     isMe: boolean
     isFetching: boolean
     changePhoto(photoFile: File): void

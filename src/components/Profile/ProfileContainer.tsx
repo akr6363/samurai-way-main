@@ -65,7 +65,7 @@ export type PathParamsType = {
 type mapDispatchReturnType = {
     getProfileTC(userId: string | undefined): void
     getStatusTC(userId: string | undefined): void
-    updateStatusTC(status: string): void
+    updateStatusTC(status: string): any
     changePhoto(photoFile: File): void
     updateProfile(data: EditProfileFormFormDataType): void
 }
