@@ -1,8 +1,9 @@
 import {ActionsTypes} from './redux-store';
-import {ResponseType, usersAPI} from "../api/api";
+import {PhotoType, ResponseType, usersAPI} from "../api/api";
 import {Dispatch} from "redux";
 import {updateObjectInArray} from "../utils/object-helpers";
 import {getRandomString} from "../components/common/utils/getRandomString";
+import {handleServerAppError, handleServerNetworkError} from "../utils/errors-utils";
 
 const FOLLOW = 'users/FOLLOW'
 const UNFOLLOW = 'users/UNFOLLOW'
@@ -125,32 +126,45 @@ export const toggleFollowingProgress = (isFetching: boolean, userID: number) => 
 } as const)
 
 
-export const requestUsers = (currentPage: number, pageSize: number, friend?: boolean, term: string = '') => async (dispatch: Dispatch<ActionsTypesForUsers>) => {
-    dispatch(setCurrentPage(currentPage))
-    dispatch(togglePreloader(true))
-    const response = await usersAPI.getUsers(currentPage, pageSize, friend, term)
-    dispatch(setUsers(response.items))
-    dispatch(setPageTotalCount(response.totalCount))
-    dispatch(togglePreloader(false))
+export const requestUsers = (currentPage: number, pageSize: number, friend?: boolean, term: string = '') => async (dispatch: Dispatch<ActionsTypes>) => {
+    try {
+        dispatch(setCurrentPage(currentPage))
+        dispatch(togglePreloader(true))
+        const response = await usersAPI.getUsers(currentPage, pageSize, friend, term)
+        dispatch(setUsers(response.items))
+        dispatch(setPageTotalCount(response.totalCount))
+        dispatch(togglePreloader(false))
+    } catch (error: any) {
+        handleServerNetworkError(error, dispatch)
+    }
 
 }
 
 const followUnfollowFlow =
-    async (dispatch: Dispatch<ActionsTypesForUsers>, userId: number,
+    async (dispatch: Dispatch<ActionsTypes>, userId: number,
            apiMethod: Promise<ResponseType>, ActionCreator: followActionType) => {
-        dispatch(toggleFollowingProgress(true, userId))
-        const response = await apiMethod
-        if (response.resultCode === 0) {
-            dispatch(ActionCreator)
+        try {
+            dispatch(toggleFollowingProgress(true, userId))
+            const response = await apiMethod
+            if (response.resultCode === 0) {
+                dispatch(ActionCreator)
+            } else {
+                handleServerAppError(response, dispatch)
+                return Promise.reject()
+            }
+            dispatch(toggleFollowingProgress(false, userId))
+        } catch (error: any) {
+            handleServerNetworkError(error, dispatch)
         }
-        dispatch(toggleFollowingProgress(false, userId))
+
+
     }
 
-export const unfollowTC = (userId: number) => async (dispatch: Dispatch<ActionsTypesForUsers>) => {
+export const unfollowTC = (userId: number) => async (dispatch: Dispatch<ActionsTypes>) => {
     followUnfollowFlow(dispatch, userId, usersAPI.unfollow(userId), follow(userId, false))
 }
 
-export const followTC = (userId: number) => async (dispatch: Dispatch<ActionsTypesForUsers>) => {
+export const followTC = (userId: number) => async (dispatch: Dispatch<ActionsTypes>) => {
     followUnfollowFlow(dispatch, userId, usersAPI.follow(userId), follow(userId, true))
 }
 

@@ -8,7 +8,7 @@ import {EditProfileFormFormDataType} from "../components/Profile/ProfileInfo/Edi
 import {stopSubmit} from "redux-form";
 import {Redirect} from "react-router-dom";
 import React from "react";
-import {handleServerNetworkError} from "../utils/errors-utils";
+import {handleServerAppError, handleServerNetworkError} from "../utils/errors-utils";
 
 const ADD_POST = "profile/ADD_POST"
 const DELETE_POST = "profile/DELETE_POST"
@@ -151,8 +151,13 @@ export const getProfileTC = (userId: string) => async (dispatch: Dispatch<Action
 }
 
 export const getStatusTC = (userId: string) => async (dispatch: Dispatch<ActionsTypes>) => {
-    const response = await profileAPI.getStatus(userId)
-    dispatch(setStatus(response))
+    try {
+        const response = await profileAPI.getStatus(userId)
+        dispatch(setStatus(response))
+    }
+    catch (error: any) {
+        handleServerNetworkError(error, dispatch)
+    }
 }
 
 export const updateStatusTC = (status: string) => async (dispatch: Dispatch<ActionsTypes>) => {
@@ -160,13 +165,15 @@ export const updateStatusTC = (status: string) => async (dispatch: Dispatch<Acti
         const response = await profileAPI.updateStatus(status)
         if (response.resultCode === 0) {
             dispatch(setStatus(status))
+        }  else {
+            handleServerAppError(response, dispatch)
+            return Promise.reject()
         }
     }
     catch (error: any) {
         handleServerNetworkError(error, dispatch)
         return Promise.reject()
     }
-
 }
 
 export const changePhoto = (file: File) => async (dispatch: Dispatch<ActionsTypes>) => {
@@ -176,8 +183,11 @@ export const changePhoto = (file: File) => async (dispatch: Dispatch<ActionsType
         if (response.resultCode === 0) {
             dispatch(setPhoto(response.data.photos))
             dispatch(setMyData({photo: response.data.photos.small}))
+            dispatch(togglePreloader(false))
+        } else {
+            handleServerAppError<{ photos: PhotoType }>(response, dispatch)
+            return Promise.reject()
         }
-        dispatch(togglePreloader(false))
     }
     catch (error: any) {
         handleServerNetworkError(error, dispatch)
@@ -209,7 +219,6 @@ export const updateProfile = (data: EditProfileFormFormDataType) => async (dispa
         handleServerNetworkError(error, dispatch)
     }
 }
-
 
 type ErrorsType = {
     contacts: {

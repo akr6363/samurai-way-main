@@ -1,10 +1,11 @@
 import {Dispatch} from "redux";
-import {authAPI, LoginRequestType, profileAPI, securityAPI} from "../api/api";
+import {authAPI, LoginRequestType, PhotoType, profileAPI, securityAPI} from "../api/api";
 import {FormDataType} from "../components/Login/LoginForm";
 import {ThunkDispatch} from "redux-thunk";
-import {AppStateType} from "./redux-store";
+import {ActionsTypes, AppStateType} from "./redux-store";
 import {FormAction, stopSubmit} from "redux-form";
 import userPhoto from '../../src/img/userPhoto.jpg';
+import {handleServerAppError, handleServerNetworkError} from "../utils/errors-utils";
 
 const SET_AUTH = 'auth/SET_AUTH'
 const SET_MY_DATA = 'auth/SET_MY_DATA'
@@ -82,19 +83,25 @@ export const setCaptchaUrl = (captchaUrl: string) => ({
 } as const)
 
 
-export const authTC = () => async (dispatch: Dispatch<ActionsTypesForAuth>) => {
-    const response = await authAPI.auth()
-    if (response.resultCode === 0) {
-        const {id, email, login} = response.data
-        dispatch(setAuthUserData(id, email, login, true))
-        const profileResponse = await profileAPI.getProfile(String(id));
-        const myData = {
-            photo: profileResponse.photos.small ? profileResponse.photos.small : userPhoto,
-            name: profileResponse.fullName,
-        }
-        dispatch(setMyData(myData))
+export const authTC = () => async (dispatch: Dispatch<ActionsTypes>) => {
+    try {
+        const response = await authAPI.auth()
+        if (response.resultCode === 0) {
+            const {id, email, login} = response.data
+            dispatch(setAuthUserData(id, email, login, true))
+            const profileResponse = await profileAPI.getProfile(String(id));
+            const myData = {
+                photo: profileResponse.photos.small ? profileResponse.photos.small : userPhoto,
+                name: profileResponse.fullName,
+            }
+            dispatch(setMyData(myData))
 
+        }
     }
+    catch (error: any) {
+        handleServerNetworkError(error, dispatch)
+    }
+
 }
 export const loginTC = (loginData: FormDataType) => async (dispatch: AppDispatch) => {
     const response = await authAPI.login(loginData)
@@ -110,11 +117,20 @@ export const loginTC = (loginData: FormDataType) => async (dispatch: AppDispatch
 
 }
 
-export const logoutTC = () => async (dispatch: Dispatch<ActionsTypesForAuth>) => {
-    const response = await authAPI.logout()
-    if (response.resultCode === 0) {
-        dispatch(setAuthUserData(null, null, null, false))
+export const logoutTC = () => async (dispatch: Dispatch<ActionsTypes>) => {
+    try {
+        const response = await authAPI.logout()
+        if (response.resultCode === 0) {
+            dispatch(setAuthUserData(null, null, null, false))
+        } else {
+            handleServerAppError<{ userId: number }>(response, dispatch)
+            return Promise.reject()
+        }
     }
+    catch (error: any) {
+        handleServerNetworkError(error, dispatch)
+    }
+
 }
 
 export const getCaptchaUrl = () => async (dispatch: Dispatch<ActionsTypesForAuth>) => {

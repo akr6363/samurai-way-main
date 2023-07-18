@@ -12,6 +12,7 @@ import {
 import dialogs from "../components/Dialogs/Dialogs";
 import userPhoto from '../img/userPhoto.jpg';
 import {createMessages} from "../components/common/utils/createMessages";
+import {handleServerNetworkError} from "../utils/errors-utils";
 
 const SEND_MESSAGE = 'dialogs/SEND-MESSAGE'
 const SET_DIALOGS = 'dialogs/SET_DIALOGS'
@@ -91,12 +92,19 @@ export const setDialogs = (dialogs: DialogsType[]) => ({
 } as const)
 
 
-export const requestDialogs = (currentPage: number, pageSize: number, friend?: boolean, term: string = '') => async (dispatch: Dispatch<ActionsTypesForDialogs>) => {
-     dispatch(togglePreloader(true))
-    const response = await usersAPI.getUsers(currentPage, pageSize, friend, term)
-    const dialogs: DialogsType[] = response.items.map(u=> ({id: u.id, name: u.name, photo: u.photos.small ? u.photos.small : userPhoto}))
-    dispatch(setDialogs(dialogs))
-    dispatch(togglePreloader(false))
+export const requestDialogs = (currentPage: number, pageSize: number, friend?: boolean, term: string = '') => async (dispatch: Dispatch<ActionsTypes>) => {
+    try {
+        dispatch(togglePreloader(true))
+        const response = await usersAPI.getUsers(currentPage, pageSize, friend, term)
+        const dialogs: DialogsType[] = response.items.map(u=> ({id: u.id, name: u.name, photo: u.photos.small ? u.photos.small : userPhoto}))
+        dispatch(setDialogs(dialogs))
+        dispatch(togglePreloader(false))
+    }
+    catch (error: any) {
+        handleServerNetworkError(error, dispatch)
+    }
+
+
 }
 
 
